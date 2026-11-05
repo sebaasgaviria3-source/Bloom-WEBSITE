@@ -1,8 +1,8 @@
 /* =========================================================
    Bloom Coffee & Brunch — main.js
    Classic script + IIFE (no modules). GSAP + ScrollTrigger from /lib.
-   Motion budget: one orchestrated intro (photo → boxes → neon → title),
-   plus quiet scroll parallax, the bear drawing itself and slow glows.
+   Motion budget: one orchestrated intro (photo → boxes → neon → button → phrase),
+   plus quiet scroll parallax and the bear drawing itself.
    ========================================================= */
 (function () {
   "use strict";
@@ -24,9 +24,10 @@
   function initIntro() {
     var tl = gsap.timeline({ defaults: { ease: "expo.out" } });
     var neon = $("[data-neon]");
+    var cta = $("[data-cta]");
 
-    // Neon is centred/rotated in CSS; hand the transform over to GSAP props
-    gsap.set(neon, { xPercent: -50, yPercent: -50, x: 0, y: 0, rotation: -6 });
+    // The button is centred with CSS translate(-50%,-50%); hand that over to GSAP percent props
+    gsap.set(cta, { xPercent: -50, yPercent: -50, x: 0, y: 0 });
 
     tl.fromTo("[data-hero-media]",
         { clipPath: "inset(4% 4% 4% 4%)" },
@@ -50,9 +51,12 @@
         { keyframes: { opacity: [0, 0.9, 0.1, 0.8, 0, 1, 0.35, 1] }, duration: 1.1, ease: "none" }, 0.85);
     }
 
-    tl.fromTo("[data-intro='line']",
-      { opacity: 1, yPercent: 110 },
-      { yPercent: 0, duration: 1.1, stagger: 0.12 }, 1.1);
+    tl.fromTo(cta,
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.9 }, 1.35)
+      .fromTo("[data-intro='line']",
+        { opacity: 1, yPercent: 110 },
+        { yPercent: 0, duration: 1.1, stagger: 0.12 }, 1.45);
 
     revealAll();
   }
@@ -70,7 +74,12 @@
     if (reduceMotion) return;
     var st = { trigger: ".hero", start: "top top", end: "bottom top", scrub: true };
     gsap.to("[data-hero-media] picture", { yPercent: 12, ease: "none", scrollTrigger: st });
-    gsap.to("[data-neon]", { y: -60, ease: "none", scrollTrigger: st });
+    gsap.to("[data-neon]", { y: -40, ease: "none", scrollTrigger: st });
+    gsap.to("[data-detail] picture", {
+      yPercent: 8,
+      ease: "none",
+      scrollTrigger: { trigger: "[data-detail]", start: "top bottom", end: "bottom top", scrub: true }
+    });
   }
 
   /* ---------- Blurred glows drift slowly inside the pink block ---------- */
@@ -109,7 +118,7 @@
 
     gsap.set(face, { opacity: 0 });
     gsap.timeline({
-      scrollTrigger: { trigger: bear, start: "top 100%", end: "bottom 90%", scrub: 0.7 }
+      scrollTrigger: { trigger: bear, start: "top 95%", end: "top 55%", scrub: 0.7 }
     })
       .to(paths, { strokeDashoffset: 0, duration: 1, stagger: 0.05, ease: "none" })
       .to(face, { opacity: 1, duration: 0.3 }, "-=0.3");
