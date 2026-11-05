@@ -30,9 +30,10 @@
     tl.fromTo("[data-hero-media]",
         { clipPath: "inset(4% 4% 4% 4%)" },
         { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, clearProps: "clipPath" }, 0)
+      // the photo is visible from the first paint (it is the LCP); it only settles in scale
       .fromTo("[data-hero-img]",
-        { opacity: 0, scale: 1.25 },
-        { opacity: 1, scale: 1.04, duration: 1.8 }, 0)
+        { scale: 1.18 },
+        { scale: 1.04, duration: 1.8 }, 0)
       .fromTo("[data-intro='from-top']",
         { opacity: 0, yPercent: -100 },
         { opacity: 1, yPercent: 0, duration: 0.9, stagger: 0.08 }, 0.35)
@@ -273,11 +274,14 @@
     splitHeadlines();
     var mm = gsap.matchMedia();
 
-    mm.add({
+    var conditions = {
       isMobile: "(max-width: 899px)",
       fine: "(hover: hover) and (pointer: fine)",
       motion: "(prefers-reduced-motion: no-preference)"
-    }, function (ctx) {
+    };
+
+    // Two batches with a pause between them, so neither is a long main-thread task
+    mm.add(conditions, function (ctx) {
       var c = ctx.conditions;
       if (!c.motion) return;
 
@@ -330,6 +334,12 @@
         }
       });
 
+    });
+
+    setTimeout(function () { mm.add(conditions, function (ctx) {
+      var c = ctx.conditions;
+      if (!c.motion) return;
+
       /* Decorative shapes float and spin with the scroll */
       $$("[data-float]").forEach(function (el) {
         var d = parseFloat(el.getAttribute("data-float"));
@@ -369,6 +379,57 @@
           scrollTrigger: { trigger: map, start: "top bottom", end: "top 60%", scrub: 0.5 } });
       }
 
+      /* Favourites background: big line-drawn blooms turn and drift against the photos,
+         so the photos' own motion reads more clearly */
+      $$("[data-bloom-line]").forEach(function (el) {
+        var d = parseFloat(el.getAttribute("data-bloom-line"));
+        gsap.fromTo(el, { y: -d * 140, rotation: 0 }, { y: d * 140, rotation: d * 70, ease: "none",
+          scrollTrigger: { trigger: el.parentElement, start: "top bottom", end: "bottom top", scrub: 1 } });
+      });
+      $$("[data-glow-drift]").forEach(function (el, i) {
+        gsap.to(el, { xPercent: i ? 30 : -25, yPercent: i ? -20 : 18, scale: 1.2, duration: 9 + i * 4, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      });
+
+      /* Story: both photos bloom open together — a soft radial mask widens while blur clears */
+      var storyPhotos = $$("[data-story-photo]");
+      if (storyPhotos.length) {
+        gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: { trigger: ".story__photos", start: "top 88%", end: "center 52%", scrub: 0.9 }
+        })
+          .fromTo(storyPhotos, { "--m": "-22%", filter: "blur(18px)", scale: 1.14, opacity: 0.35 },
+            { "--m": "100%", filter: "blur(0px)", scale: 1, opacity: 1, duration: 1 }, 0)
+          .fromTo($$("img", $(".story__photos")), { scale: 1.3 }, { scale: 1, duration: 1 }, 0);
+        storyPhotos.forEach(function (ph, i) {
+          gsap.fromTo(ph, { y: i ? 50 : -30 }, { y: i ? -50 : 30, ease: "none",
+            scrollTrigger: { trigger: ".story", start: "top bottom", end: "bottom top", scrub: true } });
+        });
+      }
+
+      /* Social: the script slogan writes itself in, the icons pop and then float */
+      var sTitle = $("[data-social-title]");
+      if (sTitle) {
+        gsap.fromTo(sTitle, { clipPath: "inset(-20% 100% -20% 0%)" }, { clipPath: "inset(-20% 0% -20% 0%)", duration: 2, ease: "power2.inOut",
+          scrollTrigger: { trigger: sTitle, start: "top 85%", once: true } });
+      }
+      var socials = $$("[data-social]");
+      if (socials.length) {
+        gsap.fromTo(socials, { y: 40, scale: 0.6, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.9, stagger: 0.08, ease: "back.out(1.8)",
+          scrollTrigger: { trigger: ".social__list", start: "top 90%", once: true },
+          onComplete: function () {
+            socials.forEach(function (a, i) {
+              gsap.to($(".social__icon", a), { y: i % 2 ? 7 : -7, rotation: i % 2 ? 3 : -3, duration: 2.2 + (i % 3) * 0.5, ease: "sine.inOut", yoyo: true, repeat: -1 });
+            });
+          } });
+      }
+
+      /* Footer: the venue photo settles in slowly behind the text */
+      var fPhoto = $("[data-footer-photo]");
+      if (fPhoto) {
+        gsap.fromTo(fPhoto, { scale: 1.18, yPercent: -4 }, { scale: 1, yPercent: 4, ease: "none",
+          scrollTrigger: { trigger: ".site-footer", start: "top bottom", end: "bottom bottom", scrub: true } });
+      }
+
       /* Desktop details: photos tilt toward the cursor, the Instagram pill is magnetic */
       if (c.fine) {
         $$(".ph").forEach(function (ph) {
@@ -393,24 +454,7 @@
           el.addEventListener("pointerleave", function () { mx(0); my(0); });
         });
       }
-    });
-
-    /* Story chapters: the image frame changes with the active chapter (also without motion) */
-    var chapters = $$("[data-chapter]");
-    var imgs = $$("[data-story-img]");
-    var num = $("[data-story-num]");
-    function setChapter(i) {
-      imgs.forEach(function (im, j) { im.classList.toggle("is-active", j <= i); });
-      chapters.forEach(function (ch, j) { ch.classList.toggle("is-active", j === i); });
-      if (num) num.textContent = "0" + (i + 1);
-    }
-    chapters.forEach(function (ch, i) {
-      ScrollTrigger.create({
-        trigger: ch, start: "top 62%", end: "bottom 62%",
-        onToggle: function (self) { if (self.isActive) setChapter(i); }
-      });
-    });
-    setChapter(0);
+    }); }, 0);
 
     /* Short text: gentle fade + rise when it enters (plays once) */
     if (!reduceMotion) {
@@ -431,10 +475,12 @@
 
   function fmt(min) { return Math.floor(min / 60) + ":" + String(min % 60).padStart(2, "0"); }
 
+  var madridFmt = null;
   function madridNow() {
-    var parts = new Intl.DateTimeFormat("en-GB", {
+    madridFmt = madridFmt || new Intl.DateTimeFormat("en-GB", {
       timeZone: "Europe/Madrid", weekday: "short", hour: "2-digit", minute: "2-digit", hourCycle: "h23"
-    }).formatToParts(new Date());
+    });
+    var parts = madridFmt.formatToParts(new Date());
     var get = function (t) { return (parts.filter(function (p) { return p.type === t; })[0] || {}).value; };
     var day = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(get("weekday"));
     return { day: day, min: parseInt(get("hour"), 10) * 60 + parseInt(get("minute"), 10) };
@@ -490,6 +536,7 @@
       toggle.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
       document.body.classList.toggle("is-locked", open);
+      if (lenis) { if (open) lenis.stop(); else lenis.start(); }
       if (main) main.inert = open;
       if (anim) anim.kill();
 
@@ -523,24 +570,73 @@
     window.matchMedia("(min-width: 1100px)").addEventListener("change", function (e) { if (e.matches) setOpen(false); });
   }
 
+  /* ---------- Smooth scroll: Lenis drives the page, ScrollTrigger listens (one engine) ---------- */
+  var lenis = null;
+  function initSmoothScroll() {
+    if (reduceMotion || !window.Lenis) return;
+    lenis = new window.Lenis({ duration: 1.15, smoothWheel: true });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+
+    // In-page links glide to their section, below the fixed header
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a) return;
+      var id = a.getAttribute("href");
+      if (id.length < 2) return;
+      var target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: id === "#inicio" ? 0 : -80 });
+      history.replaceState(null, "", id);
+    });
+  }
+
+  /* ---------- Social profiles without a URL yet: say "Muy pronto" instead of jumping ---------- */
+  function initPendingLinks() {
+    $$("[data-pending]").forEach(function (a) {
+      a.setAttribute("aria-disabled", "true");
+      a.setAttribute("title", "Muy pronto");
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if ($(".social__soon", a)) return;
+        var tip = document.createElement("span");
+        tip.className = "social__soon";
+        tip.textContent = "Muy pronto";
+        tip.setAttribute("role", "status");
+        a.style.position = "relative";
+        a.appendChild(tip);
+        setTimeout(function () { tip.remove(); }, 1600);
+      });
+    });
+  }
+
   /* ---------- Boot ---------- */
   function boot() {
     safe(initHeader, "header");
-    safe(initHours, "hours");
     safe(initMenu, "menu");
+    safe(initPendingLinks, "pending");
 
-    if (!hasGsap) { safe(initBears, "bears"); revealAll(); return; }
+    if (!hasGsap) { safe(initHours, "hours"); safe(initBears, "bears"); revealAll(); return; }
 
     gsap.registerPlugin(ScrollTrigger);
+    // First screen now; everything below the fold once the browser is idle (keeps the main thread free at load)
     safe(initIntro, "intro");
     safe(initScrollMotion, "scroll");
-    safe(initGlow, "glow");
-    safe(initBear, "bear");
-    safe(initBears, "bears");
-    safe(initSections, "sections");
-
+    safe(initBear, "bear"); // hero bear sits on the first screen
     revealAll();
-    window.addEventListener("load", function () { ScrollTrigger.refresh(); });
+
+    var queue = [[initSmoothScroll, "lenis"], [initGlow, "glow"], [initBears, "bears"], [initSections, "sections"], [initHours, "hours"]];
+    var next = function () {
+      var job = queue.shift();
+      if (!job) { ScrollTrigger.refresh(); return; }
+      safe(job[0], job[1]);
+      setTimeout(next, 0);
+    };
+    if ("requestIdleCallback" in window) requestIdleCallback(next, { timeout: 1200 });
+    else setTimeout(next, 300);
   }
 
   if (document.readyState === "loading") {

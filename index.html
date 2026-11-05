@@ -20,7 +20,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allison&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Jost:wght@600&display=swap">
+  <!-- Fonts load without blocking the first paint (text shows in the fallback, then swaps) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Allison&family=Inter:wght@400;500;600&family=Poppins:wght@600;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allison&family=Inter:wght@400;500;600&family=Poppins:wght@600;800&display=swap"></noscript>
 
   <link rel="preload" as="image" type="image/webp"
         href="assets/img/hero-brunch-portrait-900.webp"
@@ -31,7 +33,7 @@
         imagesrcset="assets/img/hero-brunch-1200.webp 1200w, assets/img/hero-brunch-1600.webp 1600w"
         imagesizes="100vw" media="(min-width: 768px)">
 
-  <link rel="stylesheet" href="styles.css?v=20261106b">
+  <link rel="stylesheet" href="styles.css?v=20261106f">
 
   <script type="application/ld+json">
   {
@@ -74,6 +76,21 @@
       <symbol id="i-chat" viewBox="0 0 24 24"><path d="M12 3.5a8.5 8.5 0 0 0-7.4 12.7L3.5 20.5l4.4-1.1A8.5 8.5 0 1 0 12 3.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 9.2c.2 2.6 2.2 4.7 5 5.4l1-1.3-1.6-.8-.8.8a4 4 0 0 1-2.1-2.1l.8-.8-.8-1.6Z" fill="currentColor"/></symbol>
       <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
       <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></symbol>
+      <symbol id="line-bloom" viewBox="0 0 200 200">
+        <g fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M100 100 C78 70 80 30 100 14 C120 30 122 70 100 100Z"/>
+          <path d="M100 100 C78 70 80 30 100 14 C120 30 122 70 100 100Z" transform="rotate(72 100 100)"/>
+          <path d="M100 100 C78 70 80 30 100 14 C120 30 122 70 100 100Z" transform="rotate(144 100 100)"/>
+          <path d="M100 100 C78 70 80 30 100 14 C120 30 122 70 100 100Z" transform="rotate(216 100 100)"/>
+          <path d="M100 100 C78 70 80 30 100 14 C120 30 122 70 100 100Z" transform="rotate(288 100 100)"/>
+          <circle cx="100" cy="100" r="9"/>
+          <path d="M100 100 C92 80 92 52 100 34 M100 100 C108 80 108 52 100 34" transform="rotate(36 100 100)"/>
+        </g>
+      </symbol>
+      <symbol id="i-tiktok" viewBox="0 0 24 24"><path d="M14 3.5v11.3a3.4 3.4 0 1 1-3.4-3.4M14 3.5c.5 2.7 2.3 4.5 5 4.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-pinterest" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.4 15.2c.6.5 1.4.7 2.3.5 2-.4 3.3-2.3 2.9-4.4-.4-2.2-2.6-3.4-4.8-2.9-2 .5-3 2.4-2.4 4.1M11.6 10.6 9.6 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M13.6 21v-7.6h2.6l.4-3.1h-3V8.5c0-.9.3-1.5 1.6-1.5h1.6V4.2a20 20 0 0 0-2.3-.1c-2.3 0-3.9 1.4-3.9 4v2.2H8v3.1h2.6V21" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+      <symbol id="i-youtube" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.2 9.4v5.2l4.6-2.6Z" fill="currentColor"/></symbol>
     </defs>
   </svg>
 
@@ -82,7 +99,7 @@
   <!-- ============ HEADER ============ -->
   <header class="site-header" data-header>
     <a class="brand-box" href="#inicio" aria-label="Bloom Coffee &amp; Brunch, ir al inicio" data-intro="from-top">
-      <img src="assets/img/logo-bloom.webp" width="640" height="430" alt="Bloom Coffee &amp; Brunch">
+      <img src="assets/img/logo-bloom-320.webp" width="320" height="215" alt="Bloom Coffee &amp; Brunch">
     </a>
 
     <nav class="nav-desktop" aria-label="Principal" data-intro="from-top">
@@ -210,10 +227,17 @@
 
     <!-- ============ 2. FAVOURITES: editorial photo composition ============ -->
     <section class="favs" id="favoritos" aria-labelledby="favs-title">
+      <!-- Background: pastel mesh + large line-drawn blooms that drift against the photos -->
+      <div class="favs__bg" aria-hidden="true">
+        <span class="favs__glow favs__glow--a" data-glow-drift></span>
+        <span class="favs__glow favs__glow--b" data-glow-drift></span>
+        <svg class="line-bloom line-bloom--a" viewBox="0 0 200 200" data-bloom-line="-1"><use href="#line-bloom"/></svg>
+        <svg class="line-bloom line-bloom--b" viewBox="0 0 200 200" data-bloom-line="1"><use href="#line-bloom"/></svg>
+        <svg class="line-bloom line-bloom--c" viewBox="0 0 200 200" data-bloom-line="-1"><use href="#line-bloom"/></svg>
+      </div>
       <div class="favs__head">
-        <p class="eyebrow" data-reveal>Hecho cada día</p>
         <h2 class="display" id="favs-title" data-split>
-          <span class="display__it">Color</span> <span>en cada mesa</span>
+          <span>Bloom</span> <span class="display__it">te acompaña</span> <span>en la mesa</span>
         </h2>
         <p class="lede" data-reveal>Brunch, açaí, zumos naturales y sabores de Brasil, preparados cada día.</p>
       </div>
@@ -221,7 +245,6 @@
       <div class="favs__grid">
         <span class="shape shape--blob favs__blob" aria-hidden="true" data-float="1"></span>
         <span class="shape shape--sun favs__sun" aria-hidden="true" data-float="-1"></span>
-        <svg class="shape favs__flower" aria-hidden="true" data-spin><use href="#i-bloom"/></svg>
 
         <figure class="ph ph--batidos" data-photo data-depth="0.5">
           <img src="assets/img/g-batidos-1000.webp" srcset="assets/img/g-batidos-600.webp 600w, assets/img/g-batidos-1000.webp 1000w"
@@ -256,54 +279,31 @@
       </div>
     </section>
 
-    <!-- ============ 3. STORY: editorial scrollytelling ============ -->
-    <section class="story" id="concepto" aria-labelledby="story-title">
-      <header class="story__head">
-        <p class="eyebrow eyebrow--light" data-reveal>Desde Vigo, con cariño</p>
-        <h2 class="display display--light" id="story-title" data-split>
+    <!-- ============ 3. STORY: the bear and the venue, one shared text ============ -->
+    <section class="story" id="concepto" aria-labelledby="story-title" data-story>
+      <svg class="line-bloom story__bloom" viewBox="0 0 200 200" aria-hidden="true" data-bloom-line="1"><use href="#line-bloom"/></svg>
+      <div class="story__photos">
+        <figure class="story__photo story__photo--bear" data-story-photo>
+          <img src="assets/img/g-osito-cafe-738.webp" width="738" height="732" loading="lazy" decoding="async"
+               alt="El osito de Bloom sentado a la mesa con una taza de café con el logo y un dulce.">
+        </figure>
+        <figure class="story__photo story__photo--venue" data-story-photo>
+          <img src="assets/img/g-local-sala-1000.webp" width="1000" height="1481" loading="lazy" decoding="async"
+               alt="Interior luminoso de Bloom en Vigo, con mesas y plantas.">
+        </figure>
+        <span class="bear-slot story__bear" data-bear="sit"></span>
+      </div>
+
+      <div class="story__copy">
+        <h2 class="display" id="story-title" data-split>
           <span>Nuestra</span> <span class="display__it">historia</span>
         </h2>
-      </header>
-
-      <div class="story__body">
-        <div class="story__media" data-story-media>
-          <div class="story__frame">
-            <!-- 01 the coffee cup, 02 the bear, 03 the place -->
-            <figure class="story__img is-active" data-story-img>
-              <img src="assets/img/g-cafes-latte-1000.webp" width="1000" height="1501" loading="lazy" decoding="async"
-                   alt="Dos cafés con arte latte en forma de hoja.">
-            </figure>
-            <figure class="story__img" data-story-img>
-              <img src="assets/img/g-osito-cafe-738.webp" width="738" height="732" loading="lazy" decoding="async"
-                   alt="El osito de Bloom sentado a la mesa con una taza de café con el logo y un dulce.">
-            </figure>
-            <figure class="story__img" data-story-img>
-              <img src="assets/img/g-local-sala-1000.webp" width="1000" height="1481" loading="lazy" decoding="async"
-                   alt="Interior luminoso de Bloom en Vigo, con mesas y plantas.">
-            </figure>
-          </div>
-          <p class="story__count" aria-hidden="true"><span data-story-num>01</span> / 03</p>
-          <span class="bear-slot story__bear" data-bear="sit"></span>
-        </div>
-
-        <!-- TEMP COPY: the existing story text, split into three chapters until the final text arrives -->
-        <div class="story__chapters">
-          <article class="chapter" data-chapter>
-            <p class="chapter__num">01</p>
-            <p class="chapter__kicker">La pasión</p>
-            <p class="chapter__text">Bloom Coffee nació de la <em>pasión por el café.</em></p>
-          </article>
-          <article class="chapter" data-chapter>
-            <p class="chapter__num">02</p>
-            <p class="chapter__kicker">Los detalles</p>
-            <p class="chapter__text">Del cuidado por los detalles y de esos pequeños momentos que merecen <em>disfrutarse sin prisa.</em></p>
-          </article>
-          <article class="chapter" data-chapter>
-            <p class="chapter__num">03</p>
-            <p class="chapter__kicker">Calle Ángel Llanos 10, Vigo</p>
-            <p class="chapter__text">Un lugar donde cada taza <em>cuenta una historia.</em></p>
-          </article>
-        </div>
+        <!-- TEMP COPY: the existing story text until the final version arrives -->
+        <p class="story__text" data-reveal>
+          Bloom Coffee nació de la pasión por el café, del cuidado por los detalles y de esos pequeños
+          momentos que merecen disfrutarse sin prisa. Un lugar donde cada taza cuenta una historia.
+        </p>
+        <p class="story__place" data-reveal>Calle Ángel Llanos 10, Vigo</p>
       </div>
     </section>
 
@@ -319,7 +319,6 @@
 
       <div class="menu-label" data-menu-label>
         <span class="bear-slot menu-label__bear" data-bear="sit"></span>
-        <p class="menu-label__small">Bloom Coffee &amp; Brunch</p>
         <h2 class="menu-label__word" id="menu-title">Menú</h2>
         <p class="menu-label__small">Muy pronto</p>
       </div>
@@ -334,12 +333,23 @@
 
     <!-- ============ 5. GALLERY: two reels moving with the scroll ============ -->
     <section class="reel" id="galeria" aria-labelledby="reel-title">
-      <header class="reel__head">
-        <h2 class="display" id="reel-title" data-split><span class="display__it">Síguenos</span></h2>
-        <a class="pill" href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener" data-magnetic>
-          <svg aria-hidden="true"><use href="#i-instagram"/></svg><span>@bloom.coffee.vigo</span>
-        </a>
-      </header>
+      <div class="social" aria-labelledby="reel-title">
+        <span class="social__glow" aria-hidden="true"></span>
+        <h2 class="social__title" id="reel-title"><span data-social-title>Ayúdanos a crecer en Redes</span></h2>
+        <p class="social__lede" data-reveal>Síguenos, comparte tu visita y etiquétanos: cada foto nos ayuda a florecer.</p>
+        <ul class="social__list">
+          <li><a class="social__link social__link--ig" href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener" data-social><span class="social__icon"><svg aria-hidden="true"><use href="#i-instagram"/></svg></span><span class="social__name">Instagram</span></a></li>
+          <!-- TODO: real profile URL -->
+          <li><a class="social__link social__link--tt" href="#" data-pending data-social><span class="social__icon"><svg aria-hidden="true"><use href="#i-tiktok"/></svg></span><span class="social__name">TikTok</span></a></li>
+          <!-- TODO: real profile URL -->
+          <li><a class="social__link social__link--pin" href="#" data-pending data-social><span class="social__icon"><svg aria-hidden="true"><use href="#i-pinterest"/></svg></span><span class="social__name">Pinterest</span></a></li>
+          <!-- TODO: real profile URL -->
+          <li><a class="social__link social__link--fb" href="#" data-pending data-social><span class="social__icon"><svg aria-hidden="true"><use href="#i-facebook"/></svg></span><span class="social__name">Facebook</span></a></li>
+          <!-- TODO: real profile URL -->
+          <li><a class="social__link social__link--yt" href="#" data-pending data-social><span class="social__icon"><svg aria-hidden="true"><use href="#i-youtube"/></svg></span><span class="social__name">YouTube</span></a></li>
+          <li><a class="social__link social__link--wa" href="https://wa.me/34640240176" target="_blank" rel="noopener" data-social><span class="social__icon"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><span class="social__name">WhatsApp</span></a></li>
+        </ul>
+      </div>
 
       <div class="reel__row" data-reel="-1">
         <figure class="reel__item reel__item--tall"><img src="assets/img/g-hamburguesa-600.webp" width="600" height="400" loading="lazy" decoding="async" alt="Hamburguesa con huevo, bacon y brotes, servida con cubiertos dorados."></figure>
@@ -364,7 +374,6 @@
     <section class="visit" id="visitanos" aria-labelledby="visit-title">
       <span class="shape shape--blob visit__blob" aria-hidden="true" data-float="-1"></span>
       <div class="visit__info">
-        <p class="eyebrow" data-reveal>Ven a vernos</p>
         <h2 class="display" id="visit-title" data-split><span class="display__it">Abierto</span></h2>
         <p class="status-chip" data-hours data-reveal><span class="status-chip__dot" aria-hidden="true"></span><span data-hours-text>Horario</span></p>
         <ul class="visit__list">
@@ -407,9 +416,17 @@
 
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer">
+    <div class="site-footer__bg" aria-hidden="true">
+      <picture>
+        <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/venue-barra-portrait-717.webp">
+        <img src="assets/img/venue-barra-1195.webp" width="1195" height="896" alt="" loading="lazy" decoding="async" data-footer-photo>
+      </picture>
+      <span class="site-footer__light site-footer__light--a"></span>
+      <span class="site-footer__light site-footer__light--b"></span>
+    </div>
     <span class="bear-slot site-footer__bear" data-bear="peek" data-peek></span>
     <p class="site-footer__big" aria-hidden="true">Bloom</p>
-    <img class="site-footer__logo" src="assets/img/logo-bloom.webp" width="640" height="430" alt="Bloom Coffee &amp; Brunch" loading="lazy">
+    <img class="site-footer__logo" src="assets/img/logo-bloom-320.webp" width="320" height="215" alt="Bloom Coffee &amp; Brunch" loading="lazy">
     <ul class="site-footer__social">
       <li><a href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#i-instagram"/></svg></a></li>
       <li><a href="https://wa.me/34640240176" target="_blank" rel="noopener" aria-label="WhatsApp"><svg aria-hidden="true"><use href="#i-chat"/></svg></a></li>
@@ -425,6 +442,7 @@
 
   <script defer src="lib/gsap.min.js"></script>
   <script defer src="lib/ScrollTrigger.min.js"></script>
-  <script defer src="main.js?v=20261106b"></script>
+  <script defer src="lib/lenis.min.js"></script>
+  <script defer src="main.js?v=20261106f"></script>
 </body>
 </html>

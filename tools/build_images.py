@@ -103,3 +103,7 @@ save(des, "menu-desayuno-800.webp", 800, q=74)
 # Pink teddy poster for the visit section: keep the bear and the welcome line
 cartel = grade(Image.open(GAL / "cartel-osito.jpg").convert("RGB"))
 save(cartel, "g-cartel-osito-600.webp", 600, q=76)
+
+# Logo at the size it is shown (max ~150 CSS px, x2 for retina)
+logo = Image.open(ROOT / "assets/img/logo-bloom.webp")
+logo.resize((320, round(logo.height * 320 / logo.width)), Image.LANCZOS).save(OUT / "logo-bloom-320.webp", "WEBP", quality=86, method=6)
