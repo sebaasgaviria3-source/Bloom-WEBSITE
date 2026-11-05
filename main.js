@@ -146,14 +146,14 @@
         var img = $("img", item);
 
         gsap.fromTo(item,
-          { xPercent: dir * (c.isMobile ? 100 : 75), rotation: dir * 5, scale: 0.9 },
+          { xPercent: dir * (c.isMobile ? 55 : 75), rotation: dir * (c.isMobile ? 3 : 5), scale: c.isMobile ? 0.94 : 0.9, opacity: c.isMobile ? 0 : 1 },
           {
-            xPercent: 0, rotation: 0, scale: 1,
+            xPercent: 0, rotation: 0, scale: 1, opacity: 1,
             ease: "power2.out",
-            scrollTrigger: { trigger: item, start: "top bottom", end: c.isMobile ? "top 72%" : "top 70%", scrub: 0.35 }
+            scrollTrigger: { trigger: item, start: c.isMobile ? "top 98%" : "top bottom", end: c.isMobile ? "top 78%" : "top 70%", scrub: 0.35 }
           });
 
-        var drift = (speed - 1) * (c.isMobile ? 140 : 220);
+        var drift = c.isMobile ? 0 : (speed - 1) * 220;
         if (drift) {
           gsap.fromTo(item, { y: drift }, {
             y: -drift, ease: "none",
@@ -173,15 +173,15 @@
         var vPhoto = $("[data-venue-photo]", stage);
         var archFrom = c.isWide
           ? "inset(14% 16% 14% 16% round 999px 999px 0px 0px)"
-          : "inset(12% 20% 4% 20% round 999px 999px 0px 0px)";
+          : "inset(4% 10% 0% 10% round 999px 999px 0px 0px)";
         gsap.timeline({
           defaults: { ease: "none" },
-          scrollTrigger: { trigger: stage, start: "top top", end: "+=110%", pin: true, scrub: 0.5, anticipatePin: 1 }
+          scrollTrigger: { trigger: stage, start: "top top", end: c.isMobile ? "+=80%" : "+=110%", pin: true, scrub: 0.5, anticipatePin: 1 }
         })
           .fromTo(vPhoto, { clipPath: archFrom }, { clipPath: "inset(0% 0% 0% 0% round 0px 0px 0px 0px)", duration: 1 }, 0)
           .fromTo($("img", vPhoto), { scale: 1.35 }, { scale: 1, duration: 1 }, 0)
-          .fromTo(".venue__title .w > span", { yPercent: 115 }, { yPercent: 0, duration: 0.45, stagger: 0.08, ease: "power2.out" }, 0.35)
-          .fromTo("[data-venue-text]", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.12, ease: "power2.out" }, 0.55);
+          .fromTo(".venue__title .w > span", { yPercent: 115 }, { yPercent: 0, duration: 0.45, stagger: 0.08, ease: "power2.out" }, c.isMobile ? 0.1 : 0.35)
+          .fromTo("[data-venue-text]", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.12, ease: "power2.out" }, c.isMobile ? 0.25 : 0.55);
       }
 
       /* 3a. Colour photo A: horizontal wipe from the right, image settling inside */
@@ -205,12 +205,14 @@
         });
       }
 
-      /* 4. Band slides in from the left, the italic word follows */
+      /* 4. Band: the pastel strip wipes in from the left; the words rise in place
+            (they never slide, so they are never cut by the screen edge) */
       var band = $("[data-band]");
       if (band) {
         gsap.timeline({ scrollTrigger: { trigger: band, start: "top bottom", end: "top 55%", scrub: 0.4 } })
-          .fromTo(band, { xPercent: -100 }, { xPercent: 0, ease: "power2.out" })
-          .fromTo(".band__script", { x: 50, opacity: 0 }, { x: 0, opacity: 1, ease: "power2.out" }, 0.35);
+          .fromTo(band, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", ease: "power2.out" })
+          .fromTo(".band__caps", { y: 18, opacity: 0 }, { y: 0, opacity: 1, ease: "power2.out" }, 0.3)
+          .fromTo(".band__script", { y: 18, opacity: 0 }, { y: 0, opacity: 1, ease: "power2.out" }, 0.45);
       }
 
       /* 5. Menu sheet rises over the gallery like the next page */
