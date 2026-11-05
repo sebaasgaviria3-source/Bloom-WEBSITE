@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Bloom Coffee &amp; Brunch · Café de especialidad y brunch en Vigo</title>
   <meta name="description" content="Bloom Coffee &amp; Brunch, en Calle Ángel Llanos 10, Vigo. Café de especialidad, tostadas, açaí, bollería, batidos y sabores de Brasil. Bienvenidos a disfrutar sin prisa.">
-  <meta name="theme-color" content="#E0356B">
+  <meta name="theme-color" content="#FCE8EE">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Bloom Coffee &amp; Brunch · Vigo">
   <meta property="og:description" content="Café de especialidad y brunch, para que cada día florezca.">
@@ -48,7 +48,11 @@
       "addressLocality": "Vigo",
       "addressCountry": "ES"
     },
-    "sameAs": ["https://www.instagram.com/bloom.coffee.vigo/"]
+    "sameAs": ["https://www.instagram.com/bloom.coffee.vigo/"],
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:00", "closes": "22:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "10:00", "closes": "23:00" }
+    ]
   }
   </script>
 </head>
@@ -117,6 +121,11 @@
         </ul>
       </nav>
       <div class="menu__foot">
+        <dl class="hours-list">
+          <div><dt>Lunes a viernes</dt><dd>9:00 – 22:00</dd></div>
+          <div><dt>Sábado</dt><dd>10:00 – 23:00</dd></div>
+          <div><dt>Domingo</dt><dd>Cerrado</dd></div>
+        </dl>
         <a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Angel+Llanos+10+Vigo" target="_blank" rel="noopener">
           <svg aria-hidden="true"><use href="#i-pin"/></svg> Calle Ángel Llanos 10, Vigo
         </a>
@@ -151,6 +160,9 @@
       </a>
 
       <div class="hero__block" data-hero-block>
+        <div class="glow glow--a" aria-hidden="true" data-glow></div>
+        <div class="glow glow--b" aria-hidden="true" data-glow></div>
+        <div class="glow glow--c" aria-hidden="true" data-glow></div>
         <svg class="bloom-float bloom-float--a" aria-hidden="true" data-float><use href="#i-bloom"/></svg>
         <svg class="bloom-float bloom-float--b" aria-hidden="true" data-float><use href="#i-bloom"/></svg>
         <svg class="bloom-float bloom-float--c" aria-hidden="true" data-float><use href="#i-bloom"/></svg>
@@ -161,21 +173,27 @@
             <h1 class="hero__title" id="hero-title">
               <span class="line"><span class="line__inner" data-intro="line">Para que</span></span>
               <span class="line"><span class="line__inner" data-intro="line">cada día</span></span>
-              <span class="line"><span class="line__inner" data-intro="line"><mark class="hl" data-hl>florezca</mark></span></span>
+              <span class="line"><span class="line__inner" data-intro="line"><em class="hl">florezca<svg class="hl__swash" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path data-swash d="M4 16 C60 6 120 4 170 9 C210 13 250 18 296 8"/></svg></em></span></span>
             </h1>
           </div>
 
           <div class="hero__aside">
-            <p class="hero__address" data-intro="fade">
-              <svg aria-hidden="true"><use href="#i-pin"/></svg>
-              Calle Ángel Llanos 10 · Vigo
-            </p>
+            <div class="hero__info" data-intro="fade">
+              <p class="hero__address">
+                <svg aria-hidden="true"><use href="#i-pin"/></svg>
+                Calle Ángel Llanos 10 · Vigo
+              </p>
+              <p class="hero__hours" data-hours>
+                <span class="hero__hours-dot" aria-hidden="true"></span>
+                <span data-hours-text>L–V 9:00–22:00 · Sáb 10:00–23:00</span>
+              </p>
+            </div>
             <div class="hero__ctas" data-intro="fade">
-              <a class="btn btn--cream" href="#carta" data-magnetic>
+              <a class="btn btn--primary" href="#carta" data-magnetic>
                 <span>Ver carta</span>
                 <svg aria-hidden="true"><use href="#i-arrow"/></svg>
               </a>
-              <a class="btn btn--cocoa" href="#visitanos" data-magnetic>
+              <a class="btn btn--ghost" href="#visitanos" data-magnetic>
                 <span>Visítanos</span>
                 <svg aria-hidden="true"><use href="#i-arrow"/></svg>
               </a>

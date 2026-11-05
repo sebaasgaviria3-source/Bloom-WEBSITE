@@ -48,9 +48,9 @@
       .fromTo("[data-intro='line']",
         { opacity: 1, yPercent: 115, rotate: 3 },
         { yPercent: 0, rotate: 0, duration: 1.15, stagger: 0.12 }, 0.8)
-      .fromTo("[data-hl]",
-        { "--hl": 0 },
-        { "--hl": 1, duration: 0.8, ease: "power3.inOut" }, 1.45)
+      .fromTo("[data-swash]",
+        { strokeDasharray: 320, strokeDashoffset: 320 },
+        { strokeDashoffset: 0, duration: 0.9, ease: "power3.inOut" }, 1.5)
       .fromTo(".hero__aside [data-intro='fade']",
         { opacity: 0, y: 24 },
         { opacity: 1, y: 0, duration: 0.9, stagger: 0.1 }, 1.25)
@@ -116,6 +116,67 @@
     $$("[data-float]").forEach(function (el, i) {
       gsap.to(el, { rotation: i % 2 ? -360 : 360, duration: 38 + i * 12, ease: "none", repeat: -1 });
     });
+  }
+
+  /* ---------- Pastel glows drift slowly (blurred colour, never hard edges) ---------- */
+  function initGlow() {
+    $$("[data-glow]").forEach(function (el, i) {
+      gsap.to(el, {
+        xPercent: i % 2 ? -18 : 16,
+        yPercent: i % 2 ? 12 : -14,
+        scale: 1.15,
+        duration: 9 + i * 3,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1
+      });
+    });
+  }
+
+  /* ---------- Opening hours: live "open now" status (Europe/Madrid) ---------- */
+  // 0 = Sunday ... 6 = Saturday; [open, close] in minutes after midnight
+  var HOURS = { 1: [540, 1320], 2: [540, 1320], 3: [540, 1320], 4: [540, 1320], 5: [540, 1320], 6: [600, 1380] };
+  var DAY_NAMES = ["el domingo", "el lunes", "el martes", "el miércoles", "el jueves", "el viernes", "el sábado"];
+
+  function fmt(min) { return Math.floor(min / 60) + ":" + String(min % 60).padStart(2, "0"); }
+
+  function madridNow() {
+    var parts = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/Madrid", weekday: "short", hour: "2-digit", minute: "2-digit", hourCycle: "h23"
+    }).formatToParts(new Date());
+    var get = function (t) { return (parts.filter(function (p) { return p.type === t; })[0] || {}).value; };
+    var day = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(get("weekday"));
+    return { day: day, min: parseInt(get("hour"), 10) * 60 + parseInt(get("minute"), 10) };
+  }
+
+  function initHours() {
+    var el = $("[data-hours]");
+    var text = $("[data-hours-text]");
+    if (!el || !text || !window.Intl) return;
+
+    function update() {
+      var now = madridNow();
+      var today = HOURS[now.day];
+      if (today && now.min >= today[0] && now.min < today[1]) {
+        el.classList.add("is-open");
+        text.textContent = "Abierto ahora · hasta las " + fmt(today[1]);
+        return;
+      }
+      el.classList.remove("is-open");
+      if (today && now.min < today[0]) {
+        text.textContent = "Cerrado · abrimos hoy a las " + fmt(today[0]);
+        return;
+      }
+      for (var i = 1; i <= 7; i++) {
+        var d = (now.day + i) % 7;
+        if (HOURS[d]) {
+          text.textContent = "Cerrado · abrimos " + (i === 1 ? "mañana" : DAY_NAMES[d]) + " a las " + fmt(HOURS[d][0]);
+          return;
+        }
+      }
+    }
+    update();
+    setInterval(update, 60000);
   }
 
   /* ---------- Bear: line drawing on scroll, then idle life ---------- */
@@ -266,6 +327,7 @@
   /* ---------- Boot ---------- */
   function boot() {
     safe(initHeader, "header");
+    safe(initHours, "hours");
     safe(initMenu, "menu");
 
     if (!hasGsap) { revealAll(); return; }
@@ -276,6 +338,7 @@
     safe(initIntro, "intro");
     safe(initScrollMotion, "scroll");
     safe(initIdle, "idle");
+    safe(initGlow, "glow");
     safe(initBear, "bear");
     safe(initTicker, "ticker");
     safe(initPhotoHover, "photoHover");
