@@ -73,10 +73,11 @@
     var st = { trigger: ".hero", start: "top top", end: "bottom top", scrub: true };
     gsap.to("[data-hero-media] picture", { yPercent: 12, ease: "none", scrollTrigger: st });
     gsap.to("[data-neon]", { y: -40, ease: "none", scrollTrigger: st });
-    gsap.to("[data-detail] picture", {
-      yPercent: 8,
+    // Headline block lifts away slightly faster than the page as the collage arrives
+    gsap.to("[data-hero-intro]", {
+      y: -50,
       ease: "none",
-      scrollTrigger: { trigger: "[data-detail]", start: "top bottom", end: "bottom top", scrub: true }
+      scrollTrigger: { trigger: "[data-hero-intro]", start: "top 70%", end: "bottom top", scrub: true }
     });
   }
 
@@ -120,6 +121,117 @@
     })
       .to(paths, { strokeDashoffset: 0, duration: 1, stagger: 0.05, ease: "none" })
       .to(face, { opacity: 1, duration: 0.3 }, "-=0.3");
+  }
+
+  /* =========================================================
+     Sections after the hero — motion taken from the reference video.
+     All scroll-linked (scrub) so it moves with the finger, both ways.
+     Created top-to-bottom, as the ScrollTrigger skill recommends.
+     ========================================================= */
+  function initSections() {
+    var mm = gsap.matchMedia();
+
+    mm.add({
+      isDesktop: "(min-width: 768px)",
+      isMobile: "(max-width: 767px)",
+      motion: "(prefers-reduced-motion: no-preference)"
+    }, function (ctx) {
+      var c = ctx.conditions;
+      if (!c.motion) return; // reduced motion: everything stays in place, fully visible
+
+      /* 1. Collage: each photo slides in from its side, then drifts at its own speed */
+      $$("[data-collage]").forEach(function (item) {
+        var dir = item.getAttribute("data-from") === "left" ? -1 : 1;
+        var speed = parseFloat(item.getAttribute("data-speed")) || 1;
+        var img = $("img", item);
+
+        // slide in from off-screen, linked to scroll
+        gsap.fromTo(item,
+          { xPercent: dir * (c.isMobile ? 105 : 80) },
+          {
+            xPercent: 0,
+            ease: "none",
+            scrollTrigger: { trigger: item, start: "top bottom", end: c.isMobile ? "top 52%" : "top 58%", scrub: 0.6 }
+          });
+
+        // depth: photos travel at slightly different speeds
+        var drift = (speed - 1) * (c.isMobile ? 160 : 260);
+        if (drift) {
+          gsap.fromTo(item,
+            { y: drift },
+            { y: -drift, ease: "none", scrollTrigger: { trigger: item, start: "top bottom", end: "bottom top", scrub: true } });
+        }
+
+        // inner parallax inside the frame
+        gsap.fromTo(img,
+          { yPercent: -6 },
+          { yPercent: 6, ease: "none", scrollTrigger: { trigger: item, start: "top bottom", end: "bottom top", scrub: true } });
+      });
+
+      /* 2. Band slides in from the left, its words follow a beat later */
+      var band = $("[data-band]");
+      if (band) {
+        gsap.timeline({ scrollTrigger: { trigger: band, start: "top bottom", end: "top 45%", scrub: 0.6 } })
+          .fromTo(band, { xPercent: -100 }, { xPercent: 0, ease: "none" })
+          .fromTo(".band__script", { x: 60, opacity: 0 }, { x: 0, opacity: 1, ease: "none" }, 0.4);
+      }
+
+      /* 3. Story: line sprigs float over the edges and drift on scroll */
+      $$("[data-sprig]").forEach(function (sp, i) {
+        gsap.to(sp, { y: i ? -14 : 12, rotation: i ? 20 : -10, duration: 4 + i, ease: "sine.inOut", yoyo: true, repeat: -1 });
+        gsap.fromTo(sp, { yPercent: 30 }, {
+          yPercent: -30, ease: "none",
+          scrollTrigger: { trigger: ".story", start: "top bottom", end: "bottom top", scrub: true }
+        });
+      });
+
+      /* 4. Full-bleed photo opens up from a framed window, with parallax inside */
+      var full = $("[data-fullbleed]");
+      if (full) {
+        gsap.fromTo(full,
+          { clipPath: c.isMobile ? "inset(6% 8% 6% 8%)" : "inset(8% 12% 8% 12%)" },
+          { clipPath: "inset(0% 0% 0% 0%)", ease: "none", scrollTrigger: { trigger: full, start: "top bottom", end: "top 25%", scrub: 0.6 } });
+        gsap.fromTo($("picture", full),
+          { yPercent: -8 },
+          { yPercent: 8, ease: "none", scrollTrigger: { trigger: full, start: "top bottom", end: "bottom top", scrub: true } });
+      }
+
+      /* 5–6. Script words grow in */
+      $$("[data-pop]").forEach(function (el) {
+        gsap.fromTo(el, { scale: 0.82, opacity: 0, rotation: -4 }, {
+          scale: 1, opacity: 1, rotation: 0, ease: "none",
+          scrollTrigger: { trigger: el, start: "top 95%", end: "top 60%", scrub: 0.6 }
+        });
+      });
+
+      /* 6. Map circle rolls in from the right */
+      var map = $("[data-map]");
+      if (map) {
+        gsap.fromTo(map,
+          { xPercent: c.isMobile ? 70 : 40, rotation: 25 },
+          { xPercent: 0, rotation: 0, ease: "none", scrollTrigger: { trigger: map, start: "top bottom", end: "top 50%", scrub: 0.6 } });
+      }
+
+      /* 7. Instagram photos slide in from their sides */
+      $$(".insta__item").forEach(function (item) {
+        var dir = item.getAttribute("data-from") === "left" ? -1 : 1;
+        gsap.fromTo(item, { xPercent: dir * 70, opacity: 0.3 }, {
+          xPercent: 0, opacity: 1, ease: "none",
+          scrollTrigger: { trigger: item, start: "top bottom", end: "top 60%", scrub: 0.6 }
+        });
+      });
+    });
+
+    /* Text: gentle fade + rise when it enters (plays once, not scrubbed) */
+    if (!reduceMotion) {
+      ScrollTrigger.batch("[data-reveal]", {
+        start: "top 90%",
+        once: true,
+        onEnter: function (batch) {
+          gsap.fromTo(batch, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.9, ease: "expo.out", stagger: 0.1, overwrite: true });
+        }
+      });
+    }
   }
 
   /* ---------- Opening hours: live status in the menu (Europe/Madrid) ---------- */
@@ -237,6 +349,7 @@
     safe(initScrollMotion, "scroll");
     safe(initGlow, "glow");
     safe(initBear, "bear");
+    safe(initSections, "sections");
 
     revealAll();
     window.addEventListener("load", function () { ScrollTrigger.refresh(); });

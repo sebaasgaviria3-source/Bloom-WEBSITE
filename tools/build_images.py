@@ -47,3 +47,32 @@ save(detail_tall, "detail-table-portrait-840.webp", 840)
 
 for p in sorted(OUT.iterdir()):
     print(p.name, p.stat().st_size // 1024, "KB")
+
+
+# ---------------------------------------------------------------
+# Gallery photos (collage, full-bleed, menu, instagram)
+# Each entry: name -> optional crop box (left, top, right, bottom) in source px
+# ---------------------------------------------------------------
+GAL = ROOT / "assets/photos/source/gallery"
+GALLERY = {
+    "tortitas": None, "acai-coco": None, "croissant-benedict": None, "zumo-rojo": None,
+    "desayuno": None, "bizcocho": None, "tostada-bacon": None, "cafes-latte": None,
+    "bollo-crema": None, "pasteis": None, "tortilla": None, "coxinhas": None,
+    "batidos": None, "hamburguesa": None, "helado": None,
+}
+for name, box in GALLERY.items():
+    im = grade(Image.open(GAL / f"{name}.jpg").convert("RGB"))
+    if box:
+        im = im.crop(box)
+    for width in (1000, 600):
+        if im.width >= width * 0.9:
+            save(im, f"g-{name}-{width}.webp", min(width, im.width), q=72)
+        else:  # small source (e.g. 608px): export once at native size
+            save(im, f"g-{name}-{width}.webp", im.width, q=78)
+
+# Full-bleed coxinhas: wide for desktop, 4:5 portrait for mobile
+cox = grade(Image.open(GAL / "coxinhas.jpg").convert("RGB"))
+save(cox, "full-coxinhas-1600.webp", 1600, q=72)
+cw = round(cox.height * 4 / 5)
+left = (cox.width - cw) // 2
+save(cox.crop((left, 0, left + cw, cox.height)), "full-coxinhas-portrait-900.webp", 900, q=72)
