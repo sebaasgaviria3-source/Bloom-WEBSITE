@@ -67,6 +67,13 @@
       "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
       "computedHash": "f9f7f8eb0ff50334c509c51b761f362db712ba99972748b1fc3a1dbc65873e80"
     },
+    "web-typography": {
+      "source": "simongonzalezdc/web-typography-skill",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "7ddbb899605bf1f4df539ae8406435c18fdd7e5cda820ab9bf72d4e53a982570"
+    },
     "webapp-testing": {
       "source": "anthropics/skills",
       "sourceType": "github",
