@@ -76,3 +76,21 @@ save(cox, "full-coxinhas-1600.webp", 1600, q=72)
 cw = round(cox.height * 4 / 5)
 left = (cox.width - cw) // 2
 save(cox.crop((left, 0, left + cw, cox.height)), "full-coxinhas-portrait-900.webp", 900, q=72)
+
+# ---------------------------------------------------------------
+# Venue + colourful photos (second upload)
+# ---------------------------------------------------------------
+# Teddy bear with coffee: crop away the black letterbox bars (rows 431–1169)
+osito = grade(Image.open(GAL / "osito-cafe.jpg").convert("RGB")).crop((0, 434, 738, 1166))
+save(osito, "g-osito-cafe-738.webp", 738, q=78)
+
+# Venue: the pink counter with the Bloom sign
+barra = grade(Image.open(GAL / "local-barra.jpg").convert("RGB"))
+save(barra, "venue-barra-1195.webp", 1195, q=78)
+bw, bh = barra.size
+pw = round(bh * 4 / 5)
+pl = max(0, min(bw - pw, 600 - pw // 2))       # centre on the counter + teddy
+save(barra.crop((pl, 0, pl + pw, bh)), "venue-barra-portrait-717.webp", pw, q=78)
+
+sala = grade(Image.open(GAL / "local-sala.jpg").convert("RGB"))
+save(sala, "venue-sala-800.webp", 800, q=74)

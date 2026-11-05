@@ -20,7 +20,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allison&family=Bodoni+Moda:opsz,wght@6..96,500&family=Inter:wght@400;500;600;700&family=Jost:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allison&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Jost:wght@600&display=swap">
 
   <link rel="preload" as="image" type="image/webp"
         href="assets/img/hero-brunch-portrait-900.webp"
@@ -31,7 +31,7 @@
         imagesrcset="assets/img/hero-brunch-1200.webp 1200w, assets/img/hero-brunch-1600.webp 1600w"
         imagesizes="100vw" media="(min-width: 768px)">
 
-  <link rel="stylesheet" href="styles.css?v=20261105f">
+  <link rel="stylesheet" href="styles.css?v=20261105g">
 
   <script type="application/ld+json">
   {
@@ -224,80 +224,117 @@
              sizes="(max-width: 767px) 58vw, 30vw" width="600" height="600" loading="lazy" decoding="async"
              alt="Bol de açaí servido en coco con granola, arándanos, frambuesas y flores.">
       </figure>
-      <figure class="collage__item" data-collage data-from="right" data-speed="1"
-              style="--w:62%;--x:38%;--mt:-6%;--wd:32%;--xd:60%;--mtd:-12%;--ar:1/1;--z:1">
-        <img src="assets/img/g-desayuno-600.webp" srcset="assets/img/g-desayuno-600.webp 600w, assets/img/g-desayuno-1000.webp 1000w"
-             sizes="(max-width: 767px) 64vw, 32vw" width="600" height="600" loading="lazy" decoding="async"
-             alt="Desayuno con café con leche, zumo de naranja y tostada con tomate y jamón.">
+    </section>
+
+    <!-- ============ 2. VENUE + STORY: pinned, the photo opens from an arch ============ -->
+    <section class="venue" id="concepto" aria-labelledby="venue-title" data-venue>
+      <div class="venue__stage" data-venue-stage>
+        <figure class="venue__photo" data-venue-photo>
+          <picture>
+            <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/venue-barra-portrait-717.webp">
+            <img src="assets/img/venue-barra-1195.webp" width="1195" height="896" loading="lazy" decoding="async"
+                 alt="Barra de Bloom en Vigo: mostrador rosa, letrero Coffee Bloom Brunch y el osito barista detrás de la cafetera.">
+          </picture>
+        </figure>
+        <div class="venue__copy">
+          <h2 class="venue__title" id="venue-title">
+            <span class="w"><span>Nuestra</span></span> <span class="w"><span>historia</span></span>
+          </h2>
+          <!-- TEMP COPY: replace with the final story -->
+          <p class="venue__text" data-venue-text>
+            Bloom Coffee nació de la pasión por el café, del cuidado por los detalles y de esos pequeños
+            momentos que merecen disfrutarse sin prisa. Un lugar donde cada taza cuenta una historia.
+          </p>
+          <p class="venue__place" data-venue-text>Calle Ángel Llanos 10, Vigo</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 3. COLOUR: two vivid photos, each with its own motion ============ -->
+    <section class="colour" aria-label="Color y sabor">
+      <figure class="colour__item colour__item--a" data-wipe>
+        <img src="assets/img/g-batidos-1000.webp" srcset="assets/img/g-batidos-600.webp 600w, assets/img/g-batidos-1000.webp 1000w"
+             sizes="(max-width: 767px) 92vw, 60vw" width="1000" height="749" loading="lazy" decoding="async"
+             alt="Batidos de fruta de colores en tarros de cristal con pajitas.">
       </figure>
-      <figure class="collage__item" data-collage data-from="left" data-speed="1.1"
-              style="--w:58%;--x:0%;--mt:-16%;--wd:28%;--xd:8%;--mtd:-16%;--ar:3/4;--z:2">
-        <img src="assets/img/g-bizcocho-600.webp" srcset="assets/img/g-bizcocho-600.webp 600w, assets/img/g-bizcocho-1000.webp 1000w"
-             sizes="(max-width: 767px) 60vw, 28vw" width="600" height="901" loading="lazy" decoding="async"
-             alt="Bizcocho casero con azúcar glas sobre una bandeja de mimbre.">
-      </figure>
-      <figure class="collage__item" data-collage data-from="right" data-speed="0.95"
-              style="--w:60%;--x:40%;--mt:-10%;--wd:30%;--xd:44%;--mtd:-14%;--ar:4/5;--z:1">
-        <img src="assets/img/g-tostada-bacon-600.webp" srcset="assets/img/g-tostada-bacon-600.webp 600w, assets/img/g-tostada-bacon-1000.webp 1000w"
-             sizes="(max-width: 767px) 62vw, 30vw" width="600" height="901" loading="lazy" decoding="async"
-             alt="Tostadas con bacon crujiente, huevos revueltos y sirope.">
+      <figure class="colour__item colour__item--b" data-tilt>
+        <img src="assets/img/g-osito-cafe-738.webp" width="738" height="732" loading="lazy" decoding="async"
+             alt="El osito de Bloom sentado a la mesa con una taza de café con el logo y un dulce.">
       </figure>
     </section>
 
-    <!-- ============ 2. BAND: soft pastel strip that slides in ============ -->
+    <!-- ============ 4. BAND: bridge into the menu ============ -->
     <div class="band" data-band aria-hidden="true">
       <p class="band__inner"><span class="band__caps">Cada día</span><span class="band__script">brunch</span></p>
     </div>
 
-    <!-- ============ 3. STORY ============ -->
-    <section class="story" id="concepto" aria-labelledby="story-title">
-      <svg class="sprig sprig--a" viewBox="0 0 120 220" aria-hidden="true" data-sprig>
-        <path d="M60 216 C58 170 64 120 60 70" />
-        <path d="M60 150 C40 140 26 124 22 104 C42 108 56 124 60 150Z" />
-        <path d="M61 118 C80 110 94 94 98 74 C78 80 64 96 61 118Z" />
-        <path d="M44 52 C40 34 52 18 66 18 C82 18 90 34 82 50 C78 60 66 70 60 70 C52 70 46 62 44 52Z" />
-        <path d="M54 44 C56 34 68 32 72 40 C75 47 68 54 62 52 C58 50 58 45 62 43" />
-      </svg>
-      <svg class="sprig sprig--b" viewBox="0 0 120 220" aria-hidden="true" data-sprig>
-        <path d="M60 216 C58 170 64 120 60 70" />
-        <path d="M60 150 C40 140 26 124 22 104 C42 108 56 124 60 150Z" />
-        <path d="M61 118 C80 110 94 94 98 74 C78 80 64 96 61 118Z" />
-        <path d="M44 52 C40 34 52 18 66 18 C82 18 90 34 82 50 C78 60 66 70 60 70 C52 70 46 62 44 52Z" />
-        <path d="M54 44 C56 34 68 32 72 40 C75 47 68 54 62 52 C58 50 58 45 62 43" />
-      </svg>
+    <!-- ============ 5. CARTA: rises over the gallery like a new page ============ -->
+    <!-- TEMP CONTENT: dishes, descriptions and prices are placeholders until the final menu arrives -->
+    <section class="menu-sheet" id="carta" aria-labelledby="carta-title" data-sheet>
+      <header class="menu-sheet__head">
+        <h2 class="menu-sheet__title" id="carta-title" data-reveal>Nuestra carta</h2>
+        <p class="menu-sheet__intro" data-reveal>Brunch, açaí y sabores de Brasil, preparados cada día.</p>
+      </header>
 
-      <div class="story__inner">
-        <h2 class="story__title" id="story-title" data-reveal>Nuestra historia</h2>
-        <!-- TEMP COPY: replace with final story text -->
-        <p class="story__text" data-reveal>
-          Bloom Coffee nació de la pasión por el café, del cuidado por los detalles y de esos pequeños
-          momentos que merecen disfrutarse sin prisa. Un lugar donde cada taza cuenta una historia.
-        </p>
-        <p class="story__sign" data-reveal aria-hidden="true">Bloom</p>
+      <div class="menu-tabs" role="tablist" aria-label="Categorías de la carta" data-tabs>
+        <button class="menu-tabs__tab" role="tab" id="tab-brunch" aria-controls="panel-brunch" aria-selected="true">Brunch</button>
+        <button class="menu-tabs__tab" role="tab" id="tab-acai" aria-controls="panel-acai" aria-selected="false" tabindex="-1">Açaí y bowls</button>
+        <button class="menu-tabs__tab" role="tab" id="tab-brasil" aria-controls="panel-brasil" aria-selected="false" tabindex="-1">Brasil</button>
+        <button class="menu-tabs__tab" role="tab" id="tab-dulces" aria-controls="panel-dulces" aria-selected="false" tabindex="-1">Dulces</button>
+        <button class="menu-tabs__tab" role="tab" id="tab-bebidas" aria-controls="panel-bebidas" aria-selected="false" tabindex="-1">Café y bebidas</button>
+        <span class="menu-tabs__bar" aria-hidden="true" data-tabs-bar></span>
       </div>
-    </section>
 
-    <!-- ============ 4. FULL-BLEED PHOTO ============ -->
-    <div class="fullbleed" data-fullbleed>
-      <picture>
-        <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/full-coxinhas-portrait-900.webp">
-        <img src="assets/img/full-coxinhas-1600.webp" width="1600" height="1064" loading="lazy" decoding="async"
-             alt="Coxinhas brasileñas recién fritas alrededor de un cuenco de salsa con brotes.">
-      </picture>
-    </div>
-
-    <!-- ============ 5. CARTA ============ -->
-    <section class="menu-cta" id="carta" aria-labelledby="carta-title">
-      <h2 class="menu-cta__script" id="carta-title" data-pop>Carta</h2>
-      <p class="menu-cta__text" data-reveal>Brunch, açaí, bollería, cafés y sabores de Brasil.</p>
-      <!-- TODO: link to the real menu (phase Carta) -->
-      <a class="text-link" href="#carta" data-reveal>Ver la carta</a>
+      <div class="menu-panels">
+        <article class="menu-panel" role="tabpanel" id="panel-brunch" aria-labelledby="tab-brunch">
+          <figure class="menu-panel__photo"><img src="assets/img/g-croissant-benedict-1000.webp" width="1000" height="1501" loading="lazy" decoding="async" alt="Croissant con huevos benedict y salsa holandesa."></figure>
+          <ul class="menu-panel__list">
+            <li class="dish"><p class="dish__row"><span class="dish__name">Croissant benedict</span><span class="dish__dots"></span><span class="dish__price">9,50 €</span></p><p class="dish__desc">Huevos poché, bacon y salsa holandesa sobre croissant de mantequilla.</p></li>
+            <li class="dish"><p class="dish__row"><span class="dish__name">Tortitas Bloom</span><span class="dish__dots"></span><span class="dish__price">8,50 €</span></p><p class="dish__desc">Melocotón asado, arándanos y azúcar glas.</p></li>
+            <li class="dish"><p class="dish__row"><span class="dish__name">Tostada con bacon</span><span class="dish__dots"></span><span class="dish__price">8,90 €</span></p><p class="dish__desc">Pan de masa madre, bacon crujiente, huevos revueltos y sirope.</p></li>
+            <li class="dish"><p class="dish__row"><span class="dish__name">Tortilla de patata</span><span class="dish__dots"></span><span class="dish__price">4,50 €</span></p><p class="dish__desc">Jugosa, con alioli y pimentón.</p></li>
+          </ul>
+        </article>
+        <article class="menu-panel" role="tabpanel" id="panel-acai" aria-labelledby="tab-acai">
+          <figure class="menu-panel__photo"><img src="assets/img/g-acai-coco-1000.webp" width="608" height="608" loading="lazy" decoding="async" alt="Bol de açaí en coco con granola y frutos rojos."></figure>
+          <ul class="menu-panel__list">
+            <li class="dish"><p class="dish__row"><span class="dish__name">Açaí en coco</span><span class="dish__dots"></span><span class="dish__price">10,50 €</span></p><p class="dish__desc">Açaí, granola, frutos rojos y flores comestibles.</p></li>
+            <li class="dish"><p class="dish__row"><span class="dish__name">Açaí bowl clásico</span><span class="dish__dots"></span><span class="dish__price">8,90 €</span></p><p class="dish__desc">Plátano, fresas, arándanos, granola y crema de cacahuete.</p></li>
+            <li class="dish"><p class="dish__row"><span class="dish__name">Bowl de yogur</span><span class="dish__dots"></span><span class="dish__price">6,90 €</span></p><p class="dish__desc">Yogur griego, miel, fruta de temporada y granola.</p></li>
+          </ul>
+        </article>
+        <article class="menu-panel" role="tabpanel" id="panel-brasil" aria-labelledby="tab-brasil">
+          <figure class="menu-panel__photo"><img src="assets/img/g-coxinhas-1000.webp" width="1000" height="665" loading="lazy" decoding="async" alt="Coxinhas recién fritas con salsa."></figure>
+          <ul class="menu-panel__list">
+            <li class="dish"><p class="dish__row"><span class="dish__name">Coxinhas</span><span class="dish__dots"></span><span class="dish__price">7,50 €</span></p><p class="dish__desc">Seis unidades de pollo desmenuzado, con salsa de la casa.</p></li>
+            <li class="dish"><p class="dish__row"><span class="dish__name">Pastéis</span><span class="dish__dots"></span><span class="dish__price">3,50 €</span></p><p class="dish__desc">Masa crujiente rellena de carne o de queso.</p></li>
+            <li class="dish"><p class="dish__row"><span class="dish__name">Pão de queijo</span><span class="dish__dots"></span><span class="dish__price">4,50 €</span></p><p class="dish__desc">Panecillos de queso, recién horneados.</p></li>
+          </ul>
+        </article>
+        <article class="menu-panel" role="tabpanel" id="panel-dulces" aria-labelledby="tab-dulces">
+          <figure class="menu-panel__photo"><img src="assets/img/g-bollo-crema-1000.webp" width="1000" height="1501" loading="lazy" decoding="async" alt="Brioche relleno de crema con azúcar glas."></figure>
+          <ul class="menu-panel__list">
+            <li class="dish"><p class="dish__row"><span class="dish__name">Brioche de crema</span><span class="dish__dots"></span><span class="dish__price">3,90 €</span></p><p class="dish__desc">Brioche esponjoso relleno de crema pastelera.</p></li>
+            <li class="dish"><p class="dish__row"><span class="dish__name">Bizcocho casero</span><span class="dish__dots"></span><span class="dish__price">3,20 €</span></p><p class="dish__desc">La receta de la casa, con azúcar glas.</p></li>
+            <li class="dish"><p class="dish__row"><span class="dish__name">Helado artesano</span><span class="dish__dots"></span><span class="dish__price">3,50 €</span></p><p class="dish__desc">En cucurucho, sabores del día.</p></li>
+          </ul>
+        </article>
+        <article class="menu-panel" role="tabpanel" id="panel-bebidas" aria-labelledby="tab-bebidas">
+          <figure class="menu-panel__photo"><img src="assets/img/g-cafes-latte-1000.webp" width="1000" height="1501" loading="lazy" decoding="async" alt="Dos cafés con arte latte."></figure>
+          <ul class="menu-panel__list">
+            <li class="dish"><p class="dish__row"><span class="dish__name">Café de especialidad</span><span class="dish__dots"></span><span class="dish__price">1,80 €</span></p><p class="dish__desc">Espresso, americano o cortado.</p></li>
+            <li class="dish"><p class="dish__row"><span class="dish__name">Latte o capuchino</span><span class="dish__dots"></span><span class="dish__price">2,60 €</span></p><p class="dish__desc">Con leche entera o bebida vegetal.</p></li>
+            <li class="dish"><p class="dish__row"><span class="dish__name">Zumo de frutos rojos</span><span class="dish__dots"></span><span class="dish__price">4,50 €</span></p><p class="dish__desc">Natural, recién hecho.</p></li>
+            <li class="dish"><p class="dish__row"><span class="dish__name">Batidos de fruta</span><span class="dish__dots"></span><span class="dish__price">4,90 €</span></p><p class="dish__desc">Mango, fresa, kiwi o frutos del bosque.</p></li>
+          </ul>
+        </article>
+      </div>
     </section>
 
     <!-- ============ 6. VISÍTANOS ============ -->
     <div class="visit-wrap">
     <section class="visit" id="visitanos" aria-labelledby="visit-title">
-      <h2 class="visit__script" id="visit-title" data-pop>Abierto</h2>
+      <h2 class="visit__script" id="visit-title" data-reveal>Abierto</h2>
       <ul class="visit__list">
         <li data-reveal><svg aria-hidden="true"><use href="#i-pin"/></svg><span>Calle Ángel Llanos 10<br>36203 Vigo, Pontevedra</span></li>
         <li data-reveal><svg aria-hidden="true"><use href="#i-clock"/></svg><span>Lunes a viernes, 9:00 a 22:00<br>Sábado, 10:00 a 23:00<br>Domingo, cerrado</span></li>
@@ -355,6 +392,6 @@
 
   <script defer src="lib/gsap.min.js"></script>
   <script defer src="lib/ScrollTrigger.min.js"></script>
-  <script defer src="main.js?v=20261105f"></script>
+  <script defer src="main.js?v=20261105g"></script>
 </body>
 </html>

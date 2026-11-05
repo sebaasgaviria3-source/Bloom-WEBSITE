@@ -132,92 +132,111 @@
     var mm = gsap.matchMedia();
 
     mm.add({
-      isDesktop: "(min-width: 768px)",
       isMobile: "(max-width: 767px)",
+      isWide: "(min-width: 900px)",
       motion: "(prefers-reduced-motion: no-preference)"
     }, function (ctx) {
       var c = ctx.conditions;
       if (!c.motion) return; // reduced motion: everything stays in place, fully visible
 
-      /* 1. Collage: each photo slides in from its side, then drifts at its own speed */
+      /* 1. Gallery: faster, softer slide-in from the sides with a slight turn and settle */
       $$("[data-collage]").forEach(function (item) {
         var dir = item.getAttribute("data-from") === "left" ? -1 : 1;
         var speed = parseFloat(item.getAttribute("data-speed")) || 1;
         var img = $("img", item);
 
-        // slide in from off-screen, linked to scroll
         gsap.fromTo(item,
-          { xPercent: dir * (c.isMobile ? 105 : 80) },
+          { xPercent: dir * (c.isMobile ? 100 : 75), rotation: dir * 5, scale: 0.9 },
           {
-            xPercent: 0,
-            ease: "none",
-            scrollTrigger: { trigger: item, start: "top bottom", end: c.isMobile ? "top 52%" : "top 58%", scrub: 0.6 }
+            xPercent: 0, rotation: 0, scale: 1,
+            ease: "power2.out",
+            scrollTrigger: { trigger: item, start: "top bottom", end: c.isMobile ? "top 72%" : "top 70%", scrub: 0.35 }
           });
 
-        // depth: photos travel at slightly different speeds
-        var drift = (speed - 1) * (c.isMobile ? 160 : 260);
+        var drift = (speed - 1) * (c.isMobile ? 140 : 220);
         if (drift) {
-          gsap.fromTo(item,
-            { y: drift },
-            { y: -drift, ease: "none", scrollTrigger: { trigger: item, start: "top bottom", end: "bottom top", scrub: true } });
+          gsap.fromTo(item, { y: drift }, {
+            y: -drift, ease: "none",
+            scrollTrigger: { trigger: item, start: "top bottom", end: "bottom top", scrub: true }
+          });
         }
-
-        // inner parallax inside the frame
-        gsap.fromTo(img,
-          { yPercent: -6 },
-          { yPercent: 6, ease: "none", scrollTrigger: { trigger: item, start: "top bottom", end: "bottom top", scrub: true } });
+        gsap.fromTo(img, { yPercent: -6 }, {
+          yPercent: 6, ease: "none",
+          scrollTrigger: { trigger: item, start: "top bottom", end: "bottom top", scrub: true }
+        });
       });
 
-      /* 2. Band slides in from the left, its words follow a beat later */
+      /* 2. Venue: pinned stage — the photo opens from an arch window to the full frame,
+            the title rises word by word and the story fades in beside it */
+      var stage = $("[data-venue-stage]");
+      if (stage) {
+        var vPhoto = $("[data-venue-photo]", stage);
+        var archFrom = c.isWide
+          ? "inset(14% 16% 14% 16% round 999px 999px 0px 0px)"
+          : "inset(12% 20% 4% 20% round 999px 999px 0px 0px)";
+        gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: { trigger: stage, start: "top top", end: "+=110%", pin: true, scrub: 0.5, anticipatePin: 1 }
+        })
+          .fromTo(vPhoto, { clipPath: archFrom }, { clipPath: "inset(0% 0% 0% 0% round 0px 0px 0px 0px)", duration: 1 }, 0)
+          .fromTo($("img", vPhoto), { scale: 1.35 }, { scale: 1, duration: 1 }, 0)
+          .fromTo(".venue__title .w > span", { yPercent: 115 }, { yPercent: 0, duration: 0.45, stagger: 0.08, ease: "power2.out" }, 0.35)
+          .fromTo("[data-venue-text]", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.12, ease: "power2.out" }, 0.55);
+      }
+
+      /* 3a. Colour photo A: horizontal wipe from the right, image settling inside */
+      var wipe = $("[data-wipe]");
+      if (wipe) {
+        var st = { trigger: wipe, start: "top 92%", end: "top 40%", scrub: 0.4 };
+        gsap.fromTo(wipe, { clipPath: "inset(0% 0% 0% 100%)" }, { clipPath: "inset(0% 0% 0% 0%)", ease: "power2.out", scrollTrigger: st });
+        gsap.fromTo($("img", wipe), { scale: 1.3, xPercent: 8 }, { scale: 1, xPercent: 0, ease: "power2.out", scrollTrigger: st });
+      }
+
+      /* 3b. Colour photo B: swings up into place like a print dropped on the table */
+      var tilt = $("[data-tilt]");
+      if (tilt) {
+        gsap.fromTo(tilt,
+          { yPercent: 35, rotation: 12, scale: 0.82 },
+          { yPercent: 0, rotation: -3, scale: 1, ease: "power2.out",
+            scrollTrigger: { trigger: tilt, start: "top bottom", end: "top 50%", scrub: 0.4 } });
+        gsap.fromTo($("img", tilt), { yPercent: 6 }, {
+          yPercent: -6, ease: "none",
+          scrollTrigger: { trigger: tilt, start: "top bottom", end: "bottom top", scrub: true }
+        });
+      }
+
+      /* 4. Band slides in from the left, the italic word follows */
       var band = $("[data-band]");
       if (band) {
-        gsap.timeline({ scrollTrigger: { trigger: band, start: "top bottom", end: "top 45%", scrub: 0.6 } })
-          .fromTo(band, { xPercent: -100 }, { xPercent: 0, ease: "none" })
-          .fromTo(".band__script", { x: 60, opacity: 0 }, { x: 0, opacity: 1, ease: "none" }, 0.4);
+        gsap.timeline({ scrollTrigger: { trigger: band, start: "top bottom", end: "top 55%", scrub: 0.4 } })
+          .fromTo(band, { xPercent: -100 }, { xPercent: 0, ease: "power2.out" })
+          .fromTo(".band__script", { x: 50, opacity: 0 }, { x: 0, opacity: 1, ease: "power2.out" }, 0.35);
       }
 
-      /* 3. Story: line sprigs float over the edges and drift on scroll */
-      $$("[data-sprig]").forEach(function (sp, i) {
-        gsap.to(sp, { y: i ? -14 : 12, rotation: i ? 20 : -10, duration: 4 + i, ease: "sine.inOut", yoyo: true, repeat: -1 });
-        gsap.fromTo(sp, { yPercent: 30 }, {
-          yPercent: -30, ease: "none",
-          scrollTrigger: { trigger: ".story", start: "top bottom", end: "bottom top", scrub: true }
-        });
-      });
-
-      /* 4. Full-bleed photo opens up from a framed window, with parallax inside */
-      var full = $("[data-fullbleed]");
-      if (full) {
-        gsap.fromTo(full,
-          { clipPath: c.isMobile ? "inset(6% 8% 6% 8%)" : "inset(8% 12% 8% 12%)" },
-          { clipPath: "inset(0% 0% 0% 0%)", ease: "none", scrollTrigger: { trigger: full, start: "top bottom", end: "top 25%", scrub: 0.6 } });
-        gsap.fromTo($("picture", full),
-          { yPercent: -8 },
-          { yPercent: 8, ease: "none", scrollTrigger: { trigger: full, start: "top bottom", end: "bottom top", scrub: true } });
+      /* 5. Menu sheet rises over the gallery like the next page */
+      var sheet = $("[data-sheet]");
+      if (sheet) {
+        gsap.fromTo(sheet,
+          { y: c.isMobile ? 70 : 120, borderTopLeftRadius: c.isMobile ? 64 : 120, borderTopRightRadius: c.isMobile ? 64 : 120 },
+          { y: 0, borderTopLeftRadius: c.isMobile ? 28 : 40, borderTopRightRadius: c.isMobile ? 28 : 40, ease: "power2.out",
+            scrollTrigger: { trigger: sheet, start: "top bottom", end: "top 35%", scrub: 0.4 } });
       }
-
-      /* 5–6. Script words grow in */
-      $$("[data-pop]").forEach(function (el) {
-        gsap.fromTo(el, { scale: 0.82, opacity: 0, rotation: -4 }, {
-          scale: 1, opacity: 1, rotation: 0, ease: "none",
-          scrollTrigger: { trigger: el, start: "top 95%", end: "top 60%", scrub: 0.6 }
-        });
-      });
 
       /* 6. Map circle rolls in from the right */
       var map = $("[data-map]");
       if (map) {
         gsap.fromTo(map,
           { xPercent: c.isMobile ? 70 : 40, rotation: 25 },
-          { xPercent: 0, rotation: 0, ease: "none", scrollTrigger: { trigger: map, start: "top bottom", end: "top 50%", scrub: 0.6 } });
+          { xPercent: 0, rotation: 0, ease: "power2.out",
+            scrollTrigger: { trigger: map, start: "top bottom", end: "top 55%", scrub: 0.4 } });
       }
 
       /* 7. Instagram photos slide in from their sides */
       $$(".insta__item").forEach(function (item) {
         var dir = item.getAttribute("data-from") === "left" ? -1 : 1;
         gsap.fromTo(item, { xPercent: dir * 70, opacity: 0.3 }, {
-          xPercent: 0, opacity: 1, ease: "none",
-          scrollTrigger: { trigger: item, start: "top bottom", end: "top 60%", scrub: 0.6 }
+          xPercent: 0, opacity: 1, ease: "power2.out",
+          scrollTrigger: { trigger: item, start: "top bottom", end: "top 65%", scrub: 0.4 }
         });
       });
     });
@@ -228,10 +247,69 @@
         start: "top 90%",
         once: true,
         onEnter: function (batch) {
-          gsap.fromTo(batch, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.9, ease: "expo.out", stagger: 0.1, overwrite: true });
+          gsap.fromTo(batch, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", stagger: 0.08, overwrite: true });
         }
       });
     }
+  }
+
+  /* ---------- Menu tabs (works with or without GSAP) ---------- */
+  function initMenuTabs() {
+    var list = $("[data-tabs]");
+    if (!list) return;
+    var tabs = $$("[role='tab']", list);
+    var bar = $("[data-tabs-bar]", list);
+    var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute("aria-controls")); });
+    var current = 0;
+
+    panels.forEach(function (p, i) { p.hidden = i !== 0; });
+
+    function moveBar(i) {
+      if (!bar) return;
+      var t = tabs[i];
+      var pad = 14;
+      bar.style.width = (t.offsetWidth - pad * 2) + "px";
+      bar.style.transform = "translateX(" + (t.offsetLeft + pad) + "px)";
+    }
+
+    function select(i, focus) {
+      if (i === current) return;
+      var prev = panels[current];
+      var next = panels[i];
+      tabs[current].setAttribute("aria-selected", "false");
+      tabs[current].tabIndex = -1;
+      tabs[i].setAttribute("aria-selected", "true");
+      tabs[i].tabIndex = 0;
+      if (focus) tabs[i].focus();
+      tabs[i].scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+      current = i;
+      moveBar(i);
+
+      prev.hidden = true;
+      next.hidden = false;
+      if (hasGsap && !reduceMotion) {
+        var photo = $(".menu-panel__photo", next);
+        gsap.timeline({ defaults: { ease: "power3.out" } })
+          .fromTo(photo, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "power4.inOut" }, 0)
+          .fromTo($("img", photo), { scale: 1.2 }, { scale: 1, duration: 0.9 }, 0)
+          .fromTo($$(".dish", next), { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.55, stagger: 0.06 }, 0.15);
+      }
+    }
+
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { select(i, false); });
+      t.addEventListener("keydown", function (e) {
+        var k = e.key, n = tabs.length;
+        if (k === "ArrowRight") { e.preventDefault(); select((current + 1) % n, true); }
+        else if (k === "ArrowLeft") { e.preventDefault(); select((current - 1 + n) % n, true); }
+        else if (k === "Home") { e.preventDefault(); select(0, true); }
+        else if (k === "End") { e.preventDefault(); select(n - 1, true); }
+      });
+    });
+
+    moveBar(0);
+    window.addEventListener("resize", function () { moveBar(current); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveBar(current); });
   }
 
   /* ---------- Opening hours: live status in the menu (Europe/Madrid) ---------- */
@@ -341,6 +419,7 @@
     safe(initHeader, "header");
     safe(initHours, "hours");
     safe(initMenu, "menu");
+    safe(initMenuTabs, "menuTabs");
 
     if (!hasGsap) { revealAll(); return; }
 
