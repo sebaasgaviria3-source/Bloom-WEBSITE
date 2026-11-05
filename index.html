@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Bloom Coffee &amp; Brunch · Café de especialidad y brunch en Vigo</title>
+  <meta name="description" content="Bloom Coffee &amp; Brunch, en Calle Ángel Llanos 10, Vigo. Café de especialidad, tostadas, açaí, bollería, batidos y sabores de Brasil. Bienvenidos a disfrutar sin prisa.">
+  <meta name="theme-color" content="#E0356B">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bloom Coffee &amp; Brunch · Vigo">
+  <meta property="og:description" content="Café de especialidad y brunch, para que cada día florezca.">
+  <meta property="og:image" content="assets/img/hero-brunch-1200.webp">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+  <!-- Hides intro elements until GSAP takes over; removed by a 3.5s safety net if JS fails -->
+  <script>
+    document.documentElement.classList.add('js', 'js-intro');
+    setTimeout(function () { document.documentElement.classList.remove('js-intro'); }, 3500);
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap">
+
+  <link rel="preload" as="image" type="image/webp"
+        href="assets/img/hero-brunch-portrait-900.webp"
+        imagesrcset="assets/img/hero-brunch-portrait-640.webp 640w, assets/img/hero-brunch-portrait-900.webp 900w"
+        imagesizes="100vw" media="(max-width: 767px)">
+  <link rel="preload" as="image" type="image/webp"
+        href="assets/img/hero-brunch-1600.webp"
+        imagesrcset="assets/img/hero-brunch-1200.webp 1200w, assets/img/hero-brunch-1600.webp 1600w"
+        imagesizes="100vw" media="(min-width: 768px)">
+
+  <link rel="stylesheet" href="styles.css?v=20261105">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CafeOrCoffeeShop",
+    "name": "Bloom Coffee & Brunch",
+    "url": "https://bloomcoffeebrunch.com",
+    "telephone": "+34 640 24 01 76",
+    "email": "bloomcoffeeb@gmail.com",
+    "servesCuisine": ["Brunch", "Café de especialidad", "Açaí"],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Calle Ángel Llanos 10",
+      "addressLocality": "Vigo",
+      "addressCountry": "ES"
+    },
+    "sameAs": ["https://www.instagram.com/bloom.coffee.vigo/"]
+  }
+  </script>
+</head>
+<body>
+  <!-- Icon sprite -->
+  <svg width="0" height="0" class="sr-only" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-bloom" viewBox="0 0 100 100">
+        <g fill="currentColor">
+          <ellipse cx="50" cy="24" rx="15" ry="24"/>
+          <ellipse cx="50" cy="24" rx="15" ry="24" transform="rotate(72 50 50)"/>
+          <ellipse cx="50" cy="24" rx="15" ry="24" transform="rotate(144 50 50)"/>
+          <ellipse cx="50" cy="24" rx="15" ry="24" transform="rotate(216 50 50)"/>
+          <ellipse cx="50" cy="24" rx="15" ry="24" transform="rotate(288 50 50)"/>
+        </g>
+      </symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v13M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.6" fill="currentColor"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.6 3.5h2.6l1.4 4-2 1.4a12 12 0 0 0 5.9 5.9l1.4-2 4 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M12 3.5a8.5 8.5 0 0 0-7.4 12.7L3.5 20.5l4.4-1.1A8.5 8.5 0 1 0 12 3.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 9.2c.2 2.6 2.2 4.7 5 5.4l1-1.3-1.6-.8-.8.8a4 4 0 0 1-2.1-2.1l.8-.8-.8-1.6Z" fill="currentColor"/></symbol>
+      <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4.5 3.5 6.5v13l5.5-2 6 2 5.5-2v-13l-5.5 2-6-2Zm0 0v13m6-11v13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+      <symbol id="i-menu-book" viewBox="0 0 24 24"><path d="M4 5.5c2.7-1 5.4-1 8 .8 2.6-1.8 5.3-1.8 8-.8v13c-2.7-1-5.4-1-8 .8-2.6-1.8-5.3-1.8-8-.8v-13Zm8 .8v13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+      <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" data-header>
+    <a class="brand-box" href="#inicio" aria-label="Bloom Coffee &amp; Brunch, ir al inicio" data-intro="drop">
+      <!-- TODO: sustituir por logo SVG/PNG transparente en alta resolución -->
+      <img src="assets/img/logo-bloom.webp" width="515" height="329" alt="Bloom Coffee &amp; Brunch">
+    </a>
+
+    <nav class="nav-desktop" aria-label="Principal" data-intro="drop">
+      <ul>
+        <li><a href="#inicio" aria-current="page">Inicio</a></li>
+        <li><a href="#carta">Carta</a></li>
+        <li><a href="#concepto">Concepto</a></li>
+        <li><a href="#galeria">Galería</a></li>
+        <li><a href="#visitanos">Visítanos</a></li>
+      </ul>
+      <a class="nav-desktop__ig" href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener" aria-label="Instagram de Bloom (se abre en una pestaña nueva)">
+        <svg aria-hidden="true"><use href="#i-instagram"/></svg>
+      </a>
+    </nav>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú" data-menu-toggle data-intro="drop">
+      <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+  </header>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <div class="menu" id="menu" data-menu hidden>
+    <div class="menu__inner">
+      <p class="menu__eyebrow">Bloom · Coffee &amp; Brunch</p>
+      <nav aria-label="Menú móvil">
+        <ul class="menu__links">
+          <li><a href="#inicio" aria-current="page"><span>Inicio</span></a></li>
+          <li><a href="#carta"><span>Carta</span></a></li>
+          <li><a href="#concepto"><span>Concepto</span></a></li>
+          <li><a href="#galeria"><span>Galería</span></a></li>
+          <li><a href="#visitanos"><span>Visítanos</span></a></li>
+        </ul>
+      </nav>
+      <div class="menu__foot">
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Angel+Llanos+10+Vigo" target="_blank" rel="noopener">
+          <svg aria-hidden="true"><use href="#i-pin"/></svg> Calle Ángel Llanos 10, Vigo
+        </a>
+        <a href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener">
+          <svg aria-hidden="true"><use href="#i-instagram"/></svg> @bloom.coffee.vigo
+        </a>
+      </div>
+      <svg class="menu__bloom" aria-hidden="true"><use href="#i-bloom"/></svg>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="hero__media" data-hero-media>
+        <picture>
+          <source media="(max-width: 767px)" type="image/webp"
+                  srcset="assets/img/hero-brunch-portrait-640.webp 640w, assets/img/hero-brunch-portrait-900.webp 900w"
+                  sizes="100vw">
+          <img class="hero__img" data-hero-img
+               src="assets/img/hero-brunch-1600.webp"
+               srcset="assets/img/hero-brunch-1200.webp 1200w, assets/img/hero-brunch-1600.webp 1600w"
+               sizes="100vw" width="1600" height="1280"
+               alt="Mesa de brunch Bloom vista desde arriba: bol de açaí con fresas, arándanos, plátano, granola y menta, rodeado de zumos naturales de mango, naranja, frambuesa y verde, un croissant, focaccia y sándwiches."
+               fetchpriority="high" loading="eager" decoding="async">
+        </picture>
+      </div>
+
+      <a class="hero__tag" href="#carta" data-intro="pop">
+        <span>Descubre nuestra carta</span>
+        <svg aria-hidden="true"><use href="#i-arrow-down"/></svg>
+      </a>
+
+      <div class="hero__block" data-hero-block>
+        <svg class="bloom-float bloom-float--a" aria-hidden="true" data-float><use href="#i-bloom"/></svg>
+        <svg class="bloom-float bloom-float--b" aria-hidden="true" data-float><use href="#i-bloom"/></svg>
+        <svg class="bloom-float bloom-float--c" aria-hidden="true" data-float><use href="#i-bloom"/></svg>
+
+        <div class="hero__inner">
+          <div class="hero__copy">
+            <p class="hero__kicker" data-intro="fade">Café de especialidad &amp; brunch</p>
+            <h1 class="hero__title" id="hero-title">
+              <span class="line"><span class="line__inner" data-intro="line">Para que</span></span>
+              <span class="line"><span class="line__inner" data-intro="line">cada día</span></span>
+              <span class="line"><span class="line__inner" data-intro="line"><mark class="hl" data-hl>florezca</mark></span></span>
+            </h1>
+          </div>
+
+          <div class="hero__aside">
+            <p class="hero__address" data-intro="fade">
+              <svg aria-hidden="true"><use href="#i-pin"/></svg>
+              Calle Ángel Llanos 10 · Vigo
+            </p>
+            <div class="hero__ctas" data-intro="fade">
+              <a class="btn btn--cream" href="#carta" data-magnetic>
+                <span>Ver carta</span>
+                <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+              </a>
+              <a class="btn btn--cocoa" href="#visitanos" data-magnetic>
+                <span>Visítanos</span>
+                <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Provisional line illustration: Bloom bear holding a rose -->
+        <svg class="bear" viewBox="0 0 220 200" aria-hidden="true" data-bear>
+          <g class="bear__body" data-bear-body fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <g class="bear__lines" stroke="currentColor" stroke-width="4">
+              <path data-draw d="M54.5 79.1 A18 18 0 1 1 77.8 59.7"/>
+              <path data-draw d="M122.2 59.7 A18 18 0 1 1 145.5 79.1"/>
+              <path data-draw d="M60.5 74 A8 8 0 0 1 66 62"/>
+              <path data-draw d="M134 62 A8 8 0 0 1 139.5 74"/>
+              <path data-draw d="M45 112 A55 55 0 0 1 155 112 C155 140 140 160 118 165 M82 165 C60 160 45 140 45 112"/>
+              <path data-draw d="M100 120 C86 120 79 127 79 135 C79 145 89 150 100 150 C111 150 121 145 121 135 C121 127 114 120 100 120Z"/>
+              <path data-draw d="M100 134 Q100 142 93 143 M100 134 Q100 142 107 143"/>
+              <path data-draw d="M40 182 C40 166 50 160 62 160 C74 160 84 166 84 182"/>
+              <path data-draw d="M116 182 C116 166 126 160 138 160 C150 160 160 166 160 182"/>
+            </g>
+            <g class="bear__face" fill="currentColor" stroke="none" data-bear-face>
+              <ellipse class="bear__eye" cx="80" cy="104" rx="4.5" ry="5" data-eye/>
+              <ellipse class="bear__eye" cx="120" cy="104" rx="4.5" ry="5" data-eye/>
+              <ellipse cx="100" cy="129" rx="7" ry="5"/>
+              <circle class="bear__cheek" cx="66" cy="124" r="7"/>
+              <circle class="bear__cheek" cx="134" cy="124" r="7"/>
+            </g>
+            <g class="bear__rose" data-rose>
+              <path data-draw class="bear__stem" stroke-width="4" d="M146 166 C156 140 168 112 177 86"/>
+              <path data-draw class="bear__leaf" stroke-width="3.5" d="M164 122 C177 119 187 109 189 99 C177 99 167 107 164 122Z"/>
+              <path data-draw class="bear__petals" stroke-width="4" d="M163 60 C160 76 169 86 177 86 C187 86 196 76 192 60 M163 60 C166 51 173 52 177 58 C181 50 189 50 192 60 M171 68 C172 61 182 60 184 67 C185 73 176 75 175 69"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ============ TICKER (transition) ============ -->
+    <div class="ticker" aria-label="Brunch, café y momentos bonitos. Tostadas, tapas y matcha que enamoran. Bienvenidos a disfrutar sin prisa." role="note">
+      <div class="ticker__track" data-ticker aria-hidden="true">
+        <div class="ticker__group">
+          <span>Brunch, café y momentos bonitos</span><svg><use href="#i-bloom"/></svg>
+          <span>Tostadas, tapas y matcha que enamoran</span><svg><use href="#i-bloom"/></svg>
+          <span>Bienvenidos a disfrutar sin prisa</span><svg><use href="#i-bloom"/></svg>
+          <span>Açaí · bollería · batidos · sabores de Brasil</span><svg><use href="#i-bloom"/></svg>
+        </div>
+        <div class="ticker__group">
+          <span>Brunch, café y momentos bonitos</span><svg><use href="#i-bloom"/></svg>
+          <span>Tostadas, tapas y matcha que enamoran</span><svg><use href="#i-bloom"/></svg>
+          <span>Bienvenidos a disfrutar sin prisa</span><svg><use href="#i-bloom"/></svg>
+          <span>Açaí · bollería · batidos · sabores de Brasil</span><svg><use href="#i-bloom"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next phases: Favoritos + Carta, Concepto, Galería, Visítanos (+ footer) -->
+    <section id="carta" class="section-anchor" aria-label="Carta"></section>
+    <section id="concepto" class="section-anchor" aria-label="Concepto"></section>
+    <section id="galeria" class="section-anchor" aria-label="Galería"></section>
+    <section id="visitanos" class="section-anchor" aria-label="Visítanos"></section>
+  </main>
+
+  <!-- ============ MOBILE ACTION BAR ============ -->
+  <nav class="action-bar" aria-label="Acciones rápidas" data-action-bar>
+    <a href="tel:+34640240176"><svg aria-hidden="true"><use href="#i-phone"/></svg><span>Llamar</span></a>
+    <a href="https://wa.me/34640240176" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-chat"/></svg><span>WhatsApp</span></a>
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Angel+Llanos+10+Vigo" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-map"/></svg><span>Llegar</span></a>
+    <a class="action-bar__primary" href="#carta"><svg aria-hidden="true"><use href="#i-menu-book"/></svg><span>Carta</span></a>
+  </nav>
+
+  <script defer src="lib/gsap.min.js"></script>
+  <script defer src="lib/ScrollTrigger.min.js"></script>
+  <script defer src="main.js?v=20261105"></script>
+</body>
+</html>
