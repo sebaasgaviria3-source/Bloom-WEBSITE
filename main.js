@@ -124,126 +124,295 @@
   }
 
   /* =========================================================
-     Sections after the hero — motion taken from the reference video.
-     All scroll-linked (scrub) so it moves with the finger, both ways.
-     Created top-to-bottom, as the ScrollTrigger skill recommends.
+     Bloom bear: the hero mascot, reused across the page.
+     "peek" = head and paws over an edge, "sit" = whole bear holding the rose.
+     Colours come from CSS custom properties on each slot.
      ========================================================= */
-  function initSections() {
-    var mm = gsap.matchMedia();
+  var BEAR_STYLE = 'stroke="var(--bear-ink, #C42A5C)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"';
+  var BEAR_FILL = 'fill="var(--bear-fill, #FFF7F0)"';
+  var BEARS = {
+    peek:
+      '<svg viewBox="0 0 200 150" aria-hidden="true" focusable="false"><g class="bear-hit" ' + BEAR_STYLE + '>' +
+        '<circle cx="54" cy="56" r="19" ' + BEAR_FILL + '/><circle cx="146" cy="56" r="19" ' + BEAR_FILL + '/>' +
+        '<path d="M50 66 A8 8 0 0 1 55 52 M145 52 A8 8 0 0 1 150 66" fill="none"/>' +
+        '<path d="M34 152 C34 94 63 64 100 64 C137 64 166 94 166 152 Z" ' + BEAR_FILL + '/>' +
+        '<ellipse cx="100" cy="121" rx="22" ry="16" ' + BEAR_FILL + '/>' +
+        '<path d="M100 118 Q100 126 93 127 M100 118 Q100 126 107 127" fill="none" stroke-width="3"/>' +
+        '<g class="bear-eyes" stroke="none"><ellipse class="bear-eye" cx="80" cy="100" rx="4.5" ry="5" fill="var(--bear-ink, #C42A5C)"/><ellipse class="bear-eye" cx="120" cy="100" rx="4.5" ry="5" fill="var(--bear-ink, #C42A5C)"/></g>' +
+        '<ellipse class="bear-nose" cx="100" cy="113" rx="7" ry="5" fill="var(--bear-ink, #C42A5C)" stroke="none"/>' +
+        '<circle cx="64" cy="119" r="7" fill="var(--rose-light, #FF9DBC)" stroke="none" opacity=".8"/><circle cx="136" cy="119" r="7" fill="var(--rose-light, #FF9DBC)" stroke="none" opacity=".8"/>' +
+        '<path d="M22 152 C22 130 54 130 54 152 Z M146 152 C146 130 178 130 178 152 Z" ' + BEAR_FILL + '/>' +
+        '<path d="M33 140 V146 M43 140 V146 M157 140 V146 M167 140 V146" stroke-width="2.5"/>' +
+      '</g></svg>',
+    sit:
+      '<svg viewBox="0 0 220 200" aria-hidden="true" focusable="false"><g class="bear-hit" ' + BEAR_STYLE + '>' +
+        '<ellipse cx="100" cy="166" rx="44" ry="26" ' + BEAR_FILL + '/>' +
+        '<ellipse cx="62" cy="182" rx="22" ry="13" ' + BEAR_FILL + '/><ellipse cx="138" cy="182" rx="22" ry="13" ' + BEAR_FILL + '/>' +
+        '<circle cx="64" cy="66" r="18" ' + BEAR_FILL + '/><circle cx="136" cy="66" r="18" ' + BEAR_FILL + '/>' +
+        '<path d="M60.5 74 A8 8 0 0 1 66 62 M134 62 A8 8 0 0 1 139.5 74" fill="none"/>' +
+        '<ellipse cx="100" cy="112" rx="55" ry="50" ' + BEAR_FILL + '/>' +
+        '<ellipse cx="100" cy="135" rx="21" ry="15" ' + BEAR_FILL + '/>' +
+        '<path d="M100 134 Q100 142 93 143 M100 134 Q100 142 107 143" fill="none" stroke-width="3"/>' +
+        '<g class="bear-eyes" stroke="none"><ellipse class="bear-eye" cx="80" cy="104" rx="4.5" ry="5" fill="var(--bear-ink, #C42A5C)"/><ellipse class="bear-eye" cx="120" cy="104" rx="4.5" ry="5" fill="var(--bear-ink, #C42A5C)"/></g>' +
+        '<ellipse class="bear-nose" cx="100" cy="128" rx="7" ry="5" fill="var(--bear-ink, #C42A5C)" stroke="none"/>' +
+        '<circle cx="66" cy="124" r="7" fill="var(--rose-light, #FF9DBC)" stroke="none" opacity=".8"/><circle cx="134" cy="124" r="7" fill="var(--rose-light, #FF9DBC)" stroke="none" opacity=".8"/>' +
+        '<g class="bear-rose" stroke="var(--bear-rose, var(--bear-ink, #C42A5C))" fill="none">' +
+          '<path d="M140 168 C152 142 166 112 177 86"/>' +
+          '<path stroke-width="3.5" d="M162 124 C175 121 185 111 187 101 C175 101 165 109 162 124Z"/>' +
+          '<path d="M163 60 C160 76 169 86 177 86 C187 86 196 76 192 60 M163 60 C166 51 173 52 177 58 C181 50 189 50 192 60 M171 68 C172 61 182 60 184 67 C185 73 176 75 175 69"/>' +
+        '</g>' +
+        '<ellipse cx="136" cy="160" rx="12" ry="10" ' + BEAR_FILL + '/>' +
+      '</g></svg>'
+  };
 
-    mm.add({
-      isMobile: "(max-width: 767px)",
-      isWide: "(min-width: 900px)",
-      motion: "(prefers-reduced-motion: no-preference)"
-    }, function (ctx) {
-      var c = ctx.conditions;
-      if (!c.motion) return; // reduced motion: everything stays in place, fully visible
+  function initBears() {
+    // Only the empty slots; the hero bear is drawn inline and animated by initBear()
+    var slots = $$(".bear-slot[data-bear]");
+    slots.forEach(function (slot) {
+      slot.innerHTML = BEARS[slot.getAttribute("data-bear")] || "";
+    });
+    if (!hasGsap) return;
 
-      /* 1. Gallery: faster, softer slide-in from the sides with a slight turn and settle */
-      $$("[data-collage]").forEach(function (item) {
-        var dir = item.getAttribute("data-from") === "left" ? -1 : 1;
-        var speed = parseFloat(item.getAttribute("data-speed")) || 1;
-        var img = $("img", item);
+    // Blink: each bear on its own rhythm
+    slots.forEach(function (slot, i) {
+      var eyes = $$(".bear-eye", slot);
+      gsap.to(eyes, { scaleY: 0.1, duration: 0.08, yoyo: true, repeat: -1, repeatDelay: 2.8 + (i % 4) * 0.9, delay: i * 0.7, ease: "power1.inOut" });
+    });
 
-        gsap.fromTo(item,
-          { xPercent: dir * (c.isMobile ? 55 : 75), rotation: dir * (c.isMobile ? 3 : 5), scale: c.isMobile ? 0.94 : 0.9, opacity: c.isMobile ? 0 : 1 },
-          {
-            xPercent: 0, rotation: 0, scale: 1, opacity: 1,
-            ease: "power2.out",
-            scrollTrigger: { trigger: item, start: c.isMobile ? "top 98%" : "top bottom", end: c.isMobile ? "top 78%" : "top 70%", scrub: 0.35 }
-          });
-
-        var drift = c.isMobile ? 0 : (speed - 1) * 220;
-        if (drift) {
-          gsap.fromTo(item, { y: drift }, {
-            y: -drift, ease: "none",
-            scrollTrigger: { trigger: item, start: "top bottom", end: "bottom top", scrub: true }
-          });
-        }
-        gsap.fromTo(img, { yPercent: -6 }, {
-          yPercent: 6, ease: "none",
-          scrollTrigger: { trigger: item, start: "top bottom", end: "bottom top", scrub: true }
-        });
-      });
-
-      /* 2. Venue: pinned stage — the photo opens from an arch window to the full frame,
-            the title rises word by word and the story fades in beside it */
-      var stage = $("[data-venue-stage]");
-      if (stage) {
-        var vPhoto = $("[data-venue-photo]", stage);
-        var archFrom = c.isWide
-          ? "inset(14% 16% 14% 16% round 999px 999px 0px 0px)"
-          : "inset(4% 10% 0% 10% round 999px 999px 0px 0px)";
-        gsap.timeline({
-          defaults: { ease: "none" },
-          scrollTrigger: { trigger: stage, start: "top top", end: c.isMobile ? "+=80%" : "+=110%", pin: true, scrub: 0.5, anticipatePin: 1 }
-        })
-          .fromTo(vPhoto, { clipPath: archFrom }, { clipPath: "inset(0% 0% 0% 0% round 0px 0px 0px 0px)", duration: 1 }, 0)
-          .fromTo($("img", vPhoto), { scale: 1.35 }, { scale: 1, duration: 1 }, 0)
-          .fromTo(".venue__title .w > span", { yPercent: 115 }, { yPercent: 0, duration: 0.45, stagger: 0.08, ease: "power2.out" }, c.isMobile ? 0.1 : 0.35)
-          .fromTo("[data-venue-text]", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.12, ease: "power2.out" }, c.isMobile ? 0.25 : 0.55);
-      }
-
-      /* 3a. Colour photo A: horizontal wipe from the right, image settling inside */
-      var wipe = $("[data-wipe]");
-      if (wipe) {
-        var st = { trigger: wipe, start: "top 92%", end: "top 40%", scrub: 0.4 };
-        gsap.fromTo(wipe, { clipPath: "inset(0% 0% 0% 100%)" }, { clipPath: "inset(0% 0% 0% 0%)", ease: "power2.out", scrollTrigger: st });
-        gsap.fromTo($("img", wipe), { scale: 1.3, xPercent: 8 }, { scale: 1, xPercent: 0, ease: "power2.out", scrollTrigger: st });
-      }
-
-      /* 3b. Colour photo B: swings up into place like a print dropped on the table */
-      var tilt = $("[data-tilt]");
-      if (tilt) {
-        gsap.fromTo(tilt,
-          { yPercent: 35, rotation: 12, scale: 0.82 },
-          { yPercent: 0, rotation: -3, scale: 1, ease: "power2.out",
-            scrollTrigger: { trigger: tilt, start: "top bottom", end: "top 50%", scrub: 0.4 } });
-        gsap.fromTo($("img", tilt), { yPercent: 6 }, {
-          yPercent: -6, ease: "none",
-          scrollTrigger: { trigger: tilt, start: "top bottom", end: "bottom top", scrub: true }
-        });
-      }
-
-      /* 4. Band: the pastel strip wipes in from the left; the words rise in place
-            (they never slide, so they are never cut by the screen edge) */
-      var band = $("[data-band]");
-      if (band) {
-        gsap.timeline({ scrollTrigger: { trigger: band, start: "top bottom", end: "top 55%", scrub: 0.4 } })
-          .fromTo(band, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", ease: "power2.out" })
-          .fromTo(".band__caps", { y: 18, opacity: 0 }, { y: 0, opacity: 1, ease: "power2.out" }, 0.3)
-          .fromTo(".band__script", { y: 18, opacity: 0 }, { y: 0, opacity: 1, ease: "power2.out" }, 0.45);
-      }
-
-      /* 5. Menu sheet rises over the gallery like the next page */
-      var sheet = $("[data-sheet]");
-      if (sheet) {
-        gsap.fromTo(sheet,
-          { y: c.isMobile ? 70 : 120, borderTopLeftRadius: c.isMobile ? 64 : 120, borderTopRightRadius: c.isMobile ? 64 : 120 },
-          { y: 0, borderTopLeftRadius: c.isMobile ? 28 : 40, borderTopRightRadius: c.isMobile ? 28 : 40, ease: "power2.out",
-            scrollTrigger: { trigger: sheet, start: "top bottom", end: "top 35%", scrub: 0.4 } });
-      }
-
-      /* 6. Map circle rolls in from the right */
-      var map = $("[data-map]");
-      if (map) {
-        gsap.fromTo(map,
-          { xPercent: c.isMobile ? 70 : 40, rotation: 25 },
-          { xPercent: 0, rotation: 0, ease: "power2.out",
-            scrollTrigger: { trigger: map, start: "top bottom", end: "top 55%", scrub: 0.4 } });
-      }
-
-      /* 7. Instagram photos slide in from their sides */
-      $$(".insta__item").forEach(function (item) {
-        var dir = item.getAttribute("data-from") === "left" ? -1 : 1;
-        gsap.fromTo(item, { xPercent: dir * 70, opacity: 0.3 }, {
-          xPercent: 0, opacity: 1, ease: "power2.out",
-          scrollTrigger: { trigger: item, start: "top bottom", end: "top 65%", scrub: 0.4 }
-        });
+    // Tap a bear: a little hop and a heart floats up
+    $$(".bear-slot .bear-hit").forEach(function (hit) {
+      hit.addEventListener("click", function (e) {
+        var svg = hit.ownerSVGElement;
+        gsap.timeline()
+          .to(svg, { y: -14, duration: 0.18, ease: "power2.out" })
+          .to(svg, { y: 0, duration: 0.5, ease: "bounce.out" });
+        heart(e.clientX, e.clientY);
       });
     });
 
-    /* Text: gentle fade + rise when it enters (plays once, not scrubbed) */
+    if (reduceMotion) return;
+
+    // Peeking bears slide up from behind their edge when the section arrives, then idle
+    $$("[data-peek]").forEach(function (slot) {
+      var svg = $("svg", slot);
+      gsap.set(svg, { yPercent: 100, transformOrigin: "50% 100%" });
+      ScrollTrigger.create({
+        trigger: slot.parentElement,
+        start: "top 75%",
+        end: "bottom 15%",
+        onToggle: function (self) {
+          gsap.to(svg, self.isActive
+            ? { yPercent: 0, duration: 0.9, ease: "back.out(1.6)", delay: 0.15 }
+            : { yPercent: 100, duration: 0.5, ease: "power2.in" });
+        }
+      });
+      gsap.to(svg, { rotation: 4, duration: 2.6, ease: "sine.inOut", yoyo: true, repeat: -1 });
+    });
+
+    // Sitting bears drop onto their perch and sway a little
+    $$("[data-bear='sit']").forEach(function (slot) {
+      var svg = $("svg", slot);
+      gsap.fromTo(svg, { y: -40, opacity: 0 }, {
+        y: 0, opacity: 1, duration: 0.9, ease: "bounce.out",
+        scrollTrigger: { trigger: slot, start: "top 85%", toggleActions: "play none none reverse" }
+      });
+      gsap.to(svg, { rotation: -3, transformOrigin: "50% 100%", duration: 3, ease: "sine.inOut", yoyo: true, repeat: -1 });
+    });
+
+    // Eyes follow the pointer (devices with a real cursor only)
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      var px = -1, py = -1, ticking = false;
+      var groups = $$(".bear-eyes").concat([$("[data-bear-face]")]).filter(Boolean);
+      var movers = groups.map(function (g) {
+        var eyes = g.classList.contains("bear-eyes") ? [g] : $$("[data-eye]", g);
+        return { g: g, eyes: eyes };
+      });
+      window.addEventListener("pointermove", function (e) {
+        px = e.clientX; py = e.clientY;
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          ticking = false;
+          movers.forEach(function (m) {
+            var r = m.g.getBoundingClientRect();
+            if (r.bottom < 0 || r.top > window.innerHeight) return;
+            var dx = px - (r.left + r.width / 2), dy = py - (r.top + r.height / 2);
+            var d = Math.hypot(dx, dy) || 1, k = Math.min(d / 260, 1) * 3.2;
+            gsap.to(m.eyes, { x: dx / d * k, y: dy / d * k, duration: 0.4, overwrite: "auto" });
+          });
+        });
+      }, { passive: true });
+    }
+  }
+
+  function heart(x, y) {
+    var el = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    el.setAttribute("viewBox", "0 0 24 24");
+    el.setAttribute("class", "bear-heart");
+    el.innerHTML = '<path fill="currentColor" d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11Z"/>';
+    el.style.left = (x - 11) + "px";
+    el.style.top = (y - 11) + "px";
+    document.body.appendChild(el);
+    gsap.fromTo(el, { scale: 0.4, opacity: 1 }, {
+      y: -70, x: gsap.utils.random(-20, 20), scale: 1.2, opacity: 0, rotation: gsap.utils.random(-20, 20),
+      duration: 1.1, ease: "power2.out", onComplete: function () { el.remove(); }
+    });
+  }
+
+  /* ---------- Big headlines: words rise out of a mask ---------- */
+  function splitHeadlines() {
+    $$("[data-split]").forEach(function (h) {
+      $$(":scope > span", h).forEach(function (part) {
+        var words = part.textContent.trim().split(/\s+/);
+        part.innerHTML = words.map(function (w) { return '<span class="w"><span>' + w + "</span></span>"; }).join(" ");
+      });
+    });
+  }
+
+  function initSections() {
+    splitHeadlines();
+    var mm = gsap.matchMedia();
+
+    mm.add({
+      isMobile: "(max-width: 899px)",
+      fine: "(hover: hover) and (pointer: fine)",
+      motion: "(prefers-reduced-motion: no-preference)"
+    }, function (ctx) {
+      var c = ctx.conditions;
+      if (!c.motion) return;
+
+      /* Headlines */
+      $$("[data-split]").forEach(function (h) {
+        gsap.fromTo($$(".w > span", h), { yPercent: 110, rotation: 4 }, {
+          yPercent: 0, rotation: 0, duration: 1.1, stagger: 0.08, ease: "expo.out",
+          scrollTrigger: { trigger: h, start: "top 88%", once: true }
+        });
+      });
+
+      /* Ticker ribbons: endless loop that speeds up and follows the scroll direction */
+      var loops = $$("[data-ticker]").map(function (track) {
+        var dir = parseFloat(track.getAttribute("data-ticker"));
+        return gsap.fromTo(track, { xPercent: dir > 0 ? -50 : 0 }, { xPercent: dir > 0 ? 0 : -50, duration: 26, ease: "none", repeat: -1 });
+      });
+      if (loops.length) {
+        var scrollDir = 1;
+        ScrollTrigger.create({
+          trigger: ".ticker", start: "top bottom", end: "bottom top",
+          onUpdate: function (self) {
+            scrollDir = self.direction;
+            var boost = 1 + Math.min(Math.abs(self.getVelocity()) / 250, 5);
+            loops.forEach(function (l) {
+              gsap.to(l, { timeScale: scrollDir * boost, duration: 0.15, overwrite: true });
+              gsap.to(l, { timeScale: scrollDir, duration: 1.2, delay: 0.2, ease: "power2.out" });
+            });
+          }
+        });
+      }
+
+      /* Photos: arrive with a soft scale, then drift at their own depth */
+      $$("[data-photo]").forEach(function (ph) {
+        var depth = parseFloat(ph.getAttribute("data-depth")) || 0;
+        var img = $("img", ph);
+        gsap.fromTo(ph, { opacity: 0, scale: 0.86 }, {
+          opacity: 1, scale: 1, duration: 1.1, ease: "expo.out",
+          scrollTrigger: { trigger: ph, start: "top 92%", once: true }
+        });
+        gsap.fromTo(img, { scale: 1.25 }, {
+          scale: 1, ease: "none",
+          scrollTrigger: { trigger: ph, start: "top bottom", end: "bottom 40%", scrub: true }
+        });
+        if (depth) {
+          var amt = depth * (c.isMobile ? 40 : 90);
+          gsap.fromTo(ph, { y: amt }, {
+            y: -amt, ease: "none",
+            scrollTrigger: { trigger: ph, start: "top bottom", end: "bottom top", scrub: true }
+          });
+        }
+      });
+
+      /* Decorative shapes float and spin with the scroll */
+      $$("[data-float]").forEach(function (el) {
+        var d = parseFloat(el.getAttribute("data-float"));
+        gsap.fromTo(el, { y: d * 60 }, { y: -d * 60, rotation: d * 20, ease: "none",
+          scrollTrigger: { trigger: el.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
+      });
+      $$("[data-spin]").forEach(function (el) {
+        gsap.to(el, { rotation: 300, ease: "none",
+          scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 0.8 } });
+      });
+
+      /* Menú cover: photo parallax, label swings into place */
+      var frame = $("[data-menu-frame]");
+      if (frame) {
+        gsap.fromTo($("picture", frame), { yPercent: -6 }, { yPercent: 6, ease: "none",
+          scrollTrigger: { trigger: frame, start: "top bottom", end: "bottom top", scrub: true } });
+        gsap.fromTo(frame, { clipPath: "inset(8% 8% 8% 8% round 60px)" }, { clipPath: "inset(0% 0% 0% 0% round 30px)", ease: "power2.out",
+          scrollTrigger: { trigger: frame, start: "top 95%", end: "top 30%", scrub: 0.6 } });
+        gsap.fromTo("[data-menu-label]", { y: 90, rotation: -16, scale: 0.8 }, { y: 0, rotation: -4, scale: 1, ease: "back.out(1.4)",
+          scrollTrigger: { trigger: "[data-menu-label]", start: "top bottom", end: "top 55%", scrub: 0.6 } });
+      }
+
+      /* Gallery reels: two rows travel in opposite directions as you scroll */
+      $$("[data-reel]").forEach(function (row) {
+        var dir = parseFloat(row.getAttribute("data-reel"));
+        var dist = function () { return -Math.max(row.scrollWidth - window.innerWidth, 0); };
+        gsap.fromTo(row,
+          { x: function () { return dir < 0 ? 0 : dist(); } },
+          { x: function () { return dir < 0 ? dist() : 0; }, ease: "none",
+            scrollTrigger: { trigger: row.parentElement, start: "top bottom", end: "bottom top", scrub: 0.6, invalidateOnRefresh: true } });
+      });
+
+      /* Map circle rolls in */
+      var map = $("[data-map]");
+      if (map) {
+        gsap.fromTo(map, { xPercent: c.isMobile ? 40 : 30, rotation: 30, opacity: 0 }, { xPercent: 0, rotation: 0, opacity: 1, ease: "power2.out",
+          scrollTrigger: { trigger: map, start: "top bottom", end: "top 60%", scrub: 0.5 } });
+      }
+
+      /* Desktop details: photos tilt toward the cursor, the Instagram pill is magnetic */
+      if (c.fine) {
+        $$(".ph").forEach(function (ph) {
+          var rx = gsap.quickTo(ph, "rotationX", { duration: 0.6, ease: "power3.out" });
+          var ry = gsap.quickTo(ph, "rotationY", { duration: 0.6, ease: "power3.out" });
+          gsap.set(ph, { transformPerspective: 900 });
+          ph.addEventListener("pointermove", function (e) {
+            var r = ph.getBoundingClientRect();
+            ry(((e.clientX - r.left) / r.width - 0.5) * 10);
+            rx(-((e.clientY - r.top) / r.height - 0.5) * 10);
+          });
+          ph.addEventListener("pointerleave", function () { rx(0); ry(0); });
+        });
+        $$("[data-magnetic]").forEach(function (el) {
+          var mx = gsap.quickTo(el, "x", { duration: 0.5, ease: "power3.out" });
+          var my = gsap.quickTo(el, "y", { duration: 0.5, ease: "power3.out" });
+          el.addEventListener("pointermove", function (e) {
+            var r = el.getBoundingClientRect();
+            mx((e.clientX - r.left - r.width / 2) * 0.3);
+            my((e.clientY - r.top - r.height / 2) * 0.4);
+          });
+          el.addEventListener("pointerleave", function () { mx(0); my(0); });
+        });
+      }
+    });
+
+    /* Story chapters: the image frame changes with the active chapter (also without motion) */
+    var chapters = $$("[data-chapter]");
+    var imgs = $$("[data-story-img]");
+    var num = $("[data-story-num]");
+    function setChapter(i) {
+      imgs.forEach(function (im, j) { im.classList.toggle("is-active", j <= i); });
+      chapters.forEach(function (ch, j) { ch.classList.toggle("is-active", j === i); });
+      if (num) num.textContent = "0" + (i + 1);
+    }
+    chapters.forEach(function (ch, i) {
+      ScrollTrigger.create({
+        trigger: ch, start: "top 62%", end: "bottom 62%",
+        onToggle: function (self) { if (self.isActive) setChapter(i); }
+      });
+    });
+    setChapter(0);
+
+    /* Short text: gentle fade + rise when it enters (plays once) */
     if (!reduceMotion) {
       ScrollTrigger.batch("[data-reveal]", {
         start: "top 90%",
@@ -253,65 +422,6 @@
         }
       });
     }
-  }
-
-  /* ---------- Menu tabs (works with or without GSAP) ---------- */
-  function initMenuTabs() {
-    var list = $("[data-tabs]");
-    if (!list) return;
-    var tabs = $$("[role='tab']", list);
-    var bar = $("[data-tabs-bar]", list);
-    var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute("aria-controls")); });
-    var current = 0;
-
-    panels.forEach(function (p, i) { p.hidden = i !== 0; });
-
-    function moveBar(i) {
-      if (!bar) return;
-      var t = tabs[i];
-      var pad = 14;
-      bar.style.width = (t.offsetWidth - pad * 2) + "px";
-      bar.style.transform = "translateX(" + (t.offsetLeft + pad) + "px)";
-    }
-
-    function select(i, focus) {
-      if (i === current) return;
-      var prev = panels[current];
-      var next = panels[i];
-      tabs[current].setAttribute("aria-selected", "false");
-      tabs[current].tabIndex = -1;
-      tabs[i].setAttribute("aria-selected", "true");
-      tabs[i].tabIndex = 0;
-      if (focus) tabs[i].focus();
-      tabs[i].scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
-      current = i;
-      moveBar(i);
-
-      prev.hidden = true;
-      next.hidden = false;
-      if (hasGsap && !reduceMotion) {
-        var photo = $(".menu-panel__photo", next);
-        gsap.timeline({ defaults: { ease: "power3.out" } })
-          .fromTo(photo, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "power4.inOut" }, 0)
-          .fromTo($("img", photo), { scale: 1.2 }, { scale: 1, duration: 0.9 }, 0)
-          .fromTo($$(".dish", next), { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.55, stagger: 0.06 }, 0.15);
-      }
-    }
-
-    tabs.forEach(function (t, i) {
-      t.addEventListener("click", function () { select(i, false); });
-      t.addEventListener("keydown", function (e) {
-        var k = e.key, n = tabs.length;
-        if (k === "ArrowRight") { e.preventDefault(); select((current + 1) % n, true); }
-        else if (k === "ArrowLeft") { e.preventDefault(); select((current - 1 + n) % n, true); }
-        else if (k === "Home") { e.preventDefault(); select(0, true); }
-        else if (k === "End") { e.preventDefault(); select(n - 1, true); }
-      });
-    });
-
-    moveBar(0);
-    window.addEventListener("resize", function () { moveBar(current); });
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveBar(current); });
   }
 
   /* ---------- Opening hours: live status in the menu (Europe/Madrid) ---------- */
@@ -331,30 +441,27 @@
   }
 
   function initHours() {
-    var el = $("[data-hours]");
-    var text = $("[data-hours-text]");
-    if (!el || !text || !window.Intl) return;
+    var els = $$("[data-hours]");
+    if (!els.length || !window.Intl) return;
 
-    function update() {
+    function status() {
       var now = madridNow();
       var today = HOURS[now.day];
-      if (today && now.min >= today[0] && now.min < today[1]) {
-        el.classList.add("is-open");
-        text.textContent = "Abierto ahora, hasta las " + fmt(today[1]);
-        return;
-      }
-      el.classList.remove("is-open");
-      if (today && now.min < today[0]) {
-        text.textContent = "Cerrado, abrimos hoy a las " + fmt(today[0]);
-        return;
-      }
+      if (today && now.min >= today[0] && now.min < today[1]) return { open: true, text: "Abierto ahora, hasta las " + fmt(today[1]) };
+      if (today && now.min < today[0]) return { open: false, text: "Cerrado, abrimos hoy a las " + fmt(today[0]) };
       for (var i = 1; i <= 7; i++) {
         var d = (now.day + i) % 7;
-        if (HOURS[d]) {
-          text.textContent = "Cerrado, abrimos " + (i === 1 ? "mañana" : DAY_NAMES[d]) + " a las " + fmt(HOURS[d][0]);
-          return;
-        }
+        if (HOURS[d]) return { open: false, text: "Cerrado, abrimos " + (i === 1 ? "mañana" : DAY_NAMES[d]) + " a las " + fmt(HOURS[d][0]) };
       }
+      return { open: false, text: "Horario" };
+    }
+    function update() {
+      var st = status();
+      els.forEach(function (el) {
+        el.classList.toggle("is-open", st.open);
+        var t = $("[data-hours-text]", el);
+        if (t) t.textContent = st.text;
+      });
     }
     update();
     setInterval(update, 60000);
@@ -421,15 +528,15 @@
     safe(initHeader, "header");
     safe(initHours, "hours");
     safe(initMenu, "menu");
-    safe(initMenuTabs, "menuTabs");
 
-    if (!hasGsap) { revealAll(); return; }
+    if (!hasGsap) { safe(initBears, "bears"); revealAll(); return; }
 
     gsap.registerPlugin(ScrollTrigger);
     safe(initIntro, "intro");
     safe(initScrollMotion, "scroll");
     safe(initGlow, "glow");
     safe(initBear, "bear");
+    safe(initBears, "bears");
     safe(initSections, "sections");
 
     revealAll();

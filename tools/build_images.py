@@ -1,6 +1,6 @@
 """Dev-time image pipeline for Bloom (not shipped). Usage: python3 tools/build_images.py
 
-Applies a gentle, natural grade (slightly less saturation, a touch brighter)
+Applies a lively grade (a little more colour and contrast, a touch brighter)
 and exports WebP crops for desktop and mobile.
 """
 from pathlib import Path
@@ -13,9 +13,9 @@ OUT.mkdir(parents=True, exist_ok=True)
 
 
 def grade(im):
-    im = ImageEnhance.Color(im).enhance(0.86)       # softer, more natural colour
-    im = ImageEnhance.Brightness(im).enhance(1.03)  # a little brighter, fresher
-    im = ImageEnhance.Contrast(im).enhance(0.97)
+    im = ImageEnhance.Color(im).enhance(1.08)       # vivid, true-to-life colour
+    im = ImageEnhance.Brightness(im).enhance(1.02)  # a little brighter, fresher
+    im = ImageEnhance.Contrast(im).enhance(1.04)
     return im
 
 
@@ -58,7 +58,7 @@ GALLERY = {
     "tortitas": None, "acai-coco": None, "croissant-benedict": None, "zumo-rojo": None,
     "desayuno": None, "bizcocho": None, "tostada-bacon": None, "cafes-latte": None,
     "bollo-crema": None, "pasteis": None, "tortilla": None, "coxinhas": None,
-    "batidos": None, "hamburguesa": None, "helado": None,
+    "batidos": None, "hamburguesa": None, "helado": None, "local-sala": None,
 }
 for name, box in GALLERY.items():
     im = grade(Image.open(GAL / f"{name}.jpg").convert("RGB"))
@@ -94,3 +94,12 @@ save(barra.crop((pl, 0, pl + pw, bh)), "venue-barra-portrait-717.webp", pw, q=78
 
 sala = grade(Image.open(GAL / "local-sala.jpg").convert("RGB"))
 save(sala, "venue-sala-800.webp", 800, q=74)
+
+# Menu cover: the colourful breakfast table, square and wide crops
+des = grade(Image.open(GAL / "desayuno.jpg").convert("RGB"))
+save(des, "menu-desayuno-1200.webp", 1200, q=76)
+save(des, "menu-desayuno-800.webp", 800, q=74)
+
+# Pink teddy poster for the visit section: keep the bear and the welcome line
+cartel = grade(Image.open(GAL / "cartel-osito.jpg").convert("RGB"))
+save(cartel, "g-cartel-osito-600.webp", 600, q=76)
