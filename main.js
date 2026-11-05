@@ -1,7 +1,7 @@
 /* =========================================================
    Bloom Coffee & Brunch — main.js
    Classic script + IIFE (no modules). GSAP + ScrollTrigger from /lib.
-   Motion budget: one orchestrated intro (photo → boxes → neon → button → phrase),
+   Motion budget: one orchestrated intro (photo → boxes → neon → headline → menu link),
    plus quiet scroll parallax and the bear drawing itself.
    ========================================================= */
 (function () {
@@ -26,8 +26,6 @@
     var neon = $("[data-neon]");
     var cta = $("[data-cta]");
 
-    // The button is centred with CSS translate(-50%,-50%); hand that over to GSAP percent props
-    gsap.set(cta, { xPercent: -50, yPercent: -50, x: 0, y: 0 });
 
     tl.fromTo("[data-hero-media]",
         { clipPath: "inset(4% 4% 4% 4%)" },
@@ -51,12 +49,12 @@
         { keyframes: { opacity: [0, 0.9, 0.1, 0.8, 0, 1, 0.35, 1] }, duration: 1.1, ease: "none" }, 0.85);
     }
 
-    tl.fromTo(cta,
-        { opacity: 0, y: 14 },
-        { opacity: 1, y: 0, duration: 0.9 }, 1.35)
-      .fromTo("[data-intro='line']",
+    tl.fromTo("[data-intro='line']",
         { opacity: 1, yPercent: 110 },
-        { yPercent: 0, duration: 1.1, stagger: 0.12 }, 1.45);
+        { yPercent: 0, duration: 1.1, stagger: 0.12 }, 1.3)
+      .fromTo(cta,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.9 }, 1.75);
 
     revealAll();
   }
