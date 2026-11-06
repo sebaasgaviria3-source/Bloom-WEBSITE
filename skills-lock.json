@@ -61,6 +61,12 @@
       "skillPath": "skills/gsap-utils/SKILL.md",
       "computedHash": "1ab2387f6e694718a4f1b5acf2a4ab16e1b884c3428adf5f6b26d830f00826cf"
     },
+    "neon": {
+      "source": "bergside/awesome-design-skills",
+      "sourceType": "github",
+      "skillPath": "skills/neon/SKILL.md",
+      "computedHash": "36b4671e723c420217dae5fc4e6ad95d109f37aaf706cbe72813b93ca8c6c1e5"
+    },
     "ui-ux-pro-max": {
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",
       "sourceType": "github",

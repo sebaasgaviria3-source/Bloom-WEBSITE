@@ -1341,3 +1341,36 @@ body.is-locked { overflow: hidden; }
 }
 .social__glow { opacity: .35; }
 .social__name { color: #FFF4F7; }
+
+/* =========================================================
+   10. Neon refinements (inspired by the "neon" skill: high-contrast pairings,
+       a strict 14/16/18/24/32/40 scale for the small text)
+   ========================================================= */
+:root {
+  --t-14: .875rem;
+  --t-16: 1rem;
+  --t-18: 1.125rem;
+  --t-24: 1.5rem;
+  --t-32: 2rem;
+  --t-40: 2.5rem;
+  --neon-cyan: #6FE7FF;
+}
+/* two-tube pairing: pink tube for the main words, electric cyan for the accent words */
+.display__it {
+  color: #EFFCFF;
+  text-shadow:
+    0 0 1px #fff,
+    0 0 4px rgba(170, 240, 255, .95),
+    0 0 11px rgba(0, 200, 255, .75),
+    0 0 24px rgba(0, 170, 240, .5),
+    0 0 48px rgba(0, 140, 220, .32);
+}
+/* small text on the scale, high contrast over the photos */
+.favs .lede, .story__text, .social__lede { font-size: var(--t-18); line-height: 1.6; color: #fff; }
+@media (min-width: 900px) { .favs .lede, .story__text { font-size: var(--t-24); line-height: 1.5; } }
+.visit__list { font-size: var(--t-16); color: #fff; }
+.story__place, .cinema__caption, .social__name, .site-footer__nav, .hero__cta, .menu-toggle__label { font-size: var(--t-14); }
+.site-footer__meta, .menu__address, .menu__social a, .hours-list { font-size: var(--t-16); }
+.ticker__track span, .ticker__track b { font-size: var(--t-18); }
+@media (min-width: 1100px) { .ticker__track span, .ticker__track b { font-size: var(--t-24); } }
+.story__place { color: #DDF8FF; }
