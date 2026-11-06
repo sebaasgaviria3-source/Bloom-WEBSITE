@@ -1,7 +1,7 @@
 /* =========================================================
    Bloom Coffee & Brunch — styles.css
    Photography first. One soft pink family + white + natural tones.
-   Type: Poppins (headings), Inter (text), Allison (logo script only).
+   Type: Tilt Neon (neon headlines), Jost (text and UI), Allison (logo script only).
    1. Tokens  2. Base  3. Header  4. Menu  5. Hero  6. Bear
    7. Intro states
    ========================================================= */
@@ -35,9 +35,10 @@
   --pink-bg: #FDE6EE;
   --flower: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg%3E%3Cellipse cx='50' cy='24' rx='15' ry='24'/%3E%3Cellipse cx='50' cy='24' rx='15' ry='24' transform='rotate(72 50 50)'/%3E%3Cellipse cx='50' cy='24' rx='15' ry='24' transform='rotate(144 50 50)'/%3E%3Cellipse cx='50' cy='24' rx='15' ry='24' transform='rotate(216 50 50)'/%3E%3Cellipse cx='50' cy='24' rx='15' ry='24' transform='rotate(288 50 50)'/%3E%3C/g%3E%3C/svg%3E");
 
-  --font-display: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-neon: "Tilt Neon", "Jost", system-ui, sans-serif;
   --font-script: "Allison", "Brush Script MT", cursive;
-  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-serif: var(--font-display); /* legacy alias: headings */
   --lavender: #EFE7FA;
   --lavender-2: #D8CBF0;
@@ -1153,6 +1154,167 @@ body.is-locked { overflow: hidden; }
 .site-footer__legal a { margin-left: 10px; text-decoration: underline; text-underline-offset: 3px; }
 @media (min-width: 900px) { .site-footer { padding-top: 330px; padding-bottom: 56px; } }
 
+
+/* =========================================================
+   9. Neon headlines, real photo backgrounds, stacked sections, menu
+   (appended last so it refines the rules above without rewriting them)
+   ========================================================= */
+
+/* ---------- Neon type: big headlines only ---------- */
+.display,
+.cinema__title,
+.menu-label__word,
+.hero__headline,
+.menu__word {
+  font-family: var(--font-neon);
+  font-weight: 400;
+  letter-spacing: .01em;
+}
+/* lit tube on dark/photo backgrounds */
+.display,
+.cinema__title,
+.menu__word {
+  color: #FFF6FA;
+  text-shadow:
+    0 0 1px #fff,
+    0 0 4px rgba(255, 196, 220, .95),
+    0 0 11px rgba(255, 120, 178, .8),
+    0 0 24px rgba(236, 78, 150, .55),
+    0 0 48px rgba(200, 60, 140, .35);
+}
+.display { line-height: 1.02; }
+.display__it {
+  color: #FFE0EC;
+  text-shadow:
+    0 0 1px #fff,
+    0 0 4px rgba(236, 210, 255, .95),
+    0 0 11px rgba(190, 140, 255, .8),
+    0 0 24px rgba(160, 100, 240, .55),
+    0 0 48px rgba(140, 80, 220, .35);
+}
+/* ink tube on the light hero fade and the pastel MENÚ label */
+.hero__headline,
+.menu-label__word {
+  color: var(--accent);
+  text-shadow: 0 0 1px rgba(255, 255, 255, .9), 0 0 8px rgba(255, 150, 190, .65), 0 0 22px rgba(240, 110, 170, .4);
+}
+.hero__headline { letter-spacing: .02em; }
+/* one-off flicker when a neon headline switches on (JS adds .is-lit) */
+@keyframes neon-on {
+  0% { opacity: .15; } 8% { opacity: 1; } 12% { opacity: .35; } 20% { opacity: 1; } 26% { opacity: .6; } 34%, 100% { opacity: 1; }
+}
+.neon-flicker { animation: neon-on 1.1s steps(1, end) both; }
+
+/* ---------- Text over photos: light, calm, readable ---------- */
+.favs .lede,
+.story__text,
+.social__lede,
+.visit__list { color: #FFF4F7; text-shadow: 0 1px 12px rgba(30, 8, 20, .55); }
+.story__place { color: #F4D9FF; }
+.visit__list svg { color: #FFC6DA; }
+.visit__list a { color: #fff; text-decoration-color: rgba(255, 198, 218, .8); }
+.visit__list a:hover { color: #FFD6E6; }
+
+/* ---------- Real photo backgrounds (sticky: the photo holds while the section scrolls over it) ---------- */
+.sec-bg {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  height: 100svh;
+  margin-bottom: -100svh;
+  overflow: hidden;
+  pointer-events: none;
+}
+.sec-bg picture { position: absolute; inset: -6% 0; display: block; }
+.sec-bg img { width: 100%; height: 100%; object-fit: cover; will-change: transform; }
+.sec-bg::after { /* cinematic grade: berry tint, darker at the edges where text sits */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(34, 10, 24, .62) 0%, rgba(34, 10, 24, .38) 40%, rgba(34, 10, 24, .5) 70%, rgba(34, 10, 24, .78) 100%),
+    linear-gradient(120deg, rgba(150, 90, 200, .18), rgba(240, 120, 170, .14));
+}
+.sec-bg--blur img { filter: blur(16px) saturate(1.15); transform: scale(1.15); }
+.favs, .story, .menu-cover, .reel, .visit { background: #2A1420; }
+/* the photo sits under everything else in its own section */
+.favs, .story, .menu-cover, .reel, .visit { isolation: isolate; }
+.sec-bg { z-index: -1; }
+.favs__glow, .visit__blob, .favs__blob, .favs__sun { display: none; }
+.line-bloom, .story__bloom { color: rgba(255, 214, 232, .2); }
+.menu-cover { padding-top: 70px; }
+
+/* ---------- Stacked sections: each one slides up over the one before ---------- */
+.hero { z-index: 1; }
+.ticker { z-index: 10; }
+.favs { z-index: 2; }
+.cinema { z-index: 3; }
+.story { z-index: 4; }
+.menu-cover { z-index: 5; }
+.reel { z-index: 6; }
+.visit { z-index: 7; }
+.site-footer { z-index: 8; }
+.favs, .cinema, .story, .menu-cover, .reel, .visit, .site-footer { box-shadow: 0 -30px 60px -20px rgba(20, 6, 14, .55); }
+.hero { background: var(--cream); }
+
+/* ---------- Menu button: label + bars, on every screen size ---------- */
+.menu-toggle { gap: 10px; }
+.menu-toggle__label { display: none; font-family: var(--font-display); font-weight: 600; font-size: .8125rem; letter-spacing: .18em; text-transform: uppercase; }
+@media (min-width: 768px) {
+  .menu-toggle { display: inline-flex; align-items: center; justify-content: center; width: auto; padding: 0 20px; }
+  .menu-toggle__label { display: inline; }
+}
+@media (min-width: 1100px) {
+  .nav-desktop { display: none; }
+  .menu-toggle { display: inline-flex; top: 30px; height: 58px; }
+}
+
+/* ---------- Menu overlay: curtain, photo preview, neon links ---------- */
+.menu { background: none; color: #FFF4F7; overflow: hidden; }
+.menu__curtain { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(4, 1fr); }
+.menu__panel { display: block; background: #2B0F20; transform-origin: 50% 0; }
+.menu__panel:nth-child(2) { background: #351227; }
+.menu__panel:nth-child(3) { background: #2F1023; }
+.menu__panel:nth-child(4) { background: #3A142B; }
+.menu__previews { position: absolute; inset: 0; z-index: 1; overflow: hidden; }
+.menu__preview {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: .32; clip-path: inset(100% 0 0 0); transform: scale(1.15);
+  transition: clip-path .9s var(--ease-out), transform 1.4s var(--ease-out);
+}
+.menu__preview.is-active { clip-path: inset(0 0 0 0); transform: scale(1); }
+.menu__previews::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(43, 15, 32, .9) 0%, rgba(43, 15, 32, .55) 60%, rgba(43, 15, 32, .3) 100%); }
+.menu__inner { z-index: 2; }
+.menu__links { display: grid; gap: 2px; }
+.menu__links li { overflow: visible; }
+.menu__links a { display: inline-block; padding: 2px 0; color: inherit; transition: opacity .4s var(--ease-out); }
+.menu__word { display: inline-block; font-size: clamp(2.75rem, 12vw, 5.5rem); line-height: 1.04; text-transform: uppercase; }
+.menu__word .char { display: inline-block; will-change: transform; }
+.menu__links:hover a:not(:hover) { opacity: .4; }
+.menu__links a:hover .menu__word,
+.menu__links a:focus-visible .menu__word {
+  text-shadow:
+    0 0 1px #fff, 0 0 6px rgba(255, 210, 230, 1), 0 0 16px rgba(255, 120, 178, .95),
+    0 0 34px rgba(236, 78, 150, .75), 0 0 70px rgba(200, 60, 140, .5);
+}
+.menu__links a[aria-current="page"] .menu__word { color: #FFE0EC; }
+.menu__foot { color: #FFF4F7; }
+.menu__status { color: #FFF4F7; }
+.hours-list { background: rgba(255, 255, 255, .08); color: #FFF4F7; border: 1px solid rgba(255, 255, 255, .12); }
+.hours-list dd { color: #F2D7E2; }
+.menu__social a { background: rgba(255, 255, 255, .1); color: #FFF4F7; border: 1px solid rgba(255, 255, 255, .14); }
+.menu__social a:hover { background: rgba(255, 255, 255, .22); }
+.menu__social svg { color: #FFC6DA; }
+.menu__social a:hover svg { color: #fff; }
+.menu__address { color: #F2D7E2; }
+.menu__bloom { color: #FFC6DA; opacity: .07; z-index: 1; }
+@media (min-width: 900px) {
+  .menu__previews { left: 48%; }
+  .menu__previews::after { background: linear-gradient(90deg, rgba(43, 15, 32, .85) 0%, rgba(43, 15, 32, .2) 40%, rgba(43, 15, 32, .1) 100%); }
+  .menu__preview { opacity: 1; }
+  .menu__inner { max-width: 48%; padding-left: max(var(--gutter), 6vw); }
+}
+
 /* ---------- 7. Intro states (only while .js-intro is on <html>) ---------- */
 .js-intro [data-intro],
 .js-intro [data-neon],
@@ -1164,3 +1326,18 @@ body.is-locked { overflow: hidden; }
   .site-footer__light { animation: none; }
   html { scroll-behavior: auto; }
 }
+
+.stack-dim { position: absolute; inset: 0; z-index: 20; background: rgba(20, 6, 14, .55); opacity: 0; pointer-events: none; }
+
+/* grid sections: the photo spans the whole section instead of taking a grid cell */
+.story > .sec-bg,
+.visit > .sec-bg { position: absolute; inset: 0; height: auto; margin: 0; }
+/* the cinema hands off into the dark photo sections */
+.cinema__fade { background: linear-gradient(180deg, rgba(42, 20, 32, 0), #2A1420); }
+/* social slogan: the logo's script, lit like the hero sign */
+.social__title {
+  color: #FFF6FA;
+  text-shadow: 0 0 1px #fff, 0 0 5px rgba(255, 196, 220, .95), 0 0 14px rgba(255, 120, 178, .8), 0 0 30px rgba(236, 78, 150, .55), 0 0 60px rgba(200, 60, 140, .35);
+}
+.social__glow { opacity: .35; }
+.social__name { color: #FFF4F7; }

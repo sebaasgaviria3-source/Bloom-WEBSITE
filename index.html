@@ -21,8 +21,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Fonts load without blocking the first paint (text shows in the fallback, then swaps) -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Allison&family=Inter:wght@400;500;600&family=Poppins:wght@600;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allison&family=Inter:wght@400;500;600&family=Poppins:wght@600;800&display=swap"></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Allison&family=Jost:wght@400;500;600&family=Tilt+Neon&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allison&family=Jost:wght@400;500;600&family=Tilt+Neon&display=swap"></noscript>
 
   <link rel="preload" as="image" type="image/webp"
         href="assets/img/hero-brunch-portrait-900.webp"
@@ -33,7 +33,7 @@
         imagesrcset="assets/img/hero-brunch-1200.webp 1200w, assets/img/hero-brunch-1600.webp 1600w"
         imagesizes="100vw" media="(min-width: 768px)">
 
-  <link rel="stylesheet" href="styles.css?v=20261106h">
+  <link rel="stylesheet" href="styles.css?v=20261106l">
 
   <script type="application/ld+json">
   {
@@ -116,20 +116,34 @@
     </nav>
 
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú" data-menu-toggle data-intro="from-right">
+      <span class="menu-toggle__label" aria-hidden="true">Menú</span>
       <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
   </header>
 
   <!-- ============ MENU (all links, hours and social live here) ============ -->
   <div class="menu" id="menu" data-menu hidden>
+    <!-- curtain: four panels drop in one after another -->
+    <div class="menu__curtain" aria-hidden="true">
+      <span class="menu__panel" data-menu-panel></span><span class="menu__panel" data-menu-panel></span>
+      <span class="menu__panel" data-menu-panel></span><span class="menu__panel" data-menu-panel></span>
+    </div>
+    <!-- photo that changes with the link under the pointer / focus -->
+    <div class="menu__previews" aria-hidden="true">
+      <img class="menu__preview is-active" data-preview="inicio" src="assets/img/hero-brunch-portrait-640.webp" width="640" height="800" alt="" loading="lazy" decoding="async">
+      <img class="menu__preview" data-preview="carta" src="assets/img/menu-desayuno-800.webp" width="800" height="800" alt="" loading="lazy" decoding="async">
+      <img class="menu__preview" data-preview="concepto" src="assets/img/g-osito-cafe-738.webp" width="738" height="732" alt="" loading="lazy" decoding="async">
+      <img class="menu__preview" data-preview="galeria" src="assets/img/g-batidos-1000.webp" width="1000" height="749" alt="" loading="lazy" decoding="async">
+      <img class="menu__preview" data-preview="visitanos" src="assets/img/local-terraza-700.webp" width="700" height="1051" alt="" loading="lazy" decoding="async">
+    </div>
     <div class="menu__inner">
       <nav aria-label="Menú">
         <ul class="menu__links">
-          <li><a href="#inicio" aria-current="page"><span>Inicio</span></a></li>
-          <li><a href="#carta"><span>Menú</span></a></li>
-          <li><a href="#concepto"><span>Concepto</span></a></li>
-          <li><a href="#galeria"><span>Galería</span></a></li>
-          <li><a href="#visitanos"><span>Visítanos</span></a></li>
+          <li><a href="#inicio" aria-current="page" data-link="inicio"><span class="menu__word">Inicio</span></a></li>
+          <li><a href="#carta" data-link="carta"><span class="menu__word">Menú</span></a></li>
+          <li><a href="#concepto" data-link="concepto"><span class="menu__word">Concepto</span></a></li>
+          <li><a href="#galeria" data-link="galeria"><span class="menu__word">Galería</span></a></li>
+          <li><a href="#visitanos" data-link="visitanos"><span class="menu__word">Visítanos</span></a></li>
         </ul>
       </nav>
 
@@ -227,6 +241,12 @@
 
     <!-- ============ 2. FAVOURITES: editorial photo composition ============ -->
     <section class="favs" id="favoritos" aria-labelledby="favs-title">
+      <div class="sec-bg" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/detail-table-portrait-840.webp">
+          <img src="assets/img/detail-table-1600.webp" width="1600" height="480" alt="" loading="lazy" decoding="async" data-sec-bg>
+        </picture>
+      </div>
       <!-- Background: pastel mesh + large line-drawn blooms that drift against the photos -->
       <div class="favs__bg" aria-hidden="true">
         <span class="favs__glow favs__glow--a" data-glow-drift></span>
@@ -306,9 +326,9 @@
           <figure class="cfloat cfloat--6 is-front" data-cfloat><img src="assets/img/g-pasteis-600.webp" width="600" height="400" loading="lazy" decoding="async" alt=""></figure>
         </div>
 
-        <h2 class="cinema__title cinema__title--a" id="cinema-title" data-cinema-text="a">Bienvenido<br>a Bloom</h2>
-        <p class="cinema__title cinema__title--b" data-cinema-text="b">Café, brunch<br>y calma</p>
-        <p class="cinema__title cinema__title--c" data-cinema-text="c">Una terraza<br>para quedarse</p>
+        <h2 class="cinema__title cinema__title--a" id="cinema-title" data-cinema-text="a">Bienvenido <br>a Bloom</h2>
+        <h3 class="cinema__title cinema__title--b" data-cinema-text="b">Café, brunch <br>y calma</h3>
+        <h3 class="cinema__title cinema__title--c" data-cinema-text="c">Una terraza <br>para quedarse</h3>
         <p class="cinema__caption" data-cinema-caption>Bloom Coffee &amp; Brunch · Vigo</p>
         <div class="cinema__fade" aria-hidden="true" data-cinema-fade></div>
       </div>
@@ -316,6 +336,12 @@
 
     <!-- ============ 3. STORY: the bear and the venue, one shared text ============ -->
     <section class="story" id="concepto" aria-labelledby="story-title" data-story>
+      <div class="sec-bg" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/venue-barra-portrait-717.webp">
+          <img src="assets/img/venue-barra-1195.webp" width="1195" height="896" alt="" loading="lazy" decoding="async" data-sec-bg>
+        </picture>
+      </div>
       <svg class="line-bloom story__bloom" viewBox="0 0 200 200" aria-hidden="true" data-bloom-line="1"><use href="#line-bloom"/></svg>
       <div class="story__photos">
         <figure class="story__photo story__photo--bear" data-story-photo>
@@ -344,6 +370,12 @@
 
     <!-- ============ 4. MENÚ: one photo + label (the full menu arrives later) ============ -->
     <section class="menu-cover" id="carta" aria-labelledby="menu-title">
+      <div class="sec-bg sec-bg--blur" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/menu-desayuno-800.webp">
+          <img src="assets/img/menu-desayuno-1200.webp" width="1200" height="1200" alt="" loading="lazy" decoding="async" data-sec-bg>
+        </picture>
+      </div>
       <div class="menu-cover__frame" data-menu-frame>
         <picture>
           <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/menu-desayuno-800.webp">
@@ -368,6 +400,12 @@
 
     <!-- ============ 5. GALLERY: two reels moving with the scroll ============ -->
     <section class="reel" id="galeria" aria-labelledby="reel-title">
+      <div class="sec-bg" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/g-batidos-600.webp">
+          <img src="assets/img/g-batidos-1000.webp" width="1000" height="749" alt="" loading="lazy" decoding="async" data-sec-bg>
+        </picture>
+      </div>
       <div class="social" aria-labelledby="reel-title">
         <span class="social__glow" aria-hidden="true"></span>
         <h2 class="social__title" id="reel-title"><span data-social-title>Ayúdanos a crecer en Redes</span></h2>
@@ -407,6 +445,12 @@
 
     <!-- ============ 6. VISÍTANOS ============ -->
     <section class="visit" id="visitanos" aria-labelledby="visit-title">
+      <div class="sec-bg" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/local-terraza-700.webp">
+          <img src="assets/img/local-terraza-1066.webp" width="1066" height="1600" alt="" loading="lazy" decoding="async" data-sec-bg>
+        </picture>
+      </div>
       <span class="shape shape--blob visit__blob" aria-hidden="true" data-float="-1"></span>
       <div class="visit__info">
         <h2 class="display" id="visit-title" data-split><span class="display__it">Abierto</span></h2>
@@ -453,8 +497,8 @@
   <footer class="site-footer">
     <div class="site-footer__bg" aria-hidden="true">
       <picture>
-        <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/venue-barra-portrait-717.webp">
-        <img src="assets/img/venue-barra-1195.webp" width="1195" height="896" alt="" loading="lazy" decoding="async" data-footer-photo>
+        <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/g-local-sala-1000.webp">
+        <img src="assets/img/g-local-sala-1000.webp" width="1000" height="1481" alt="" loading="lazy" decoding="async" data-footer-photo>
       </picture>
       <span class="site-footer__light site-footer__light--a"></span>
       <span class="site-footer__light site-footer__light--b"></span>
@@ -481,6 +525,6 @@
   <script defer src="lib/Flip.min.js"></script>
   <script defer src="lib/CustomEase.min.js"></script>
   <script defer src="lib/lenis.min.js"></script>
-  <script defer src="main.js?v=20261106h"></script>
+  <script defer src="main.js?v=20261106l"></script>
 </body>
 </html>

@@ -285,6 +285,44 @@
     { from: [40, 90, -8], rest: -2, to: [80, 40, -14], speed: 0.95 }
   ];
 
+  /* ---------- Stacked sections: each section holds while the next slides up over it ---------- */
+  function initStack() {
+    var mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", function () {
+      var dims = [];
+      $$(".hero, .favs, .story, .menu-cover, .reel, .visit").forEach(function (sec) {
+        var dim = document.createElement("span");
+        dim.className = "stack-dim";
+        dim.setAttribute("aria-hidden", "true");
+        sec.appendChild(dim);
+        dims.push(dim);
+        var tall = function () { return sec.offsetHeight > window.innerHeight; };
+        gsap.fromTo(dim, { opacity: 0 }, {
+          opacity: 1, ease: "none",
+          scrollTrigger: {
+            trigger: sec,
+            start: function () { return tall() ? "bottom bottom" : "top top"; },
+            end: "+=100%",
+            pin: true,
+            pinSpacing: false,
+            scrub: true,
+            invalidateOnRefresh: true
+          }
+        });
+      });
+      return function () { dims.forEach(function (d) { if (d.parentNode) d.parentNode.removeChild(d); }); };
+    });
+
+    // section photos drift slower than the page (depth)
+    mm.add("(prefers-reduced-motion: no-preference)", function () {
+      $$("[data-sec-bg]").forEach(function (img) {
+        var sec = img.closest("section");
+        gsap.fromTo(img, { yPercent: -5, scale: 1.08 }, { yPercent: 5, scale: 1, ease: "none",
+          scrollTrigger: { trigger: sec, start: "top bottom", end: "bottom top", scrub: true } });
+      });
+    });
+  }
+
   function initCinema() {
     var section = $("[data-cinema]");
     if (!section) return;
@@ -400,7 +438,8 @@
         if (!h._split) return;
         gsap.fromTo(h._split.words, { yPercent: 110, rotation: 4 }, {
           yPercent: 0, rotation: 0, duration: 1.1, stagger: 0.08, ease: "bloom",
-          scrollTrigger: { trigger: h, start: "top 88%", once: true }
+          scrollTrigger: { trigger: h, start: "top 88%", once: true },
+          onStart: function () { h.classList.add("neon-flicker"); }
         });
       });
 
@@ -625,20 +664,39 @@
   }
 
   /* ---------- Menu (top-right box) ---------- */
+  /* =========================================================
+     Menu: a four-panel curtain drops in, the photo behind follows the link
+     under the pointer, neon links write themselves in character by character.
+     ========================================================= */
   function initMenu() {
     var toggle = $("[data-menu-toggle]");
     var menu = $("[data-menu]");
     var main = $("#main");
     if (!toggle || !menu) return;
     var links = $$(".menu__links a", menu);
+    var panels = $$("[data-menu-panel]", menu);
+    var previews = $$("[data-preview]", menu);
+    var words = $$(".menu__word", menu);
     var open = false;
     var anim = null;
+    var splits = null;
 
-    function origin() {
-      var r = toggle.getBoundingClientRect();
-      var x = r.left + r.width / 2, y = r.top + r.height / 2;
-      var radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
-      return { x: x, y: y, r: radius };
+    function charsOf(word) { return word._chars || [word]; }
+    function ensureSplit() {
+      if (splits || !hasGsap || !window.SplitText) return;
+      splits = words.map(function (w) {
+        var sp = SplitText.create(w, { type: "chars", charsClass: "char", mask: "chars" });
+        w._chars = sp.chars;
+        return sp;
+      });
+    }
+    function showPreview(key) {
+      previews.forEach(function (img) { img.classList.toggle("is-active", img.getAttribute("data-preview") === key); });
+    }
+    function allChars() {
+      var out = [];
+      words.forEach(function (w) { out = out.concat(charsOf(w)); });
+      return out;
     }
 
     function setOpen(next) {
@@ -651,34 +709,57 @@
       if (main) main.inert = open;
       if (anim) anim.kill();
 
-      var o = origin();
+      var simple = !hasGsap || reduceMotion;
       if (open) {
         menu.hidden = false;
-        if (hasGsap) {
-          anim = gsap.timeline()
-            .fromTo(menu,
-              { clipPath: "circle(0px at " + o.x + "px " + o.y + "px)" },
-              { clipPath: "circle(" + o.r + "px at " + o.x + "px " + o.y + "px)", duration: 0.8, ease: "expo.inOut" })
-            .fromTo($$(".menu__links a span", menu), { yPercent: 110 }, { yPercent: 0, duration: 0.8, stagger: 0.06, ease: "expo.out" }, 0.3)
-            .fromTo(".menu__foot", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6 }, 0.5);
+        ensureSplit();
+        var current = $("a[aria-current='page']", menu);
+        showPreview(current ? current.getAttribute("data-link") : "inicio");
+        if (simple) {
+          if (hasGsap) gsap.fromTo(menu, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+        } else {
+          anim = gsap.timeline({ defaults: { ease: "bloom" } })
+            .set(menu, { opacity: 1 })
+            .fromTo(panels, { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: 0.7, stagger: 0.07, ease: "expo.inOut" }, 0)
+            .fromTo(".menu__previews", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.45)
+            .fromTo(allChars(), { yPercent: 120, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.8, stagger: 0.018 }, 0.45)
+            .add(function () { words.forEach(function (w) { w.classList.remove("neon-flicker"); void w.offsetWidth; w.classList.add("neon-flicker"); }); }, 0.6)
+            .fromTo(".menu__foot > *", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.06 }, 0.75);
         }
         if (links[0]) links[0].focus({ preventScroll: true });
       } else {
-        var done = function () { menu.hidden = true; };
-        if (hasGsap) {
-          anim = gsap.to(menu, {
-            clipPath: "circle(0px at " + o.x + "px " + o.y + "px)",
-            duration: 0.6, ease: "expo.inOut", onComplete: done
-          });
-        } else { done(); }
+        var finish = function () { menu.hidden = true; };
+        if (simple) { finish(); }
+        else {
+          anim = gsap.timeline({ onComplete: finish })
+            .to([allChars(), ".menu__foot > *", ".menu__previews"], { opacity: 0, y: -14, duration: 0.3, stagger: 0.004, ease: "power2.in" }, 0)
+            .to(panels.slice().reverse(), { scaleY: 0, transformOrigin: "50% 100%", duration: 0.6, stagger: 0.06, ease: "expo.inOut" }, 0.2);
+        }
         toggle.focus({ preventScroll: true });
       }
     }
 
+    // Hover / focus: the matching photo blooms in behind, the letters ripple
+    links.forEach(function (a) {
+      var key = a.getAttribute("data-link");
+      var word = $(".menu__word", a);
+      var ripple = function () {
+        showPreview(key);
+        if (!hasGsap || reduceMotion) return;
+        gsap.fromTo(charsOf(word), { yPercent: 0 }, { keyframes: { yPercent: [0, -14, 0] }, duration: 0.5, stagger: 0.025, ease: "sine.inOut", overwrite: "auto" });
+      };
+      a.addEventListener("mouseenter", ripple);
+      a.addEventListener("focus", ripple);
+      a.addEventListener("click", function () {
+        $$("a[aria-current]", menu).forEach(function (x) { x.removeAttribute("aria-current"); });
+        a.setAttribute("aria-current", "page");
+        setOpen(false);
+      });
+    });
+    $$(".menu__foot a", menu).forEach(function (a) { a.addEventListener("click", function () { setOpen(false); }); });
+
     toggle.addEventListener("click", function () { setOpen(!open); });
-    $$("a", menu).forEach(function (a) { a.addEventListener("click", function () { setOpen(false); }); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && open) setOpen(false); });
-    window.matchMedia("(min-width: 1100px)").addEventListener("change", function (e) { if (e.matches) setOpen(false); });
   }
 
   /* ---------- Smooth scroll: Lenis drives the page, ScrollTrigger listens (one engine) ---------- */
@@ -736,13 +817,14 @@
     // House ease: a fast start that settles softly, like a flower opening
     if (window.CustomEase) CustomEase.create("bloom", "M0,0 C0.16,0.78 0.22,1 1,1");
     else gsap.registerEase("bloom", gsap.parseEase("expo.out"));
+    ScrollTrigger.config({ ignoreMobileResize: true });
     // First screen now; everything below the fold once the browser is idle (keeps the main thread free at load)
     safe(initIntro, "intro");
     safe(initScrollMotion, "scroll");
     safe(initBear, "bear"); // hero bear sits on the first screen
     revealAll();
 
-    var queue = [[initSmoothScroll, "lenis"], [initGlow, "glow"], [initBears, "bears"], [initSections, "sections"], [initCinema, "cinema"], [initHours, "hours"]];
+    var queue = [[initSmoothScroll, "lenis"], [initGlow, "glow"], [initBears, "bears"], [initSections, "sections"], [initCinema, "cinema"], [initStack, "stack"], [initHours, "hours"]];
     var next = function () {
       var job = queue.shift();
       if (!job) { ScrollTrigger.refresh(); return; }
