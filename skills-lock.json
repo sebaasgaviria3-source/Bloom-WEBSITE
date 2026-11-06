@@ -1,11 +1,35 @@
 {
   "version": 1,
   "skills": {
+    "arrange": {
+      "source": "aladicf/better-web-ui",
+      "sourceType": "github",
+      "skillPath": "skills/arrange/SKILL.md",
+      "computedHash": "2b664432b54b26fc0e7fc716eb8cff65bbfb74922e62c57246ce6ce8bb622928"
+    },
     "awwwards-animations": {
       "source": "devmartinese/awwwards-animations-skill",
       "sourceType": "github",
       "skillPath": "SKILL.md",
       "computedHash": "03ea7b6b4daf3de348c530ec0670cd63c21bc060591f5ca7f193234008a941b6"
+    },
+    "clarify": {
+      "source": "aladicf/better-web-ui",
+      "sourceType": "github",
+      "skillPath": "skills/clarify/SKILL.md",
+      "computedHash": "0d70abf5f7269a0fbf44ae0e0e62a3a35878e1d5f55a2a7882cd4c060a5d9448"
+    },
+    "critique": {
+      "source": "aladicf/better-web-ui",
+      "sourceType": "github",
+      "skillPath": "skills/critique/SKILL.md",
+      "computedHash": "328d3ddd8610003062946ed08c29ffd95b3f3cefc52c92993235112a8b1b8bff"
+    },
+    "distill": {
+      "source": "aladicf/better-web-ui",
+      "sourceType": "github",
+      "skillPath": "skills/distill/SKILL.md",
+      "computedHash": "e03fc0948608888fae29e1b07d8ab9dca6753763909a5ecf21551ce106f307ec"
     },
     "frontend-design": {
       "source": "anthropics/skills",
@@ -61,11 +85,29 @@
       "skillPath": "skills/gsap-utils/SKILL.md",
       "computedHash": "1ab2387f6e694718a4f1b5acf2a4ab16e1b884c3428adf5f6b26d830f00826cf"
     },
+    "hierarchy": {
+      "source": "aladicf/better-web-ui",
+      "sourceType": "github",
+      "skillPath": "skills/hierarchy/SKILL.md",
+      "computedHash": "e87d57c71fced107fca8dfa322f888b1c6b798b303c31977c012844ac5027238"
+    },
     "neon": {
       "source": "bergside/awesome-design-skills",
       "sourceType": "github",
       "skillPath": "skills/neon/SKILL.md",
       "computedHash": "36b4671e723c420217dae5fc4e6ad95d109f37aaf706cbe72813b93ca8c6c1e5"
+    },
+    "polish": {
+      "source": "aladicf/better-web-ui",
+      "sourceType": "github",
+      "skillPath": "skills/polish/SKILL.md",
+      "computedHash": "220c204cb6e665641472db5b4a9e7d9382a6d561a76bb2d95a14850cc5206efb"
+    },
+    "typeset": {
+      "source": "aladicf/better-web-ui",
+      "sourceType": "github",
+      "skillPath": "skills/typeset/SKILL.md",
+      "computedHash": "f912e8fafc0e68bd5b8838dccd0c03033ce10f2003435a480647b98adb53f30c"
     },
     "ui-ux-pro-max": {
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",
