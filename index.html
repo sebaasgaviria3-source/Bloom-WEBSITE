@@ -33,7 +33,7 @@
         imagesrcset="assets/img/hero-brunch-1200.webp 1200w, assets/img/hero-brunch-1600.webp 1600w"
         imagesizes="100vw" media="(min-width: 768px)">
 
-  <link rel="stylesheet" href="styles.css?v=20261106t">
+  <link rel="stylesheet" href="styles.css?v=20261106w">
 
   <script type="application/ld+json">
   {
@@ -239,106 +239,61 @@
       </div></div>
     </div>
 
-    <!-- ============ 2. MESA: "Bloom te acompaña en la mesa" — colour band + photo mosaic ============ -->
-    <section class="mesa" id="favoritos" aria-labelledby="mesa-title">
-      <div class="mesa__band">
-        <h2 class="mesa__title" id="mesa-title">
-          <span class="mesa__caps mesa__caps--a" data-mesa-slide="-1">Bloom</span>
-          <span class="mesa__script" data-mesa-script>te acompaña</span>
-          <span class="mesa__caps mesa__caps--b" data-mesa-slide="1">en la mesa</span>
-        </h2>
-        <p class="mesa__lede" data-reveal>Brunch, açaí, zumos y sabores de Brasil, hechos cada día.</p>
-        <a class="pill-cta" href="#carta" data-reveal>Ver el menú</a>
-      </div>
-
-      <!-- Mosaic: hard-edged tiles that slide in from alternating sides -->
-      <div class="mesa__mosaic">
-        <figure class="tile tile--1" data-tile data-from="left">
+    <!-- ============ 2. DECK: photos land one on top of another as you scroll ============ -->
+    <section class="deck" id="favoritos" aria-label="Nuestros favoritos">
+      <div class="deck__stage" data-deck>
+        <figure class="deck__card" data-card>
           <img src="assets/img/g-batidos-1000.webp" srcset="assets/img/g-batidos-600.webp 600w, assets/img/g-batidos-1000.webp 1000w"
-               sizes="(max-width: 767px) 66vw, 42vw" width="1000" height="749" loading="lazy" decoding="async"
+               sizes="(max-width: 767px) 84vw, 460px" width="1000" height="749" loading="lazy" decoding="async"
                alt="Batidos de fruta de colores en tarros de cristal con pajitas, sobre un fondo de palmeras.">
         </figure>
-        <div class="tile-wrap tile-wrap--2">
-          <span class="bear-slot tile__bear" data-bear="peek" data-peek></span>
-          <figure class="tile tile--2" data-tile data-from="right">
-            <img src="assets/img/g-zumo-rojo-600.webp" srcset="assets/img/g-zumo-rojo-600.webp 600w, assets/img/g-zumo-rojo-1000.webp 1000w"
-                 sizes="(max-width: 767px) 42vw, 25vw" width="600" height="900" loading="lazy" decoding="async"
-                 alt="Zumo natural de frutos rojos con pajita y hojas de menta.">
-          </figure>
-        </div>
-        <figure class="tile tile--3" data-tile data-from="left">
+        <figure class="deck__card" data-card>
           <img src="assets/img/g-acai-coco-600.webp" width="600" height="600" loading="lazy" decoding="async"
                alt="Bol de açaí servido en coco con granola, arándanos, frambuesas y flores.">
         </figure>
-        <figure class="tile tile--4" data-tile data-from="right">
+        <figure class="deck__card" data-card>
+          <img src="assets/img/g-zumo-rojo-600.webp" srcset="assets/img/g-zumo-rojo-600.webp 600w, assets/img/g-zumo-rojo-1000.webp 1000w"
+               sizes="(max-width: 767px) 84vw, 460px" width="600" height="900" loading="lazy" decoding="async"
+               alt="Zumo natural de frutos rojos con pajita y hojas de menta.">
+        </figure>
+        <figure class="deck__card" data-card>
           <img src="assets/img/g-tortitas-600.webp" srcset="assets/img/g-tortitas-600.webp 600w, assets/img/g-tortitas-1000.webp 1000w"
-               sizes="(max-width: 767px) 42vw, 25vw" width="600" height="800" loading="lazy" decoding="async"
+               sizes="(max-width: 767px) 84vw, 460px" width="600" height="800" loading="lazy" decoding="async"
                alt="Tortitas con melocotón asado, arándanos y azúcar glas.">
         </figure>
-        <figure class="tile tile--5" data-tile data-from="left">
+        <figure class="deck__card" data-card>
           <img src="assets/img/g-croissant-benedict-600.webp" srcset="assets/img/g-croissant-benedict-600.webp 600w, assets/img/g-croissant-benedict-1000.webp 1000w"
-               sizes="(max-width: 767px) 50vw, 25vw" width="600" height="901" loading="lazy" decoding="async"
+               sizes="(max-width: 767px) 84vw, 460px" width="600" height="901" loading="lazy" decoding="async"
                alt="Croissant relleno de huevos benedict con salsa holandesa y cebollino.">
         </figure>
       </div>
     </section>
 
-    <!-- ============ 3. CINEMA: pinned scroll story over the venue's own video and photo ============ -->
-    <section class="cinema" id="terraza" aria-labelledby="cinema-title" data-cinema>
-      <div class="cinema__stage" data-cinema-stage>
-        <div class="cinema__video" data-cinema-video>
-          <video muted loop playsinline preload="none" poster="assets/video/local-terraza-poster.webp" aria-hidden="true" tabindex="-1">
-            <source src="assets/video/local-terraza.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="cinema__photo" data-cinema-photo>
-          <picture>
-            <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/local-terraza-700.webp">
-            <img src="assets/img/local-terraza-1066.webp" width="1066" height="1600" loading="lazy" decoding="async"
-                 alt="Terraza de Bloom: mesas con sillas amarillas, sombrillas y plantas en la calle.">
-          </picture>
-        </div>
-        <div class="cinema__shade" aria-hidden="true"></div>
-
-        <!-- Two large photos, revealed by masks while "Café, brunch y calma" is on screen -->
-        <div class="cinema__pair" aria-hidden="true">
-          <figure class="cbig cbig--a" data-cbig><img src="assets/img/g-cafes-latte-1000.webp" width="1000" height="1501" loading="lazy" decoding="async" alt=""></figure>
-          <figure class="cbig cbig--b" data-cbig><img src="assets/img/g-coxinhas-1000.webp" width="1000" height="665" loading="lazy" decoding="async" alt=""></figure>
+    <!-- ============ 3. STORY: arch photo + stamp, a quote that lights up word by word ============ -->
+    <section class="story story--v2" id="concepto" aria-labelledby="story-title">
+      <div class="story__grid">
+        <div class="story__visual">
+          <figure class="story__arch" data-story-arch>
+            <img src="assets/img/g-osito-cafe-738.webp" width="738" height="732" loading="lazy" decoding="async"
+                 alt="El osito de Bloom sentado a la mesa con una taza de café con el logo y un dulce.">
+          </figure>
+          <figure class="story__stamp" data-story-stamp>
+            <img src="assets/img/g-local-sala-600.webp" width="600" height="889" loading="lazy" decoding="async"
+                 alt="Interior luminoso de Bloom en Vigo, con mesas y plantas.">
+          </figure>
+          <svg class="story__ring" viewBox="0 0 200 200" aria-hidden="true" data-spin>
+            <defs><path id="story-ring" d="M100 100 m-82 0 a82 82 0 1 1 164 0 a82 82 0 1 1 -164 0"/></defs>
+            <text><textPath href="#story-ring">Coffee · Brunch · Vigo · Coffee · Brunch · Vigo ·</textPath></text>
+          </svg>
         </div>
 
-        <h2 class="cinema__title cinema__title--a" id="cinema-title" data-cinema-text="a">Bienvenido <br>a Bloom</h2>
-        <h3 class="cinema__title cinema__title--b" data-cinema-text="b">Café, brunch <br>y calma</h3>
-        <h3 class="cinema__title cinema__title--c" data-cinema-text="c">Una terraza <br>para quedarse</h3>
-        <p class="cinema__caption" data-cinema-caption>Bloom Coffee &amp; Brunch · Vigo</p>
-        <div class="cinema__fade" aria-hidden="true" data-cinema-fade></div>
-      </div>
-    </section>
-
-    <!-- ============ 3. STORY: the bear and the venue, one shared text ============ -->
-    <section class="story" id="concepto" aria-labelledby="story-title" data-story>
-      <svg class="line-bloom story__bloom" viewBox="0 0 200 200" aria-hidden="true" data-bloom-line="1"><use href="#line-bloom"/></svg>
-      <div class="story__photos">
-        <figure class="story__photo story__photo--bear" data-story-photo>
-          <img src="assets/img/g-osito-cafe-738.webp" width="738" height="732" loading="lazy" decoding="async"
-               alt="El osito de Bloom sentado a la mesa con una taza de café con el logo y un dulce.">
-        </figure>
-        <figure class="story__photo story__photo--venue" data-story-photo>
-          <img src="assets/img/g-local-sala-1000.webp" width="1000" height="1481" loading="lazy" decoding="async"
-               alt="Interior luminoso de Bloom en Vigo, con mesas y plantas.">
-        </figure>
-        <span class="bear-slot story__bear" data-bear="sit"></span>
-      </div>
-
-      <div class="story__copy">
-        <h2 class="display" id="story-title" data-split>
-          <span>Nuestra</span> <span class="display__it">historia</span>
-        </h2>
-        <!-- TEMP COPY: the existing story text until the final version arrives -->
-        <p class="story__text" data-reveal>
-          Bloom Coffee nació de la pasión por el café, del cuidado por los detalles y de esos pequeños
-          momentos que merecen disfrutarse sin prisa. Un lugar donde cada taza cuenta una historia.
-        </p>
-        <p class="story__place" data-reveal>Calle Ángel Llanos 10, Vigo</p>
+        <div class="story__words">
+          <h2 class="story__title" id="story-title"><span class="story__caps">Nuestra</span> <span class="story__script">historia</span></h2>
+          <!-- TEMP COPY: the existing story text until the final version arrives -->
+          <blockquote class="story__quote" data-story-quote>Un lugar donde cada taza cuenta una historia.</blockquote>
+          <p class="story__body" data-reveal>Bloom Coffee nació de la pasión por el café, del cuidado por los detalles y de esos pequeños momentos que merecen disfrutarse sin prisa.</p>
+          <p class="story__place" data-reveal>Calle Ángel Llanos 10, Vigo</p>
+        </div>
       </div>
     </section>
 
@@ -371,7 +326,7 @@
       <div class="social" aria-labelledby="reel-title">
         <span class="social__glow" aria-hidden="true"></span>
         <h2 class="social__title" id="reel-title"><span data-social-title>Ayúdanos a crecer en Redes</span></h2>
-        <p class="social__lede" data-reveal>Síguenos, comparte tu visita y etiquétanos: cada foto nos ayuda a florecer.</p>
+        <p class="social__lede" data-reveal>Síguenos y etiquétanos: cada foto nos ayuda a florecer.</p>
         <ul class="social__list">
           <li><a class="social__link social__link--ig" href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener" data-social><span class="social__icon"><svg aria-hidden="true"><use href="#i-instagram"/></svg></span><span class="social__name">Instagram</span></a></li>
           <!-- TODO: real profile URL -->
@@ -391,6 +346,12 @@
 
     <!-- ============ 6. VISÍTANOS ============ -->
     <section class="visit" id="visitanos" aria-labelledby="visit-title">
+      <div class="visit__bg" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/local-terraza-700.webp">
+          <img src="assets/img/local-terraza-1066.webp" width="1066" height="1600" alt="" loading="lazy" decoding="async" data-visit-bg>
+        </picture>
+      </div>
       <span class="shape shape--blob visit__blob" aria-hidden="true" data-float="-1"></span>
       <div class="visit__info">
         <h2 class="display" id="visit-title" data-split><span class="display__it">Abierto</span></h2>
@@ -462,9 +423,8 @@
   <script defer src="lib/gsap.min.js"></script>
   <script defer src="lib/ScrollTrigger.min.js"></script>
   <script defer src="lib/SplitText.min.js"></script>
-  <script defer src="lib/Flip.min.js"></script>
   <script defer src="lib/CustomEase.min.js"></script>
   <script defer src="lib/lenis.min.js"></script>
-  <script defer src="main.js?v=20261106t"></script>
+  <script defer src="main.js?v=20261106w"></script>
 </body>
 </html>

@@ -270,47 +270,86 @@
   }
 
   /* =========================================================
-     Cinema: one pinned, scroll-scrubbed scene over the venue's own footage.
-     1 the video grows out of a portrait window (Flip) under "Bienvenido a Bloom"
-     2 photos drift in from every side at their own speed and depth, "Café, brunch y calma"
-     3 the terrace photo wipes up over the video, "Una terraza para quedarse", soft hand-off
+     Deck: the section holds while each photo rises from below and lands,
+     turning, on top of the pile; the ones underneath settle back a little.
      ========================================================= */
-  /* ---------- Mesa: caps words glide in opposite directions, the script writes itself,
-                photo tiles slide in from alternating sides with a directional mask ---------- */
-  function initMesa() {
-    var section = $(".mesa");
+  // final resting place of each card: [x %, y %, rotation]
+  var DECK_REST = [[-50, -46, -4], [-46, -48, 3], [-54, -47, -2], [-47, -45, 4], [-51, -48, -1]];
+
+  function initDeck() {
+    var section = $(".deck");
     if (!section) return;
+    var stage = $("[data-deck]", section);
+    var cards = $$("[data-card]", section);
     var mm = gsap.matchMedia();
     mm.add({ isMobile: "(max-width: 899px)", motion: "(prefers-reduced-motion: no-preference)" }, function (ctx) {
       var c = ctx.conditions;
       if (!c.motion) return;
-      var band = $(".mesa__band", section);
+      section.classList.add("is-live");
 
-      $$("[data-mesa-slide]", section).forEach(function (el) {
-        var d = parseFloat(el.getAttribute("data-mesa-slide"));
-        gsap.fromTo(el, { xPercent: d * 12 }, { xPercent: d * -6, ease: "none",
-          scrollTrigger: { trigger: band, start: "top bottom", end: "bottom top", scrub: 0.6 } });
+      cards.forEach(function (card, i) {
+        var r = DECK_REST[i] || DECK_REST[0];
+        gsap.set(card, { xPercent: r[0], yPercent: r[1] + (i ? 240 : 0), rotation: i ? (i % 2 ? 14 : -14) : r[2], zIndex: i + 1 });
       });
 
-      var script = $("[data-mesa-script]", section);
-      gsap.fromTo(script, { clipPath: "inset(-40% 100% -40% -20%)", rotation: -12, scale: 0.9 },
-        { clipPath: "inset(-40% -20% -40% -20%)", rotation: -6, scale: 1, duration: 1.6, ease: "power2.inOut",
-          scrollTrigger: { trigger: script, start: "top 80%", once: true } });
-
-      $$("[data-tile]", section).forEach(function (tile, i) {
-        var left = tile.getAttribute("data-from") === "left";
-        var img = $("img", tile);
-        gsap.fromTo(tile,
-          { xPercent: left ? -45 : 45, clipPath: left ? "inset(0% 100% 0% 0%)" : "inset(0% 0% 0% 100%)" },
-          { xPercent: 0, clipPath: "inset(0% 0% 0% 0%)", ease: "bloom",
-            scrollTrigger: { trigger: tile, start: "top 95%", end: c.isMobile ? "top 55%" : "top 60%", scrub: 0.7 } });
-        gsap.fromTo(img, { scale: 1.3 }, { scale: 1, ease: "none",
-          scrollTrigger: { trigger: tile, start: "top bottom", end: "bottom top", scrub: true } });
-        // different depths so the mosaic breathes as you scroll
-        var depth = [0, 50, -30, 40, -20][i] || 0;
-        if (depth) gsap.fromTo(tile, { y: depth }, { y: -depth, ease: "none",
-          scrollTrigger: { trigger: tile, start: "top bottom", end: "bottom top", scrub: true } });
+      var tl = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          trigger: stage,
+          start: "top top",
+          end: function () { return "+=" + (cards.length - 1) * (c.isMobile ? 70 : 80) + "%"; },
+          pin: true,
+          scrub: 0.8,
+          anticipatePin: 1,
+          invalidateOnRefresh: true
+        }
       });
+
+      // first card: a soft zoom-in so the pile does not start static
+      tl.fromTo($("img", cards[0]), { scale: 1.25 }, { scale: 1, duration: 1 }, 0);
+
+      cards.forEach(function (card, i) {
+        if (!i) return;
+        var r = DECK_REST[i] || DECK_REST[0];
+        var at = i - 1;
+        // the new card rises and lands with a turn
+        tl.to(card, { yPercent: r[1], rotation: r[2], duration: 1, ease: "bloom" }, at)
+          .fromTo($("img", card), { scale: 1.3 }, { scale: 1, duration: 1 }, at);
+        // the cards underneath settle back
+        cards.slice(0, i).forEach(function (under, k) {
+          var depth = i - k;
+          tl.to(under, { scale: 1 - depth * 0.05, yPercent: (DECK_REST[k] || DECK_REST[0])[1] - depth * 4, duration: 1 }, at);
+        });
+      });
+
+      return function () { section.classList.remove("is-live"); };
+    });
+  }
+
+  /* ---------- Story: the arch opens, the stamp turns in, the quote lights up word by word ---------- */
+  function initStory() {
+    var section = $(".story--v2");
+    if (!section) return;
+    var quote = $("[data-story-quote]", section);
+    var mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", function () {
+      var arch = $("[data-story-arch]", section);
+      var stamp = $("[data-story-stamp]", section);
+      gsap.fromTo(arch, { clipPath: "inset(100% 0% 0% 0% round 999px 999px 24px 24px)" },
+        { clipPath: "inset(0% 0% 0% 0% round 999px 999px 24px 24px)", ease: "power2.out",
+          scrollTrigger: { trigger: arch, start: "top 85%", end: "top 35%", scrub: 0.7 } });
+      gsap.fromTo($("img", arch), { scale: 1.3 }, { scale: 1, ease: "none",
+        scrollTrigger: { trigger: arch, start: "top bottom", end: "bottom top", scrub: true } });
+      gsap.fromTo(stamp, { scale: 0.4, rotation: -40, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, ease: "back.out(1.6)",
+        scrollTrigger: { trigger: stamp, start: "top 95%", end: "top 60%", scrub: 0.7 } });
+      gsap.fromTo(stamp, { y: 40 }, { y: -40, ease: "none",
+        scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: true } });
+
+      if (quote && window.SplitText) {
+        var split = SplitText.create(quote, { type: "words", wordsClass: "word" });
+        gsap.fromTo(split.words, { opacity: 0.14 }, { opacity: 1, stagger: 0.1, ease: "none",
+          scrollTrigger: { trigger: quote, start: "top 80%", end: "bottom 45%", scrub: true } });
+      }
     });
   }
 
@@ -319,7 +358,7 @@
     var mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", function () {
       var dims = [];
-      $$(".hero, .mesa, .story, .menu-cover, .reel, .visit").forEach(function (sec) {
+      $$(".hero, .story, .menu-cover, .reel, .visit").forEach(function (sec) {
         var dim = document.createElement("span");
         dim.className = "stack-dim";
         dim.setAttribute("aria-hidden", "true");
@@ -344,105 +383,11 @@
 
     // section photos drift slower than the page (depth)
     mm.add("(prefers-reduced-motion: no-preference)", function () {
-      $$("[data-sec-bg]").forEach(function (img) {
+      $$("[data-sec-bg], [data-visit-bg]").forEach(function (img) {
         var sec = img.closest("section");
         gsap.fromTo(img, { yPercent: -5, scale: 1.08 }, { yPercent: 5, scale: 1, ease: "none",
           scrollTrigger: { trigger: sec, start: "top bottom", end: "bottom top", scrub: true } });
       });
-    });
-  }
-
-  function initCinema() {
-    var section = $("[data-cinema]");
-    if (!section) return;
-    var stage = $("[data-cinema-stage]", section);
-    var videoBox = $("[data-cinema-video]", section);
-    var video = $("video", videoBox);
-    var photo = $("[data-cinema-photo]", section);
-
-    // Play the footage only while the scene is on screen
-    if (video && "IntersectionObserver" in window && !reduceMotion) {
-      new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (en.isIntersecting) { video.preload = "auto"; var p = video.play(); if (p && p.catch) p.catch(function () {}); }
-          else video.pause();
-        });
-      }, { rootMargin: "200px 0px" }).observe(section);
-    }
-
-    var mm = gsap.matchMedia();
-    mm.add({ isMobile: "(max-width: 899px)", motion: "(prefers-reduced-motion: no-preference)" }, function (ctx) {
-      var c = ctx.conditions;
-      if (!c.motion) return;
-      section.classList.add("is-live");
-
-      var tA = $("[data-cinema-text='a']", section);
-      var tB = $("[data-cinema-text='b']", section);
-      var tC = $("[data-cinema-text='c']", section);
-      var splitA = hasSplit ? SplitText.create(tA, { type: "chars,words", mask: "words" }) : null;
-      var splitB = hasSplit ? SplitText.create(tB, { type: "words", mask: "words" }) : null;
-      var splitC = hasSplit ? SplitText.create(tC, { type: "chars,words", mask: "words" }) : null;
-      var charsA = splitA ? splitA.chars : [tA];
-      var wordsB = splitB ? splitB.words : [tB];
-      var charsC = splitC ? splitC.chars : [tC];
-
-      var tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: stage,
-          start: "top top",
-          end: c.isMobile ? "+=380%" : "+=440%",
-          pin: true,
-          scrub: 0.8,
-          anticipatePin: 1,
-          refreshPriority: 1,
-          onLeave: function () { section.classList.add("is-done"); },
-          onEnterBack: function () { section.classList.remove("is-done"); }
-        }
-      });
-
-      // 1. The video grows from a portrait window into the full frame (Flip), title A writes in
-      if (window.Flip) {
-        videoBox.classList.add("is-card");
-        var state = Flip.getState(videoBox, { props: "borderRadius" });
-        videoBox.classList.remove("is-card");
-        tl.add(Flip.from(state, { duration: 1, ease: "bloom", absolute: true, props: "borderRadius" }), 0);
-      }
-      tl.fromTo($("video", videoBox), { scale: 1.3 }, { scale: 1.06, duration: 1.4, ease: "power1.out" }, 0)
-        .fromTo(charsA, { yPercent: 115, rotation: 6 }, { yPercent: 0, rotation: 0, duration: 0.5, stagger: 0.025, ease: "bloom" }, 0.15)
-        .to(charsA, { yPercent: -115, opacity: 0, duration: 0.35, stagger: 0.015, ease: "power2.in" }, 1.15);
-
-      // 2. Two large photos: the portrait rises out of a mask, the landscape slides in from the right
-      var big = $$("[data-cbig]", section);
-      if (big[0]) {
-        tl.fromTo(big[0], { clipPath: "inset(100% 0% 0% 0%)", y: 60 }, { clipPath: "inset(0% 0% 0% 0%)", y: 0, duration: 0.7, ease: "bloom" }, 1.05)
-          .fromTo($("img", big[0]), { scale: 1.3 }, { scale: 1, duration: 1.4 }, 1.05)
-          .to(big[0], { y: -40, duration: 0.8 }, 1.75)
-          .to(big[0], { clipPath: "inset(0% 0% 100% 0%)", duration: 0.55, ease: "power2.in" }, 2.35);
-      }
-      if (big[1]) {
-        tl.fromTo(big[1], { clipPath: "inset(0% 0% 0% 100%)", x: 40 }, { clipPath: "inset(0% 0% 0% 0%)", x: 0, duration: 0.7, ease: "bloom" }, 1.3)
-          .fromTo($("img", big[1]), { scale: 1.3, xPercent: 6 }, { scale: 1, xPercent: 0, duration: 1.3 }, 1.3)
-          .to(big[1], { y: 30, duration: 0.8 }, 1.95)
-          .to(big[1], { clipPath: "inset(0% 100% 0% 0%)", duration: 0.55, ease: "power2.in" }, 2.45);
-      }
-      tl.fromTo(wordsB, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.45, stagger: 0.08, ease: "bloom" }, 1.5)
-        .to(tB, { opacity: 0, filter: "blur(10px)", scale: 1.06, duration: 0.4 }, 2.35);
-
-      // 3. The terrace photo wipes up over the video; the video zooms away beneath it
-      tl.fromTo(photo, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.8, ease: "power2.inOut" }, 2.55)
-        .fromTo($("img", photo), { scale: 1.35, yPercent: 6 }, { scale: 1.04, yPercent: 0, duration: 1.5, ease: "power1.out" }, 2.55)
-        .to(videoBox, { scale: 1.15, opacity: 0.4, duration: 0.8 }, 2.55)
-        .fromTo(charsC, { yPercent: 115, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, stagger: 0.02, ease: "bloom" }, 3.1)
-        .fromTo("[data-cinema-caption]", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3 }, 3.45)
-        // hand-off: soft pastel fade at the foot of the frame into the story below
-        .to("[data-cinema-fade]", { opacity: 1, duration: 0.45 }, 3.75)
-        .to([tC, "[data-cinema-caption]"], { yPercent: -18, opacity: 0, duration: 0.45 }, 3.8);
-
-      // caption starts hidden in the live version
-      gsap.set("[data-cinema-caption]", { opacity: 0 });
-
-      return function () { section.classList.remove("is-live"); };
     });
   }
 
@@ -845,7 +790,7 @@
 
     if (!hasGsap) { safe(initHours, "hours"); safe(initBears, "bears"); revealAll(); return; }
 
-    gsap.registerPlugin.apply(gsap, [ScrollTrigger, window.SplitText, window.Flip, window.CustomEase].filter(Boolean));
+    gsap.registerPlugin.apply(gsap, [ScrollTrigger, window.SplitText, window.CustomEase].filter(Boolean));
     // House ease: a fast start that settles softly, like a flower opening
     if (window.CustomEase) CustomEase.create("bloom", "M0,0 C0.16,0.78 0.22,1 1,1");
     else gsap.registerEase("bloom", gsap.parseEase("expo.out"));
@@ -856,7 +801,7 @@
     safe(initBear, "bear"); // hero bear sits on the first screen
     revealAll();
 
-    var queue = [[initSmoothScroll, "lenis"], [initGlow, "glow"], [initBears, "bears"], [initSections, "sections"], [initMesa, "mesa"], [initCinema, "cinema"], [initStack, "stack"], [initHours, "hours"]];
+    var queue = [[initSmoothScroll, "lenis"], [initGlow, "glow"], [initBears, "bears"], [initSections, "sections"], [initDeck, "deck"], [initStory, "story"], [initStack, "stack"], [initHours, "hours"]];
     var next = function () {
       var job = queue.shift();
       if (!job) { ScrollTrigger.refresh(); return; }
