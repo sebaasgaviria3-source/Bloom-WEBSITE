@@ -21,8 +21,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Fonts load without blocking the first paint (text shows in the fallback, then swaps) -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Allison&family=Jost:wght@400;500;600&family=Tilt+Neon&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allison&family=Jost:wght@400;500;600&family=Tilt+Neon&display=swap"></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Allison&family=Jost:wght@400;500;600;800&family=Tilt+Neon&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allison&family=Jost:wght@400;500;600;800&family=Tilt+Neon&display=swap"></noscript>
 
   <link rel="preload" as="image" type="image/webp"
         href="assets/img/hero-brunch-portrait-900.webp"
@@ -33,7 +33,7 @@
         imagesrcset="assets/img/hero-brunch-1200.webp 1200w, assets/img/hero-brunch-1600.webp 1600w"
         imagesizes="100vw" media="(min-width: 768px)">
 
-  <link rel="stylesheet" href="styles.css?v=20261106m">
+  <link rel="stylesheet" href="styles.css?v=20261106o">
 
   <script type="application/ld+json">
   {
@@ -241,12 +241,6 @@
 
     <!-- ============ 2. FAVOURITES: editorial photo composition ============ -->
     <section class="favs" id="favoritos" aria-labelledby="favs-title">
-      <div class="sec-bg" aria-hidden="true">
-        <picture>
-          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/detail-table-portrait-840.webp">
-          <img src="assets/img/detail-table-1600.webp" width="1600" height="480" alt="" loading="lazy" decoding="async" data-sec-bg>
-        </picture>
-      </div>
       <!-- Background: pastel mesh + large line-drawn blooms that drift against the photos -->
       <div class="favs__bg" aria-hidden="true">
         <span class="favs__glow favs__glow--a" data-glow-drift></span>
@@ -285,17 +279,6 @@
           <img src="assets/img/g-acai-coco-600.webp" width="600" height="600" loading="lazy" decoding="async"
                alt="Bol de açaí servido en coco con granola, arándanos, frambuesas y flores.">
         </figure>
-        <figure class="ph ph--tortitas" data-photo data-depth="-0.3">
-          <img src="assets/img/g-tortitas-600.webp" srcset="assets/img/g-tortitas-600.webp 600w, assets/img/g-tortitas-1000.webp 1000w"
-               sizes="(max-width: 767px) 50vw, 28vw" width="600" height="800" loading="lazy" decoding="async"
-               alt="Tortitas con melocotón asado, arándanos y azúcar glas.">
-        </figure>
-        <figure class="ph ph--croissant" data-photo data-depth="0.4">
-          <img src="assets/img/g-croissant-benedict-600.webp" srcset="assets/img/g-croissant-benedict-600.webp 600w, assets/img/g-croissant-benedict-1000.webp 1000w"
-               sizes="(max-width: 767px) 46vw, 24vw" width="600" height="901" loading="lazy" decoding="async"
-               alt="Croissant relleno de huevos benedict con salsa holandesa y cebollino.">
-        </figure>
-        <p class="sticker favs__sticker" aria-hidden="true" data-float="1">¡hola!</p>
       </div>
     </section>
 
@@ -316,14 +299,10 @@
         </div>
         <div class="cinema__shade" aria-hidden="true"></div>
 
-        <!-- Floating photos: each has its own path, speed, turn and depth (set in main.js) -->
-        <div class="cinema__floats" aria-hidden="true">
-          <figure class="cfloat cfloat--1 is-front" data-cfloat><img src="assets/img/g-helado-600.webp" width="600" height="1067" loading="lazy" decoding="async" alt=""></figure>
-          <figure class="cfloat cfloat--2" data-cfloat><img src="assets/img/g-cafes-latte-600.webp" width="600" height="901" loading="lazy" decoding="async" alt=""></figure>
-          <figure class="cfloat cfloat--3 is-front" data-cfloat><img src="assets/img/g-coxinhas-600.webp" width="600" height="399" loading="lazy" decoding="async" alt=""></figure>
-          <figure class="cfloat cfloat--4" data-cfloat><img src="assets/img/g-tostada-bacon-600.webp" width="600" height="901" loading="lazy" decoding="async" alt=""></figure>
-          <figure class="cfloat cfloat--5" data-cfloat><img src="assets/img/g-bollo-crema-600.webp" width="600" height="901" loading="lazy" decoding="async" alt=""></figure>
-          <figure class="cfloat cfloat--6 is-front" data-cfloat><img src="assets/img/g-pasteis-600.webp" width="600" height="400" loading="lazy" decoding="async" alt=""></figure>
+        <!-- Two large photos, revealed by masks while "Café, brunch y calma" is on screen -->
+        <div class="cinema__pair" aria-hidden="true">
+          <figure class="cbig cbig--a" data-cbig><img src="assets/img/g-cafes-latte-1000.webp" width="1000" height="1501" loading="lazy" decoding="async" alt=""></figure>
+          <figure class="cbig cbig--b" data-cbig><img src="assets/img/g-coxinhas-1000.webp" width="1000" height="665" loading="lazy" decoding="async" alt=""></figure>
         </div>
 
         <h2 class="cinema__title cinema__title--a" id="cinema-title" data-cinema-text="a">Bienvenido <br>a Bloom</h2>
@@ -336,12 +315,6 @@
 
     <!-- ============ 3. STORY: the bear and the venue, one shared text ============ -->
     <section class="story" id="concepto" aria-labelledby="story-title" data-story>
-      <div class="sec-bg" aria-hidden="true">
-        <picture>
-          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/venue-barra-portrait-717.webp">
-          <img src="assets/img/venue-barra-1195.webp" width="1195" height="896" alt="" loading="lazy" decoding="async" data-sec-bg>
-        </picture>
-      </div>
       <svg class="line-bloom story__bloom" viewBox="0 0 200 200" aria-hidden="true" data-bloom-line="1"><use href="#line-bloom"/></svg>
       <div class="story__photos">
         <figure class="story__photo story__photo--bear" data-story-photo>
@@ -370,12 +343,6 @@
 
     <!-- ============ 4. MENÚ: one photo + label (the full menu arrives later) ============ -->
     <section class="menu-cover" id="carta" aria-labelledby="menu-title">
-      <div class="sec-bg sec-bg--blur" aria-hidden="true">
-        <picture>
-          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/menu-desayuno-800.webp">
-          <img src="assets/img/menu-desayuno-1200.webp" width="1200" height="1200" alt="" loading="lazy" decoding="async" data-sec-bg>
-        </picture>
-      </div>
       <div class="menu-cover__frame" data-menu-frame>
         <picture>
           <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/menu-desayuno-800.webp">
@@ -400,12 +367,6 @@
 
     <!-- ============ 5. GALLERY: two reels moving with the scroll ============ -->
     <section class="reel" id="galeria" aria-labelledby="reel-title">
-      <div class="sec-bg" aria-hidden="true">
-        <picture>
-          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/g-batidos-600.webp">
-          <img src="assets/img/g-batidos-1000.webp" width="1000" height="749" alt="" loading="lazy" decoding="async" data-sec-bg>
-        </picture>
-      </div>
       <div class="social" aria-labelledby="reel-title">
         <span class="social__glow" aria-hidden="true"></span>
         <h2 class="social__title" id="reel-title"><span data-social-title>Ayúdanos a crecer en Redes</span></h2>
@@ -424,33 +385,11 @@
         </ul>
       </div>
 
-      <div class="reel__row" data-reel="-1">
-        <figure class="reel__item reel__item--tall"><img src="assets/img/g-hamburguesa-600.webp" width="600" height="400" loading="lazy" decoding="async" alt="Hamburguesa con huevo, bacon y brotes, servida con cubiertos dorados."></figure>
-        <figure class="reel__item"><img src="assets/img/g-helado-600.webp" width="600" height="1067" loading="lazy" decoding="async" alt="Helado artesano en cucurucho con galleta."></figure>
-        <figure class="reel__item reel__item--wide"><img src="assets/img/g-pasteis-600.webp" width="600" height="400" loading="lazy" decoding="async" alt="Pastéis brasileños dorados servidos en una fuente."></figure>
-        <figure class="reel__item"><img src="assets/img/g-zumo-rojo-600.webp" width="600" height="900" loading="lazy" decoding="async" alt="Zumo natural de frutos rojos con menta."></figure>
-        <figure class="reel__item reel__item--tall"><img src="assets/img/g-coxinhas-600.webp" width="600" height="399" loading="lazy" decoding="async" alt="Coxinhas recién fritas con salsa."></figure>
-        <figure class="reel__item reel__item--wide"><img src="assets/img/g-batidos-600.webp" width="600" height="450" loading="lazy" decoding="async" alt="Batidos de fruta de colores en tarros de cristal."></figure>
-      </div>
-      <div class="reel__row" data-reel="1">
-        <figure class="reel__item"><img src="assets/img/g-bollo-crema-600.webp" width="600" height="901" loading="lazy" decoding="async" alt="Bollo brioche relleno de crema con azúcar glas."></figure>
-        <figure class="reel__item reel__item--wide"><img src="assets/img/g-tostada-bacon-600.webp" width="600" height="901" loading="lazy" decoding="async" alt="Tostada con bacon crujiente y sirope."></figure>
-        <figure class="reel__item reel__item--tall"><img src="assets/img/g-desayuno-600.webp" width="600" height="600" loading="lazy" decoding="async" alt="Desayuno con café, zumo de naranja y tostada con tomate."></figure>
-        <figure class="reel__item"><img src="assets/img/g-tortilla-600.webp" width="600" height="901" loading="lazy" decoding="async" alt="Porción de tortilla de patata con alioli y pimentón."></figure>
-        <figure class="reel__item reel__item--wide"><img src="assets/img/g-bizcocho-600.webp" width="600" height="901" loading="lazy" decoding="async" alt="Bizcocho casero espolvoreado con azúcar glas."></figure>
-        <figure class="reel__item"><img src="assets/img/g-osito-cafe-738.webp" width="738" height="732" loading="lazy" decoding="async" alt="El osito de Bloom con una taza de café."></figure>
-      </div>
       <span class="bear-slot reel__bear" data-bear="peek" data-peek></span>
     </section>
 
     <!-- ============ 6. VISÍTANOS ============ -->
     <section class="visit" id="visitanos" aria-labelledby="visit-title">
-      <div class="sec-bg" aria-hidden="true">
-        <picture>
-          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/local-terraza-700.webp">
-          <img src="assets/img/local-terraza-1066.webp" width="1066" height="1600" alt="" loading="lazy" decoding="async" data-sec-bg>
-        </picture>
-      </div>
       <span class="shape shape--blob visit__blob" aria-hidden="true" data-float="-1"></span>
       <div class="visit__info">
         <h2 class="display" id="visit-title" data-split><span class="display__it">Abierto</span></h2>
@@ -525,6 +464,6 @@
   <script defer src="lib/Flip.min.js"></script>
   <script defer src="lib/CustomEase.min.js"></script>
   <script defer src="lib/lenis.min.js"></script>
-  <script defer src="main.js?v=20261106m"></script>
+  <script defer src="main.js?v=20261106o"></script>
 </body>
 </html>

@@ -275,16 +275,6 @@
      2 photos drift in from every side at their own speed and depth, "Café, brunch y calma"
      3 the terrace photo wipes up over the video, "Una terraza para quedarse", soft hand-off
      ========================================================= */
-  // [enter from x, y (vw/vh), rotation] -> [rest rotation] -> [exit to x, y, rotation]
-  var CFLOATS = [
-    { from: [-70, 10, -14], rest: -5, to: [-20, -90, -12], speed: 1.0 },
-    { from: [60, -40, 12], rest: 4, to: [70, -20, 16], speed: 1.25 },
-    { from: [-30, 80, 8], rest: 3, to: [-80, 30, -6], speed: 0.85 },
-    { from: [70, 50, -10], rest: -3, to: [30, 90, 8], speed: 1.15 },
-    { from: [0, -90, 18], rest: 7, to: [-10, -100, 20], speed: 1.35 },
-    { from: [40, 90, -8], rest: -2, to: [80, 40, -14], speed: 0.95 }
-  ];
-
   /* ---------- Stacked sections: each section holds while the next slides up over it ---------- */
   function initStack() {
     var mm = gsap.matchMedia();
@@ -330,7 +320,6 @@
     var videoBox = $("[data-cinema-video]", section);
     var video = $("video", videoBox);
     var photo = $("[data-cinema-photo]", section);
-    var floats = $$("[data-cfloat]", section);
 
     // Play the footage only while the scene is on screen
     if (video && "IntersectionObserver" in window && !reduceMotion) {
@@ -357,7 +346,6 @@
       var charsA = splitA ? splitA.chars : [tA];
       var wordsB = splitB ? splitB.words : [tB];
       var charsC = splitC ? splitC.chars : [tC];
-      var visibleFloats = floats.filter(function (f) { return f.offsetParent !== null; });
 
       var tl = gsap.timeline({
         defaults: { ease: "none" },
@@ -385,19 +373,20 @@
         .fromTo(charsA, { yPercent: 115, rotation: 6 }, { yPercent: 0, rotation: 0, duration: 0.5, stagger: 0.025, ease: "bloom" }, 0.15)
         .to(charsA, { yPercent: -115, opacity: 0, duration: 0.35, stagger: 0.015, ease: "power2.in" }, 1.15);
 
-      // 2. Floating photos: every one on its own path, speed and turn; some pass in front of the words
-      visibleFloats.forEach(function (f, i) {
-        var cfg = CFLOATS[i] || CFLOATS[0];
-        var inAt = 1.05 + i * 0.09;
-        var hold = 0.75 / cfg.speed;
-        tl.fromTo(f,
-          { x: cfg.from[0] + "vw", y: cfg.from[1] + "vh", rotation: cfg.from[2], scale: 0.85, opacity: 0 },
-          { x: 0, y: 0, rotation: cfg.rest, scale: 1, opacity: 1, duration: 0.7 / cfg.speed, ease: "bloom" }, inAt)
-          // slow drift while on screen (depth: faster ones travel further)
-          .to(f, { y: (-6 * cfg.speed) + "vh", duration: hold }, inAt + 0.7 / cfg.speed)
-          .to(f, { x: cfg.to[0] + "vw", y: cfg.to[1] + "vh", rotation: cfg.to[2], scale: 0.9, opacity: 0, duration: 0.6 / cfg.speed, ease: "power2.in" }, 2.35 + i * 0.07)
-          .fromTo($("img", f), { scale: 1.25 }, { scale: 1, duration: 1.4 }, inAt);
-      });
+      // 2. Two large photos: the portrait rises out of a mask, the landscape slides in from the right
+      var big = $$("[data-cbig]", section);
+      if (big[0]) {
+        tl.fromTo(big[0], { clipPath: "inset(100% 0% 0% 0%)", y: 60 }, { clipPath: "inset(0% 0% 0% 0%)", y: 0, duration: 0.7, ease: "bloom" }, 1.05)
+          .fromTo($("img", big[0]), { scale: 1.3 }, { scale: 1, duration: 1.4 }, 1.05)
+          .to(big[0], { y: -40, duration: 0.8 }, 1.75)
+          .to(big[0], { clipPath: "inset(0% 0% 100% 0%)", duration: 0.55, ease: "power2.in" }, 2.35);
+      }
+      if (big[1]) {
+        tl.fromTo(big[1], { clipPath: "inset(0% 0% 0% 100%)", x: 40 }, { clipPath: "inset(0% 0% 0% 0%)", x: 0, duration: 0.7, ease: "bloom" }, 1.3)
+          .fromTo($("img", big[1]), { scale: 1.3, xPercent: 6 }, { scale: 1, xPercent: 0, duration: 1.3 }, 1.3)
+          .to(big[1], { y: 30, duration: 0.8 }, 1.95)
+          .to(big[1], { clipPath: "inset(0% 100% 0% 0%)", duration: 0.55, ease: "power2.in" }, 2.45);
+      }
       tl.fromTo(wordsB, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.45, stagger: 0.08, ease: "bloom" }, 1.5)
         .to(tB, { opacity: 0, filter: "blur(10px)", scale: 1.06, duration: 0.4 }, 2.35);
 
@@ -439,7 +428,12 @@
         gsap.fromTo(h._split.words, { yPercent: 110, rotation: 4 }, {
           yPercent: 0, rotation: 0, duration: 1.1, stagger: 0.08, ease: "bloom",
           scrollTrigger: { trigger: h, start: "top 88%", once: true },
-          onStart: function () { h.classList.add("neon-flicker"); }
+          onStart: function () {
+            $$(".display__it", h).forEach(function (w) {
+              w.classList.add("neon-flicker");
+              setTimeout(function () { w.classList.remove("neon-flicker"); w.classList.add("is-lit"); }, 1200);
+            });
+          }
         });
       });
 
@@ -723,7 +717,6 @@
             .fromTo(panels, { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: 0.7, stagger: 0.07, ease: "expo.inOut" }, 0)
             .fromTo(".menu__previews", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0.45)
             .fromTo(allChars(), { yPercent: 120, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.8, stagger: 0.018 }, 0.45)
-            .add(function () { words.forEach(function (w) { w.classList.remove("neon-flicker"); void w.offsetWidth; w.classList.add("neon-flicker"); }); }, 0.6)
             .fromTo(".menu__foot > *", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.06 }, 0.75);
         }
         if (links[0]) links[0].focus({ preventScroll: true });

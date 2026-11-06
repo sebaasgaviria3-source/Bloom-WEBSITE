@@ -1374,3 +1374,165 @@ body.is-locked { overflow: hidden; }
 .ticker__track span, .ticker__track b { font-size: var(--t-18); }
 @media (min-width: 1100px) { .ticker__track span, .ticker__track b { font-size: var(--t-24); } }
 .story__place { color: #DDF8FF; }
+
+/* =========================================================
+   11. Pastel-first refinement (reference: the pastel version)
+   Pastels lead; neon is an accent only (pink + lilac), on a few lit words.
+   Type: Jost ExtraBold headlines, Jost text, Tilt Neon only for lit words,
+   Allison only for the logo script.
+   ========================================================= */
+:root {
+  --sage: #E4EEDF;
+  --sage-2: #D3E4CE;
+  --lilac: #E9DDF7;
+  --neon-pink: #E0287A;      /* tube colour that still reads on pastel (AA large) */
+  --neon-pink-glow: 255, 62, 145;
+  --neon-lilac: #7A3FD6;
+  --neon-lilac-glow: 160, 100, 255;
+}
+
+/* ---- headlines: strong, editorial, cocoa ---- */
+.display,
+.cinema__title,
+.menu-label__word,
+.hero__headline,
+.menu__word {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -.025em;
+  text-shadow: none;
+}
+.display { color: var(--cocoa); line-height: 1; }
+.hero__headline { color: var(--cocoa); letter-spacing: -.01em; }
+.menu-label__word { color: var(--berry-deep); }
+.cinema__title { color: #fff; text-shadow: 0 6px 40px rgba(20, 8, 14, .45); }
+
+/* ---- the lit words: a real neon tube, used sparingly ---- */
+.display__it {
+  font-family: var(--font-neon);
+  font-weight: 400;
+  letter-spacing: .01em;
+  color: var(--neon-pink);
+  text-shadow:
+    0 0 1px rgba(255, 255, 255, .9),
+    0 0 6px rgba(var(--neon-pink-glow), .55),
+    0 0 16px rgba(var(--neon-pink-glow), .38),
+    0 0 34px rgba(var(--neon-pink-glow), .22);
+}
+.story .display__it {
+  color: var(--neon-lilac);
+  text-shadow:
+    0 0 1px rgba(255, 255, 255, .9),
+    0 0 6px rgba(var(--neon-lilac-glow), .55),
+    0 0 16px rgba(var(--neon-lilac-glow), .38),
+    0 0 34px rgba(var(--neon-lilac-glow), .22);
+}
+@keyframes neon-breathe { 0%, 100% { opacity: 1; } 50% { opacity: .82; } }
+.display__it.is-lit { animation: neon-breathe 4.5s ease-in-out infinite; }
+
+/* ---- small text back to cocoa on pastel ---- */
+.favs .lede, .story__text, .social__lede, .visit__list { color: var(--cocoa); text-shadow: none; }
+.story__place { color: var(--lavender-ink); }
+.visit__list svg { color: var(--accent); }
+.visit__list a { color: var(--berry-deep); text-decoration-color: var(--rose-light); }
+.visit__list a:hover { color: var(--accent); }
+.social__name { color: var(--cocoa); }
+.line-bloom { color: rgba(181, 80, 122, .22); }
+.story__bloom { color: rgba(106, 76, 147, .16); }
+
+/* ---- pastel sections: one hue family each ---- */
+.favs {
+  background:
+    radial-gradient(60% 30% at 88% 22%, rgba(216, 203, 240, .8), transparent 70%),
+    radial-gradient(55% 28% at 6% 56%, rgba(255, 214, 196, .8), transparent 70%),
+    linear-gradient(180deg, var(--cream) 0%, #FBF1F6 50%, var(--lavender) 100%);
+}
+.story {
+  background:
+    radial-gradient(70% 45% at 15% 20%, rgba(216, 203, 240, .85), transparent 70%),
+    radial-gradient(60% 40% at 90% 75%, rgba(255, 214, 196, .8), transparent 70%),
+    linear-gradient(165deg, var(--lavender) 0%, var(--blush-3) 48%, var(--peach) 100%);
+}
+.menu-cover { background: linear-gradient(180deg, var(--peach) 0%, var(--pastel-pink) 45%, var(--pink-bg) 100%); }
+.reel { background: linear-gradient(180deg, var(--pink-bg) 0%, var(--lilac) 100%); padding-bottom: 120px; }
+.visit { background: linear-gradient(165deg, var(--sage) 0%, var(--cream) 60%, var(--blush-3) 100%); }
+.visit__blob { display: block; background: var(--sage-2); opacity: .7; }
+.favs, .cinema, .story, .menu-cover, .reel, .visit, .site-footer { box-shadow: 0 -24px 50px -26px rgba(74, 36, 51, .25); }
+.stack-dim { background: rgba(255, 249, 246, .65); }
+.cinema__fade { background: linear-gradient(180deg, rgba(239, 231, 250, 0), var(--lavender)); }
+
+/* ---- favourites: three large photos ---- */
+.favs__grid { padding-bottom: 20px; }
+.ph--batidos { grid-row: 1; }
+.ph-wrap--zumo { grid-row: 2; }
+.ph--acai { grid-row: 2; width: auto; }
+@media (min-width: 900px) {
+  .ph--batidos { grid-column: 1 / 8; grid-row: 1 / 3; }
+  .ph-wrap--zumo { grid-column: 9 / 12; grid-row: 1; margin-top: 10%; }
+  .ph--acai { grid-column: 7 / 10; grid-row: 2; margin: -12% 0 0; }
+}
+
+/* ---- social: script slogan lit in pink, softly ---- */
+.social__title {
+  color: var(--neon-pink);
+  text-shadow: 0 0 1px rgba(255, 255, 255, .9), 0 0 8px rgba(var(--neon-pink-glow), .5), 0 0 22px rgba(var(--neon-pink-glow), .3);
+}
+.social__glow { opacity: .8; }
+
+/* ---- cinema: two large photos, no scatter ---- */
+.cinema__pair { position: absolute; inset: 0; z-index: 4; display: none; pointer-events: none; }
+.cinema.is-live .cinema__pair { display: block; }
+.cbig { position: absolute; margin: 0; overflow: hidden; box-shadow: 0 50px 80px -40px rgba(0, 0, 0, .7); will-change: clip-path, transform; }
+.cbig img { width: 100%; height: 100%; object-fit: cover; }
+.cbig--a { left: 6%; top: 10%; width: 58vw; aspect-ratio: 2 / 3; z-index: 1; }
+.cbig--b { right: 5%; bottom: 9%; width: 64vw; aspect-ratio: 3 / 2; z-index: 2; }
+@media (min-width: 900px) {
+  .cbig--a { left: 9%; top: 9%; width: auto; height: 74%; aspect-ratio: 2 / 3; }
+  .cbig--b { right: 8%; bottom: 10%; width: 40vw; }
+}
+.cinema__title--b { color: #fff; z-index: 6; }
+
+/* ---- menu overlay: pastel curtain, cocoa links, neon on hover ---- */
+.menu { color: var(--cocoa); }
+.menu__panel { background: var(--pastel-pink); }
+.menu__panel:nth-child(2) { background: var(--lilac); }
+.menu__panel:nth-child(3) { background: var(--peach); }
+.menu__panel:nth-child(4) { background: var(--sage); }
+.menu__preview { opacity: .16; }
+.menu__previews::after { background: linear-gradient(90deg, rgba(255, 249, 246, .55), rgba(255, 249, 246, .1)); }
+.menu__word { color: var(--cocoa); font-size: clamp(2.5rem, 11vw, 5rem); }
+.menu__links a:hover .menu__word,
+.menu__links a:focus-visible .menu__word {
+  color: var(--neon-pink);
+  text-shadow: 0 0 1px rgba(255, 255, 255, .9), 0 0 8px rgba(var(--neon-pink-glow), .55), 0 0 22px rgba(var(--neon-pink-glow), .35);
+}
+.menu__links a[aria-current="page"] .menu__word { color: var(--neon-lilac); }
+.menu__foot, .menu__status { color: var(--cocoa); }
+.hours-list { background: rgba(255, 255, 255, .6); color: var(--cocoa); border-color: rgba(74, 36, 51, .08); }
+.hours-list dd { color: var(--cocoa-soft); }
+.menu__social a { background: rgba(255, 255, 255, .7); color: var(--cocoa); border-color: rgba(74, 36, 51, .08); }
+.menu__social a:hover { background: #fff; }
+.menu__social svg { color: var(--accent); }
+.menu__social a:hover svg { color: var(--neon-pink); }
+.menu__address { color: var(--cocoa-soft); }
+.menu__bloom { color: var(--accent); opacity: .06; }
+@media (min-width: 900px) {
+  .menu__preview { opacity: 1; }
+  .menu__previews::after { background: linear-gradient(90deg, rgba(255, 249, 246, .4) 0%, rgba(255, 249, 246, 0) 35%); }
+}
+
+/* ---- footer: the venue, pastel-graded, lit script in pink ---- */
+.site-footer__big {
+  color: #fff;
+  text-shadow: 0 0 1px #FFC6D8, 0 0 6px rgba(var(--neon-pink-glow), .8), 0 0 18px rgba(var(--neon-pink-glow), .5), 0 0 40px rgba(var(--neon-lilac-glow), .4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .display__it.is-lit { animation: none; }
+}
+
+/* polish: the cinema opens from pastel, not from a dark block; tighter social close */
+.cinema { background: var(--lavender); }
+.cinema__video { background-color: var(--lilac); }
+.reel { padding-bottom: 96px; }
+@media (min-width: 900px) { .reel { padding-bottom: 110px; } .social { padding-bottom: 40px; } }
