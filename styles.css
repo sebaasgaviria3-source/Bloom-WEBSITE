@@ -662,6 +662,101 @@ body.is-locked { overflow: hidden; }
   .favs__sticker { left: auto; right: 30%; top: 4%; font-size: 1.375rem; }
 }
 
+/* ---------- Cinema: pinned scroll story over the venue's video and photo ---------- */
+.cinema { position: relative; z-index: 2; background: #241319; }
+.cinema__stage {
+  position: relative;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  color: #fff;
+  isolation: isolate;
+}
+.cinema__video,
+.cinema__photo { position: absolute; inset: 0; overflow: hidden; }
+.cinema__video { z-index: 1; background: #3a2a22 url("assets/video/local-terraza-poster.webp") center / cover no-repeat; }
+.cinema__video video,
+.cinema__photo img { width: 100%; height: 100%; object-fit: cover; }
+.cinema__photo picture { display: block; height: 100%; }
+/* small portrait "window" the video grows out of (JS + Flip turn it into the full frame) */
+.cinema__video.is-card {
+  --cw: min(44vw, 300px);
+  inset: auto;
+  left: calc(50% - var(--cw) / 2);
+  top: calc(50% - var(--cw) * 8 / 9);
+  width: var(--cw);
+  height: calc(var(--cw) * 16 / 9);
+  border-radius: 28px;
+}
+.cinema__photo { z-index: 2; clip-path: inset(100% 0 0 0); }
+.cinema__photo img { object-position: 50% 62%; }
+.cinema__shade {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background:
+    radial-gradient(120% 70% at 50% 50%, rgba(36, 19, 25, .45), rgba(36, 19, 25, .1) 70%),
+    linear-gradient(180deg, rgba(36, 19, 25, .35) 0%, rgba(36, 19, 25, 0) 30%, rgba(36, 19, 25, 0) 70%, rgba(36, 19, 25, .4) 100%);
+}
+
+.cinema__floats { position: absolute; inset: 0; z-index: 4; display: none; pointer-events: none; }
+.cinema.is-live .cinema__floats { display: block; }
+.cfloat {
+  position: absolute;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #3a2a22;
+  box-shadow: 0 40px 70px -30px rgba(0, 0, 0, .65);
+  will-change: transform;
+}
+.cfloat img { width: 100%; height: 100%; object-fit: cover; }
+.cfloat.is-front { z-index: 6; }
+.cfloat--1 { left: 4%; top: 9%; width: 30vw; aspect-ratio: 3 / 5; }
+.cfloat--2 { right: 5%; top: 7%; width: 27vw; aspect-ratio: 2 / 3; }
+.cfloat--3 { left: 6%; bottom: 9%; width: 42vw; aspect-ratio: 3 / 2; }
+.cfloat--4 { right: 4%; bottom: 12%; width: 30vw; aspect-ratio: 2 / 3; }
+.cfloat--5, .cfloat--6 { display: none; }
+@media (min-width: 900px) {
+  .cfloat--1 { left: 6%; top: 10%; width: 15vw; }
+  .cfloat--2 { right: 9%; top: 6%; width: 13vw; }
+  .cfloat--3 { left: 11%; bottom: 7%; width: 22vw; }
+  .cfloat--4 { right: 5%; bottom: 9%; width: 15vw; }
+  .cfloat--5 { display: block; left: 38%; top: 3%; width: 10vw; aspect-ratio: 2 / 3; }
+  .cfloat--6 { display: block; left: 56%; bottom: 4%; width: 17vw; aspect-ratio: 3 / 2; }
+}
+
+.cinema__title {
+  position: absolute;
+  z-index: 5;
+  left: var(--gutter);
+  right: var(--gutter);
+  top: 50%;
+  margin: 0;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3rem, 1.6rem + 8vw, 8.5rem);
+  line-height: .92;
+  letter-spacing: -.035em;
+  text-transform: uppercase;
+  text-align: center;
+  text-wrap: balance;
+  text-shadow: 0 6px 40px rgba(20, 8, 14, .45);
+}
+.cinema__title--b, .cinema__title--c { visibility: hidden; }
+.cinema.is-live .cinema__title--b,
+.cinema.is-live .cinema__title--c { visibility: visible; }
+.cinema__title--b { color: #FFE4EE; }
+.cinema__caption {
+  position: absolute; z-index: 5; left: 0; right: 0; bottom: max(6%, 28px); margin: 0;
+  text-align: center;
+  font-family: var(--font-display); font-weight: 600; font-size: .8125rem; letter-spacing: .24em; text-transform: uppercase;
+  color: rgba(255, 255, 255, .9);
+}
+.cinema__fade {
+  position: absolute; inset: auto 0 0 0; height: 40%; z-index: 8; pointer-events: none; opacity: 0;
+  background: linear-gradient(180deg, rgba(239, 231, 250, 0), var(--lavender));
+}
+
 /* ---------- Story: the bear and the venue together, one shared text ---------- */
 .story {
   position: relative;

@@ -107,3 +107,13 @@ save(cartel, "g-cartel-osito-600.webp", 600, q=76)
 # Logo at the size it is shown (max ~150 CSS px, x2 for retina)
 logo = Image.open(ROOT / "assets/img/logo-bloom.webp")
 logo.resize((320, round(logo.height * 320 / logo.width)), Image.LANCZOS).save(OUT / "logo-bloom-320.webp", "WEBP", quality=86, method=6)
+
+# Terrace photo for the cinematic chapter: full frame (desktop) and a portrait cut (mobile)
+ter = grade(Image.open(GAL / "local-terraza.jpg").convert("RGB"))
+save(ter, "local-terraza-1066.webp", 1066, q=78)
+save(ter, "local-terraza-700.webp", 700, q=76)
+# Video: assets/video/local-terraza.mp4 is made from assets/photos/source/video/local-terraza.mp4 with ffmpeg
+# (30 fps, end cross-faded into the start for a seamless loop, no audio):
+# ffmpeg -i SRC -filter_complex "[0:v]fps=30,split[a][b];[a]trim=start=0.8,setpts=PTS-STARTPTS[main];
+#   [b]trim=end=0.8,setpts=PTS-STARTPTS[head];[main][head]xfade=transition=fade:duration=0.8:offset=4.86,format=yuv420p[v]"
+#   -map "[v]" -an -c:v libx264 -preset slow -crf 28 -movflags +faststart assets/video/local-terraza.mp4

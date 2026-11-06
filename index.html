@@ -33,7 +33,7 @@
         imagesrcset="assets/img/hero-brunch-1200.webp 1200w, assets/img/hero-brunch-1600.webp 1600w"
         imagesizes="100vw" media="(min-width: 768px)">
 
-  <link rel="stylesheet" href="styles.css?v=20261106f">
+  <link rel="stylesheet" href="styles.css?v=20261106h">
 
   <script type="application/ld+json">
   {
@@ -279,6 +279,41 @@
       </div>
     </section>
 
+    <!-- ============ 3. CINEMA: pinned scroll story over the venue's own video and photo ============ -->
+    <section class="cinema" id="terraza" aria-labelledby="cinema-title" data-cinema>
+      <div class="cinema__stage" data-cinema-stage>
+        <div class="cinema__video" data-cinema-video>
+          <video muted loop playsinline preload="none" poster="assets/video/local-terraza-poster.webp" aria-hidden="true" tabindex="-1">
+            <source src="assets/video/local-terraza.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="cinema__photo" data-cinema-photo>
+          <picture>
+            <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/local-terraza-700.webp">
+            <img src="assets/img/local-terraza-1066.webp" width="1066" height="1600" loading="lazy" decoding="async"
+                 alt="Terraza de Bloom: mesas con sillas amarillas, sombrillas y plantas en la calle.">
+          </picture>
+        </div>
+        <div class="cinema__shade" aria-hidden="true"></div>
+
+        <!-- Floating photos: each has its own path, speed, turn and depth (set in main.js) -->
+        <div class="cinema__floats" aria-hidden="true">
+          <figure class="cfloat cfloat--1 is-front" data-cfloat><img src="assets/img/g-helado-600.webp" width="600" height="1067" loading="lazy" decoding="async" alt=""></figure>
+          <figure class="cfloat cfloat--2" data-cfloat><img src="assets/img/g-cafes-latte-600.webp" width="600" height="901" loading="lazy" decoding="async" alt=""></figure>
+          <figure class="cfloat cfloat--3 is-front" data-cfloat><img src="assets/img/g-coxinhas-600.webp" width="600" height="399" loading="lazy" decoding="async" alt=""></figure>
+          <figure class="cfloat cfloat--4" data-cfloat><img src="assets/img/g-tostada-bacon-600.webp" width="600" height="901" loading="lazy" decoding="async" alt=""></figure>
+          <figure class="cfloat cfloat--5" data-cfloat><img src="assets/img/g-bollo-crema-600.webp" width="600" height="901" loading="lazy" decoding="async" alt=""></figure>
+          <figure class="cfloat cfloat--6 is-front" data-cfloat><img src="assets/img/g-pasteis-600.webp" width="600" height="400" loading="lazy" decoding="async" alt=""></figure>
+        </div>
+
+        <h2 class="cinema__title cinema__title--a" id="cinema-title" data-cinema-text="a">Bienvenido<br>a Bloom</h2>
+        <p class="cinema__title cinema__title--b" data-cinema-text="b">Café, brunch<br>y calma</p>
+        <p class="cinema__title cinema__title--c" data-cinema-text="c">Una terraza<br>para quedarse</p>
+        <p class="cinema__caption" data-cinema-caption>Bloom Coffee &amp; Brunch · Vigo</p>
+        <div class="cinema__fade" aria-hidden="true" data-cinema-fade></div>
+      </div>
+    </section>
+
     <!-- ============ 3. STORY: the bear and the venue, one shared text ============ -->
     <section class="story" id="concepto" aria-labelledby="story-title" data-story>
       <svg class="line-bloom story__bloom" viewBox="0 0 200 200" aria-hidden="true" data-bloom-line="1"><use href="#line-bloom"/></svg>
@@ -442,7 +477,10 @@
 
   <script defer src="lib/gsap.min.js"></script>
   <script defer src="lib/ScrollTrigger.min.js"></script>
+  <script defer src="lib/SplitText.min.js"></script>
+  <script defer src="lib/Flip.min.js"></script>
+  <script defer src="lib/CustomEase.min.js"></script>
   <script defer src="lib/lenis.min.js"></script>
-  <script defer src="main.js?v=20261106f"></script>
+  <script defer src="main.js?v=20261106h"></script>
 </body>
 </html>

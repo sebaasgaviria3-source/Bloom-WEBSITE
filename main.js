@@ -260,13 +260,123 @@
     });
   }
 
-  /* ---------- Big headlines: words rise out of a mask ---------- */
+  /* ---------- Big headlines: words rise out of a mask (GSAP SplitText) ---------- */
+  var hasSplit = !!window.SplitText;
   function splitHeadlines() {
+    if (!hasSplit) return;
     $$("[data-split]").forEach(function (h) {
-      $$(":scope > span", h).forEach(function (part) {
-        var words = part.textContent.trim().split(/\s+/);
-        part.innerHTML = words.map(function (w) { return '<span class="w"><span>' + w + "</span></span>"; }).join(" ");
+      h._split = SplitText.create(h, { type: "words", mask: "words", wordsClass: "w" });
+    });
+  }
+
+  /* =========================================================
+     Cinema: one pinned, scroll-scrubbed scene over the venue's own footage.
+     1 the video grows out of a portrait window (Flip) under "Bienvenido a Bloom"
+     2 photos drift in from every side at their own speed and depth, "Café, brunch y calma"
+     3 the terrace photo wipes up over the video, "Una terraza para quedarse", soft hand-off
+     ========================================================= */
+  // [enter from x, y (vw/vh), rotation] -> [rest rotation] -> [exit to x, y, rotation]
+  var CFLOATS = [
+    { from: [-70, 10, -14], rest: -5, to: [-20, -90, -12], speed: 1.0 },
+    { from: [60, -40, 12], rest: 4, to: [70, -20, 16], speed: 1.25 },
+    { from: [-30, 80, 8], rest: 3, to: [-80, 30, -6], speed: 0.85 },
+    { from: [70, 50, -10], rest: -3, to: [30, 90, 8], speed: 1.15 },
+    { from: [0, -90, 18], rest: 7, to: [-10, -100, 20], speed: 1.35 },
+    { from: [40, 90, -8], rest: -2, to: [80, 40, -14], speed: 0.95 }
+  ];
+
+  function initCinema() {
+    var section = $("[data-cinema]");
+    if (!section) return;
+    var stage = $("[data-cinema-stage]", section);
+    var videoBox = $("[data-cinema-video]", section);
+    var video = $("video", videoBox);
+    var photo = $("[data-cinema-photo]", section);
+    var floats = $$("[data-cfloat]", section);
+
+    // Play the footage only while the scene is on screen
+    if (video && "IntersectionObserver" in window && !reduceMotion) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { video.preload = "auto"; var p = video.play(); if (p && p.catch) p.catch(function () {}); }
+          else video.pause();
+        });
+      }, { rootMargin: "200px 0px" }).observe(section);
+    }
+
+    var mm = gsap.matchMedia();
+    mm.add({ isMobile: "(max-width: 899px)", motion: "(prefers-reduced-motion: no-preference)" }, function (ctx) {
+      var c = ctx.conditions;
+      if (!c.motion) return;
+      section.classList.add("is-live");
+
+      var tA = $("[data-cinema-text='a']", section);
+      var tB = $("[data-cinema-text='b']", section);
+      var tC = $("[data-cinema-text='c']", section);
+      var splitA = hasSplit ? SplitText.create(tA, { type: "chars,words", mask: "words" }) : null;
+      var splitB = hasSplit ? SplitText.create(tB, { type: "words", mask: "words" }) : null;
+      var splitC = hasSplit ? SplitText.create(tC, { type: "chars,words", mask: "words" }) : null;
+      var charsA = splitA ? splitA.chars : [tA];
+      var wordsB = splitB ? splitB.words : [tB];
+      var charsC = splitC ? splitC.chars : [tC];
+      var visibleFloats = floats.filter(function (f) { return f.offsetParent !== null; });
+
+      var tl = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          trigger: stage,
+          start: "top top",
+          end: c.isMobile ? "+=380%" : "+=440%",
+          pin: true,
+          scrub: 0.8,
+          anticipatePin: 1,
+          refreshPriority: 1,
+          onLeave: function () { section.classList.add("is-done"); },
+          onEnterBack: function () { section.classList.remove("is-done"); }
+        }
       });
+
+      // 1. The video grows from a portrait window into the full frame (Flip), title A writes in
+      if (window.Flip) {
+        videoBox.classList.add("is-card");
+        var state = Flip.getState(videoBox, { props: "borderRadius" });
+        videoBox.classList.remove("is-card");
+        tl.add(Flip.from(state, { duration: 1, ease: "bloom", absolute: true, props: "borderRadius" }), 0);
+      }
+      tl.fromTo($("video", videoBox), { scale: 1.3 }, { scale: 1.06, duration: 1.4, ease: "power1.out" }, 0)
+        .fromTo(charsA, { yPercent: 115, rotation: 6 }, { yPercent: 0, rotation: 0, duration: 0.5, stagger: 0.025, ease: "bloom" }, 0.15)
+        .to(charsA, { yPercent: -115, opacity: 0, duration: 0.35, stagger: 0.015, ease: "power2.in" }, 1.15);
+
+      // 2. Floating photos: every one on its own path, speed and turn; some pass in front of the words
+      visibleFloats.forEach(function (f, i) {
+        var cfg = CFLOATS[i] || CFLOATS[0];
+        var inAt = 1.05 + i * 0.09;
+        var hold = 0.75 / cfg.speed;
+        tl.fromTo(f,
+          { x: cfg.from[0] + "vw", y: cfg.from[1] + "vh", rotation: cfg.from[2], scale: 0.85, opacity: 0 },
+          { x: 0, y: 0, rotation: cfg.rest, scale: 1, opacity: 1, duration: 0.7 / cfg.speed, ease: "bloom" }, inAt)
+          // slow drift while on screen (depth: faster ones travel further)
+          .to(f, { y: (-6 * cfg.speed) + "vh", duration: hold }, inAt + 0.7 / cfg.speed)
+          .to(f, { x: cfg.to[0] + "vw", y: cfg.to[1] + "vh", rotation: cfg.to[2], scale: 0.9, opacity: 0, duration: 0.6 / cfg.speed, ease: "power2.in" }, 2.35 + i * 0.07)
+          .fromTo($("img", f), { scale: 1.25 }, { scale: 1, duration: 1.4 }, inAt);
+      });
+      tl.fromTo(wordsB, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.45, stagger: 0.08, ease: "bloom" }, 1.5)
+        .to(tB, { opacity: 0, filter: "blur(10px)", scale: 1.06, duration: 0.4 }, 2.35);
+
+      // 3. The terrace photo wipes up over the video; the video zooms away beneath it
+      tl.fromTo(photo, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.8, ease: "power2.inOut" }, 2.55)
+        .fromTo($("img", photo), { scale: 1.35, yPercent: 6 }, { scale: 1.04, yPercent: 0, duration: 1.5, ease: "power1.out" }, 2.55)
+        .to(videoBox, { scale: 1.15, opacity: 0.4, duration: 0.8 }, 2.55)
+        .fromTo(charsC, { yPercent: 115, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, stagger: 0.02, ease: "bloom" }, 3.1)
+        .fromTo("[data-cinema-caption]", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3 }, 3.45)
+        // hand-off: soft pastel fade at the foot of the frame into the story below
+        .to("[data-cinema-fade]", { opacity: 1, duration: 0.45 }, 3.75)
+        .to([tC, "[data-cinema-caption]"], { yPercent: -18, opacity: 0, duration: 0.45 }, 3.8);
+
+      // caption starts hidden in the live version
+      gsap.set("[data-cinema-caption]", { opacity: 0 });
+
+      return function () { section.classList.remove("is-live"); };
     });
   }
 
@@ -285,10 +395,11 @@
       var c = ctx.conditions;
       if (!c.motion) return;
 
-      /* Headlines */
+      /* Headlines: words rise out of their masks */
       $$("[data-split]").forEach(function (h) {
-        gsap.fromTo($$(".w > span", h), { yPercent: 110, rotation: 4 }, {
-          yPercent: 0, rotation: 0, duration: 1.1, stagger: 0.08, ease: "expo.out",
+        if (!h._split) return;
+        gsap.fromTo(h._split.words, { yPercent: 110, rotation: 4 }, {
+          yPercent: 0, rotation: 0, duration: 1.1, stagger: 0.08, ease: "bloom",
           scrollTrigger: { trigger: h, start: "top 88%", once: true }
         });
       });
@@ -621,14 +732,17 @@
 
     if (!hasGsap) { safe(initHours, "hours"); safe(initBears, "bears"); revealAll(); return; }
 
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin.apply(gsap, [ScrollTrigger, window.SplitText, window.Flip, window.CustomEase].filter(Boolean));
+    // House ease: a fast start that settles softly, like a flower opening
+    if (window.CustomEase) CustomEase.create("bloom", "M0,0 C0.16,0.78 0.22,1 1,1");
+    else gsap.registerEase("bloom", gsap.parseEase("expo.out"));
     // First screen now; everything below the fold once the browser is idle (keeps the main thread free at load)
     safe(initIntro, "intro");
     safe(initScrollMotion, "scroll");
     safe(initBear, "bear"); // hero bear sits on the first screen
     revealAll();
 
-    var queue = [[initSmoothScroll, "lenis"], [initGlow, "glow"], [initBears, "bears"], [initSections, "sections"], [initHours, "hours"]];
+    var queue = [[initSmoothScroll, "lenis"], [initGlow, "glow"], [initBears, "bears"], [initSections, "sections"], [initCinema, "cinema"], [initHours, "hours"]];
     var next = function () {
       var job = queue.shift();
       if (!job) { ScrollTrigger.refresh(); return; }
