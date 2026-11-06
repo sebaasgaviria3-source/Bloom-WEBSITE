@@ -132,3 +132,8 @@ save(tost.crop((0, wt, tw, wt + wide_h)), "menu-tostada-1334.webp", 1334, q=76)
 tall_h = round(tw * 5 / 4)                    # 4:5 for phones
 tt = max(0, min(th - tall_h, 940 - tall_h // 2))
 save(tost.crop((0, tt, tw, tt + tall_h)), "menu-tostada-900.webp", 900, q=74)
+
+# Slideshow: bagel with egg, spinach, ham and melted cheese (portrait source, 1500x2000)
+bagel = grade(Image.open(GAL / "bagel.jpg").convert("RGB"))
+save(bagel, "g-bagel-1000.webp", 1000, q=76)
+save(bagel, "g-bagel-600.webp", 600, q=74)
