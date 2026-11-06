@@ -35,14 +35,14 @@
   <link rel="preload" href="assets/fonts/inter-latin-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" type="image/webp"
         href="assets/img/hero-brunch-portrait-900.webp"
-        imagesrcset="assets/img/hero-brunch-portrait-640.webp 640w, assets/img/hero-brunch-portrait-900.webp 900w"
+        imagesrcset="assets/img/hero-brunch-portrait-640.webp 640w, assets/img/hero-brunch-portrait-760.webp 760w, assets/img/hero-brunch-portrait-900.webp 900w"
         imagesizes="100vw" media="(max-width: 767px)" fetchpriority="high">
   <link rel="preload" as="image" type="image/webp"
         href="assets/img/hero-brunch-1600.webp"
         imagesrcset="assets/img/hero-brunch-1200.webp 1200w, assets/img/hero-brunch-1600.webp 1600w"
         imagesizes="100vw" media="(min-width: 768px)" fetchpriority="high">
 
-  <link rel="stylesheet" href="styles.css?v=20261106p3">
+  <link rel="stylesheet" href="styles.css?v=20261106p6">
 
   <script type="application/ld+json">
   {
@@ -175,7 +175,7 @@
       <div class="hero__media" data-hero-media>
         <picture>
           <source media="(max-width: 767px)" type="image/webp"
-                  srcset="assets/img/hero-brunch-portrait-640.webp 640w, assets/img/hero-brunch-portrait-900.webp 900w"
+                  srcset="assets/img/hero-brunch-portrait-640.webp 640w, assets/img/hero-brunch-portrait-760.webp 760w, assets/img/hero-brunch-portrait-900.webp 900w"
                   sizes="100vw">
           <img class="hero__img" data-hero-img
                src="assets/img/hero-brunch-1600.webp"
@@ -254,14 +254,15 @@
       <div class="collage">
         <figure class="collage__item c1" data-speed="-0.12" data-cursor="Açaí">
           <div class="collage__frame" data-reveal-photo>
-            <img src="assets/img/g-acai-coco-600.webp" width="600" height="600" loading="lazy" decoding="async"
+            <img src="assets/img/g-acai-coco-600.webp" srcset="assets/img/g-acai-coco-400.webp 400w, assets/img/g-acai-coco-600.webp 600w"
+                 sizes="(max-width: 899px) 62vw, 360px" width="600" height="600" loading="lazy" decoding="async"
                  alt="Bol de açaí servido en coco con granola, arándanos, frambuesas y flores.">
           </div>
           <figcaption><span>01</span>Açaí</figcaption>
         </figure>
         <figure class="collage__item c2" data-speed="0.1" data-cursor="Brunch">
           <div class="collage__frame" data-reveal-photo>
-            <img src="assets/img/g-croissant-benedict-600.webp" srcset="assets/img/g-croissant-benedict-600.webp 600w, assets/img/g-croissant-benedict-1000.webp 1000w"
+            <img src="assets/img/g-croissant-benedict-600.webp" srcset="assets/img/g-croissant-benedict-400.webp 400w, assets/img/g-croissant-benedict-600.webp 600w, assets/img/g-croissant-benedict-1000.webp 1000w"
                  sizes="(max-width: 899px) 54vw, 300px" width="600" height="901" loading="lazy" decoding="async"
                  alt="Croissant relleno de huevos benedict con salsa holandesa y cebollino.">
           </div>
@@ -269,14 +270,15 @@
         </figure>
         <figure class="collage__item c3" data-speed="-0.06" data-cursor="Tortitas">
           <div class="collage__frame" data-reveal-photo>
-            <img src="assets/img/g-tortitas-600.webp" width="600" height="800" loading="lazy" decoding="async"
+            <img src="assets/img/g-tortitas-600.webp" srcset="assets/img/g-tortitas-400.webp 400w, assets/img/g-tortitas-600.webp 600w"
+                 sizes="(max-width: 899px) 40vw, 264px" width="600" height="800" loading="lazy" decoding="async"
                  alt="Tortitas con melocotón asado, arándanos y azúcar glas.">
           </div>
           <figcaption><span>03</span>Tortitas</figcaption>
         </figure>
         <figure class="collage__item c4" data-speed="0.16" data-cursor="Brasil">
           <div class="collage__frame" data-reveal-photo>
-            <img src="assets/img/g-coxinhas-600.webp" srcset="assets/img/g-coxinhas-600.webp 600w, assets/img/g-coxinhas-1000.webp 1000w"
+            <img src="assets/img/g-coxinhas-600.webp" srcset="assets/img/g-coxinhas-400.webp 400w, assets/img/g-coxinhas-600.webp 600w, assets/img/g-coxinhas-1000.webp 1000w"
                  sizes="(max-width: 899px) 72vw, 400px" width="600" height="399" loading="lazy" decoding="async"
                  alt="Coxinhas brasileñas doradas, recién fritas.">
           </div>
@@ -284,14 +286,16 @@
         </figure>
         <figure class="collage__item c5" data-speed="-0.1" data-cursor="Café">
           <div class="collage__frame" data-reveal-photo>
-            <img src="assets/img/g-cafes-latte-600.webp" width="600" height="901" loading="lazy" decoding="async"
+            <img src="assets/img/g-cafes-latte-600.webp" srcset="assets/img/g-cafes-latte-400.webp 400w, assets/img/g-cafes-latte-600.webp 600w"
+                 sizes="(max-width: 899px) 42vw, 252px" width="600" height="901" loading="lazy" decoding="async"
                  alt="Dos cafés latte con arte latte en forma de corazón.">
           </div>
           <figcaption><span>05</span>Cafés latte</figcaption>
         </figure>
         <figure class="collage__item c6" data-speed="0.06" data-cursor="Zumos">
           <div class="collage__frame" data-reveal-photo>
-            <img src="assets/img/g-zumo-rojo-600.webp" width="600" height="900" loading="lazy" decoding="async"
+            <img src="assets/img/g-zumo-rojo-600.webp" srcset="assets/img/g-zumo-rojo-400.webp 400w, assets/img/g-zumo-rojo-600.webp 600w"
+                 sizes="(max-width: 899px) 42vw, 216px" width="600" height="900" loading="lazy" decoding="async"
                  alt="Zumo natural de frutos rojos con pajita y hojas de menta.">
           </div>
           <figcaption><span>06</span>Zumo rojo</figcaption>
@@ -317,37 +321,37 @@
         <ol class="carta-list" data-carta-list>
           <li><a class="carta-row" href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf data-preview-src="assets/img/g-cafes-latte-600.webp">
             <span class="carta-row__num">01</span>
-            <img class="carta-row__thumb" src="assets/img/g-cafes-latte-600.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
+            <img class="carta-row__thumb" src="assets/img/thumb-cafes-latte-112.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
             <span class="carta-row__name">Cafés y matcha</span>
             <svg class="carta-row__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
           </a></li>
           <li><a class="carta-row" href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf data-preview-src="assets/img/g-tostada-bacon-600.webp">
             <span class="carta-row__num">02</span>
-            <img class="carta-row__thumb" src="assets/img/g-tostada-bacon-600.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
+            <img class="carta-row__thumb" src="assets/img/thumb-tostada-bacon-112.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
             <span class="carta-row__name">Brunch y tostadas</span>
             <svg class="carta-row__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
           </a></li>
           <li><a class="carta-row" href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf data-preview-src="assets/img/g-acai-coco-600.webp">
             <span class="carta-row__num">03</span>
-            <img class="carta-row__thumb" src="assets/img/g-acai-coco-600.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
+            <img class="carta-row__thumb" src="assets/img/thumb-acai-coco-112.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
             <span class="carta-row__name">Açaí y bowls</span>
             <svg class="carta-row__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
           </a></li>
           <li><a class="carta-row" href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf data-preview-src="assets/img/g-coxinhas-600.webp">
             <span class="carta-row__num">04</span>
-            <img class="carta-row__thumb" src="assets/img/g-coxinhas-600.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
+            <img class="carta-row__thumb" src="assets/img/thumb-coxinhas-112.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
             <span class="carta-row__name">Sabores de Brasil</span>
             <svg class="carta-row__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
           </a></li>
           <li><a class="carta-row" href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf data-preview-src="assets/img/g-bollo-crema-600.webp">
             <span class="carta-row__num">05</span>
-            <img class="carta-row__thumb" src="assets/img/g-bollo-crema-600.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
+            <img class="carta-row__thumb" src="assets/img/thumb-bollo-crema-112.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
             <span class="carta-row__name">Bollería y dulces</span>
             <svg class="carta-row__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
           </a></li>
           <li><a class="carta-row" href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf data-preview-src="assets/img/g-batidos-600.webp">
             <span class="carta-row__num">06</span>
-            <img class="carta-row__thumb" src="assets/img/g-batidos-600.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
+            <img class="carta-row__thumb" src="assets/img/thumb-batidos-112.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
             <span class="carta-row__name">Batidos y zumos</span>
             <svg class="carta-row__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
           </a></li>
@@ -449,7 +453,8 @@
         </div>
         <div class="visit__media">
           <div class="visit__arch" data-reveal-photo>
-            <video class="visit__video" muted loop playsinline preload="none" poster="assets/video/local-terraza-poster.webp" width="464" height="580" data-video
+            <img class="visit__poster" src="assets/video/local-terraza-poster.webp" width="464" height="832" loading="lazy" decoding="async" alt="">
+            <video class="visit__video" muted loop playsinline preload="none" width="464" height="580" data-video
                    aria-label="La terraza de Bloom en Vigo">
               <source src="assets/video/local-terraza.mp4" type="video/mp4">
             </video>
@@ -508,10 +513,7 @@
     <a href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf><svg aria-hidden="true"><use href="#i-menu"/></svg><span>Carta</span></a>
   </nav>
 
-  <script defer src="lib/gsap.min.js"></script>
-  <script defer src="lib/ScrollTrigger.min.js"></script>
-  <script defer src="lib/SplitText.min.js"></script>
-  <script defer src="lib/lenis.min.js"></script>
-  <script defer src="main.js?v=20261106p3"></script>
+  <!-- main.js paints the cover first, then loads GSAP, ScrollTrigger, SplitText and Lenis from /lib in order -->
+  <script defer src="main.js?v=20261106p6"></script>
 </body>
 </html>

@@ -12,8 +12,7 @@
   var $$ = function (sel, scope) { return Array.prototype.slice.call((scope || document).querySelectorAll(sel)); };
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var hasGsap = !!(window.gsap && window.ScrollTrigger);
-  var motion = root.classList.contains("motion") && hasGsap;
+  var hasGsap = false, motion = false; // set once the libraries are in (see the loader at the end)
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   var CARTA_PDF = "assets/carta-bloom.pdf";
@@ -611,25 +610,56 @@
 
     if (!motion) { safe(initBear, "bear"); safe(initBears, "bears"); ready(); return; }
 
-    safe(initSmoothScroll, "lenis");
+    // First screen now; everything below the fold once the browser is idle (keeps the first paint free)
     safe(initIntro, "intro");
-    safe(initHeroScroll, "hero");
     safe(initBear, "bear");
-    safe(initBears, "bears");
-    safe(initReveals, "reveals");
-    safe(initParallax, "parallax");
-    safe(initMarquee, "marquee");
-    safe(initWords, "words");
-    safe(initSideways, "sideways");
-    safe(initFooterWord, "footer");
-    safe(initPointer, "pointer");
-    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () {
-      safe(initSplits, "splits");
-      ScrollTrigger.refresh();
-    });
+
+    var queue = [[initHeroScroll, "hero"], [initSmoothScroll, "lenis"], [initBears, "bears"], [initReveals, "reveals"], [initParallax, "parallax"],
+      [initMarquee, "marquee"], [initWords, "words"], [initSideways, "sideways"], [initFooterWord, "footer"], [initPointer, "pointer"],
+      [initSplits, "splits"]];
+    var next = function () {
+      var job = queue.shift();
+      if (!job) { ScrollTrigger.refresh(); return; }
+      safe(job[0], job[1]);
+      setTimeout(next, 0);
+    };
+    // headings are split once the fonts are in, so the lines are measured on the real letters (never wait more than 2.5 s)
+    var started = false;
+    var go = function () {
+      if (started) return;
+      started = true;
+      if ("requestIdleCallback" in window) requestIdleCallback(next, { timeout: 1200 });
+      else setTimeout(next, 300);
+    };
+    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(go, go);
+    setTimeout(go, 2500);
     window.addEventListener("load", function () { ScrollTrigger.refresh(); });
   }
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
-  else boot();
+  /* ---------- Loader: paint the cover first (it is the LCP), then pull the libraries in order ---------- */
+  var LIBS = ["lib/gsap.min.js", "lib/ScrollTrigger.min.js", "lib/SplitText.min.js", "lib/lenis.min.js"];
+  function loadLibs(done) {
+    var i = 0;
+    (function next() {
+      if (i >= LIBS.length) { done(); return; }
+      var s = document.createElement("script");
+      s.src = LIBS[i++];
+      s.onload = next;
+      s.onerror = next; // a missing library only switches the motion off
+      document.head.appendChild(s);
+    })();
+  }
+  function start() {
+    requestAnimationFrame(function () {
+      setTimeout(function () {
+        loadLibs(function () {
+          hasGsap = !!(window.gsap && window.ScrollTrigger);
+          motion = root.classList.contains("motion") && hasGsap;
+          boot();
+        });
+      }, 0);
+    });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+  else start();
 })();

@@ -528,7 +528,7 @@ html.js .actionbar:not(.is-visible) { transform: translateY(calc(100% + 30px)); 
 .line-bloom { color: rgba(255, 214, 232, .2); }
 .hero { z-index: 1; }
 .hero { background: var(--cream); }
-html.motion:not(.is-ready) .hero [data-intro],
+html.motion:not(.is-ready) [data-intro],
 html.motion:not(.is-ready) .hero [data-neon],
 html.motion:not(.is-ready) .hero [data-cta] { opacity: 0; }
 :root {
@@ -671,7 +671,7 @@ main > * { position: relative; }
   background: var(--rosa-deep);
   color: var(--crema);
 }
-.carta__glow { position: absolute; right: -20%; top: -10%; width: 70vw; max-width: 720px; aspect-ratio: 1; border-radius: 50%; background: var(--mango); opacity: .35; filter: blur(90px); pointer-events: none; }
+.carta__glow { position: absolute; right: -25%; bottom: -25%; width: 70vw; max-width: 720px; aspect-ratio: 1; border-radius: 50%; background: var(--mango); opacity: .28; filter: blur(90px); pointer-events: none; }
 .carta .h2 { margin-bottom: 40px; }
 .carta-list { counter-reset: none; border-top: 1px solid rgba(255, 249, 246, .25); margin-bottom: 44px; }
 .carta-row {
@@ -784,7 +784,8 @@ html:not(.motion) .gallery__rows { overflow-x: auto; }
 .visit__actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .visit__media { position: relative; width: min(100%, 460px); margin: 0 auto; }
 .visit__arch { overflow: hidden; aspect-ratio: 4 / 5; border-radius: 999px 999px 22px 22px; background: var(--rosa-soft); box-shadow: 0 40px 70px -40px rgba(74, 36, 51, .6); }
-.visit__video { width: 100%; height: 100%; object-fit: cover; }
+.visit__arch { position: relative; }
+.visit__poster, .visit__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .sticker {
   position: absolute;
   left: -4%;

@@ -35,7 +35,7 @@ for width in (1600, 1200):
 cw = round(h * 4 / 5)
 left = max(0, min(w - cw, 790 - cw // 2))
 portrait = hero.crop((left, 0, left + cw, h))
-for width in (900, 640):
+for width in (900, 760, 640):
     save(portrait, f"hero-brunch-portrait-{width}.webp", width)
 
 # Detail photo under the colour block: lower half of the table (juices, sandwiches, strawberries)
@@ -140,3 +140,12 @@ save(bagel, "g-bagel-600.webp", 600, q=74)
 
 # Menu window on phones: the whole portrait frame fills a tall screen
 save(tost, "menu-tostada-tall-900.webp", 900, q=74)
+
+# Small sizes: 400w collage photos for phones, 112px round thumbnails for the carta list
+for name in ("acai-coco", "croissant-benedict", "tortitas", "coxinhas", "cafes-latte", "zumo-rojo"):
+    im = Image.open(OUT / f"g-{name}-600.webp").convert("RGB")
+    im.resize((400, round(im.height * 400 / im.width)), Image.LANCZOS).save(OUT / f"g-{name}-400.webp", "WEBP", quality=72, method=6)
+for name in ("cafes-latte", "tostada-bacon", "acai-coco", "coxinhas", "bollo-crema", "batidos"):
+    im = Image.open(OUT / f"g-{name}-600.webp").convert("RGB")
+    s = min(im.size); l = (im.width - s) // 2; t = (im.height - s) // 2
+    im.crop((l, t, l + s, t + s)).resize((112, 112), Image.LANCZOS).save(OUT / f"thumb-{name}-112.webp", "WEBP", quality=74, method=6)
