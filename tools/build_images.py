@@ -137,3 +137,6 @@ save(tost.crop((0, tt, tw, tt + tall_h)), "menu-tostada-900.webp", 900, q=74)
 bagel = grade(Image.open(GAL / "bagel.jpg").convert("RGB"))
 save(bagel, "g-bagel-1000.webp", 1000, q=76)
 save(bagel, "g-bagel-600.webp", 600, q=74)
+
+# Menu window on phones: the whole portrait frame fills a tall screen
+save(tost, "menu-tostada-tall-900.webp", 900, q=74)

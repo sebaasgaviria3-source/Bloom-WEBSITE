@@ -33,7 +33,7 @@
         imagesrcset="assets/img/hero-brunch-1200.webp 1200w, assets/img/hero-brunch-1600.webp 1600w"
         imagesizes="100vw" media="(min-width: 768px)">
 
-  <link rel="stylesheet" href="styles.css?v=20261106z">
+  <link rel="stylesheet" href="styles.css?v=20261106aa">
 
   <script type="application/ld+json">
   {
@@ -306,26 +306,29 @@
 
     <!-- ============ 4. MENÚ: one photo + label (the full menu arrives later) ============ -->
     <section class="menu-cover" id="carta" aria-labelledby="menu-title">
+      <!-- window: the photo stays fixed while the page slides over it -->
       <div class="menu-cover__frame" data-menu-frame>
         <picture>
-          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/menu-tostada-900.webp">
+          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/menu-tostada-tall-900.webp">
           <img class="menu-cover__img" src="assets/img/menu-tostada-1334.webp" width="1334" height="834" loading="lazy" decoding="async"
                alt="Tostada de aguacate con manzana, rábano y brotes, y otra con huevo poché, servidas sobre mármol.">
         </picture>
       </div>
 
-      <div class="menu-label" data-menu-label>
-        <span class="bear-slot menu-label__bear" data-bear="sit"></span>
-        <h2 class="menu-label__word" id="menu-title">Menú</h2>
-        <p class="menu-label__small">Muy pronto</p>
-      </div>
+      <div class="menu-cover__band">
+        <div class="menu-label" data-menu-label>
+          <span class="bear-slot menu-label__bear" data-bear="sit"></span>
+          <h2 class="menu-label__word" id="menu-title">Menú</h2>
+          <p class="menu-label__small">Muy pronto</p>
+        </div>
 
-      <svg class="badge" viewBox="0 0 200 200" aria-hidden="true" data-spin>
-        <defs><path id="badge-path" d="M100 100 m-74 0 a74 74 0 1 1 148 0 a74 74 0 1 1 -148 0"/></defs>
-        <circle cx="100" cy="100" r="98" class="badge__disc"/>
-        <text class="badge__text"><textPath href="#badge-path" startOffset="0">Brunch · Coffee · Experiencias · Vigo ·</textPath></text>
-        <use href="#i-bloom" x="72" y="72" width="56" height="56" class="badge__flower"/>
-      </svg>
+        <svg class="badge" viewBox="0 0 200 200" aria-hidden="true" data-spin>
+          <defs><path id="badge-path" d="M100 100 m-74 0 a74 74 0 1 1 148 0 a74 74 0 1 1 -148 0"/></defs>
+          <circle cx="100" cy="100" r="98" class="badge__disc"/>
+          <text class="badge__text"><textPath href="#badge-path" startOffset="0">Brunch · Coffee · Experiencias · Vigo ·</textPath></text>
+          <use href="#i-bloom" x="72" y="72" width="56" height="56" class="badge__flower"/>
+        </svg>
+      </div>
     </section>
 
     <!-- ============ 5. GALLERY: two reels moving with the scroll ============ -->
@@ -432,6 +435,6 @@
   <script defer src="lib/SplitText.min.js"></script>
   <script defer src="lib/CustomEase.min.js"></script>
   <script defer src="lib/lenis.min.js"></script>
-  <script defer src="main.js?v=20261106z"></script>
+  <script defer src="main.js?v=20261106aa"></script>
 </body>
 </html>

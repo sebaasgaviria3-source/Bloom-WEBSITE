@@ -361,7 +361,7 @@
     var mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", function () {
       var dims = [];
-      $$(".hero, .menu-cover, .reel, .visit").forEach(function (sec) {
+      $$(".hero, .reel, .visit").forEach(function (sec) {
         var dim = document.createElement("span");
         dim.className = "stack-dim";
         dim.setAttribute("aria-hidden", "true");
@@ -482,13 +482,12 @@
           scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 0.8 } });
       });
 
-      /* Menú cover: photo parallax, label swings into place */
+      /* Menú window: the photo is fixed by CSS; here it only drifts a touch for depth,
+         and the label swings into place as the band rises over the photo */
       var frame = $("[data-menu-frame]");
       if (frame) {
-        gsap.fromTo($("picture", frame), { yPercent: -6 }, { yPercent: 6, ease: "none",
+        gsap.fromTo($(".menu-cover__img", frame), { yPercent: -3, scale: 1.08 }, { yPercent: 3, scale: 1.08, ease: "none",
           scrollTrigger: { trigger: frame, start: "top bottom", end: "bottom top", scrub: true } });
-        gsap.fromTo(frame, { clipPath: "inset(8% 8% 8% 8% round 60px)" }, { clipPath: "inset(0% 0% 0% 0% round 30px)", ease: "power2.out",
-          scrollTrigger: { trigger: frame, start: "top 95%", end: "top 30%", scrub: 0.6 } });
         gsap.fromTo("[data-menu-label]", { y: 90, rotation: -16, scale: 0.8 }, { y: 0, rotation: -4, scale: 1, ease: "back.out(1.4)",
           scrollTrigger: { trigger: "[data-menu-label]", start: "top bottom", end: "top 55%", scrub: 0.6 } });
       }
