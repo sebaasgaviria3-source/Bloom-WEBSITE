@@ -275,12 +275,51 @@
      2 photos drift in from every side at their own speed and depth, "Café, brunch y calma"
      3 the terrace photo wipes up over the video, "Una terraza para quedarse", soft hand-off
      ========================================================= */
+  /* ---------- Mesa: caps words glide in opposite directions, the script writes itself,
+                photo tiles slide in from alternating sides with a directional mask ---------- */
+  function initMesa() {
+    var section = $(".mesa");
+    if (!section) return;
+    var mm = gsap.matchMedia();
+    mm.add({ isMobile: "(max-width: 899px)", motion: "(prefers-reduced-motion: no-preference)" }, function (ctx) {
+      var c = ctx.conditions;
+      if (!c.motion) return;
+      var band = $(".mesa__band", section);
+
+      $$("[data-mesa-slide]", section).forEach(function (el) {
+        var d = parseFloat(el.getAttribute("data-mesa-slide"));
+        gsap.fromTo(el, { xPercent: d * 12 }, { xPercent: d * -6, ease: "none",
+          scrollTrigger: { trigger: band, start: "top bottom", end: "bottom top", scrub: 0.6 } });
+      });
+
+      var script = $("[data-mesa-script]", section);
+      gsap.fromTo(script, { clipPath: "inset(-40% 100% -40% -20%)", rotation: -12, scale: 0.9 },
+        { clipPath: "inset(-40% -20% -40% -20%)", rotation: -6, scale: 1, duration: 1.6, ease: "power2.inOut",
+          scrollTrigger: { trigger: script, start: "top 80%", once: true } });
+
+      $$("[data-tile]", section).forEach(function (tile, i) {
+        var left = tile.getAttribute("data-from") === "left";
+        var img = $("img", tile);
+        gsap.fromTo(tile,
+          { xPercent: left ? -45 : 45, clipPath: left ? "inset(0% 100% 0% 0%)" : "inset(0% 0% 0% 100%)" },
+          { xPercent: 0, clipPath: "inset(0% 0% 0% 0%)", ease: "bloom",
+            scrollTrigger: { trigger: tile, start: "top 95%", end: c.isMobile ? "top 55%" : "top 60%", scrub: 0.7 } });
+        gsap.fromTo(img, { scale: 1.3 }, { scale: 1, ease: "none",
+          scrollTrigger: { trigger: tile, start: "top bottom", end: "bottom top", scrub: true } });
+        // different depths so the mosaic breathes as you scroll
+        var depth = [0, 50, -30, 40, -20][i] || 0;
+        if (depth) gsap.fromTo(tile, { y: depth }, { y: -depth, ease: "none",
+          scrollTrigger: { trigger: tile, start: "top bottom", end: "bottom top", scrub: true } });
+      });
+    });
+  }
+
   /* ---------- Stacked sections: each section holds while the next slides up over it ---------- */
   function initStack() {
     var mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", function () {
       var dims = [];
-      $$(".hero, .favs, .story, .menu-cover, .reel, .visit").forEach(function (sec) {
+      $$(".hero, .mesa, .story, .menu-cover, .reel, .visit").forEach(function (sec) {
         var dim = document.createElement("span");
         dim.className = "stack-dim";
         dim.setAttribute("aria-hidden", "true");
@@ -817,15 +856,26 @@
     safe(initBear, "bear"); // hero bear sits on the first screen
     revealAll();
 
-    var queue = [[initSmoothScroll, "lenis"], [initGlow, "glow"], [initBears, "bears"], [initSections, "sections"], [initCinema, "cinema"], [initStack, "stack"], [initHours, "hours"]];
+    var queue = [[initSmoothScroll, "lenis"], [initGlow, "glow"], [initBears, "bears"], [initSections, "sections"], [initMesa, "mesa"], [initCinema, "cinema"], [initStack, "stack"], [initHours, "hours"]];
     var next = function () {
       var job = queue.shift();
       if (!job) { ScrollTrigger.refresh(); return; }
       safe(job[0], job[1]);
       setTimeout(next, 0);
     };
-    if ("requestIdleCallback" in window) requestIdleCallback(next, { timeout: 1200 });
-    else setTimeout(next, 300);
+    // wait for the web fonts so SplitText measures the real letters
+    var start = function () {
+      if ("requestIdleCallback" in window) requestIdleCallback(next, { timeout: 1200 });
+      else setTimeout(next, 300);
+    };
+    // (the font stylesheet loads async, so ask for the faces themselves; never wait more than 2.5 s)
+    var started = false;
+    var go = function () { if (!started) { started = true; start(); } };
+    if (document.fonts && document.fonts.load) {
+      Promise.all(["400", "500", "600", "800"].map(function (w) { return document.fonts.load(w + " 1em Jost"); }).concat(document.fonts.load("1em Allison")))
+        .then(function () { return document.fonts.ready; }).then(go, go);
+      setTimeout(go, 2500);
+    } else { go(); }
   }
 
   if (document.readyState === "loading") {

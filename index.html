@@ -21,8 +21,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Fonts load without blocking the first paint (text shows in the fallback, then swaps) -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Allison&family=Jost:wght@400;500;600;800&family=Tilt+Neon&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allison&family=Jost:wght@400;500;600;800&family=Tilt+Neon&display=swap"></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Allison&family=Jost:wght@400;500;600;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allison&family=Jost:wght@400;500;600;800&display=swap"></noscript>
 
   <link rel="preload" as="image" type="image/webp"
         href="assets/img/hero-brunch-portrait-900.webp"
@@ -33,7 +33,7 @@
         imagesrcset="assets/img/hero-brunch-1200.webp 1200w, assets/img/hero-brunch-1600.webp 1600w"
         imagesizes="100vw" media="(min-width: 768px)">
 
-  <link rel="stylesheet" href="styles.css?v=20261106o">
+  <link rel="stylesheet" href="styles.css?v=20261106t">
 
   <script type="application/ld+json">
   {
@@ -239,45 +239,46 @@
       </div></div>
     </div>
 
-    <!-- ============ 2. FAVOURITES: editorial photo composition ============ -->
-    <section class="favs" id="favoritos" aria-labelledby="favs-title">
-      <!-- Background: pastel mesh + large line-drawn blooms that drift against the photos -->
-      <div class="favs__bg" aria-hidden="true">
-        <span class="favs__glow favs__glow--a" data-glow-drift></span>
-        <span class="favs__glow favs__glow--b" data-glow-drift></span>
-        <svg class="line-bloom line-bloom--a" viewBox="0 0 200 200" data-bloom-line="-1"><use href="#line-bloom"/></svg>
-        <svg class="line-bloom line-bloom--b" viewBox="0 0 200 200" data-bloom-line="1"><use href="#line-bloom"/></svg>
-        <svg class="line-bloom line-bloom--c" viewBox="0 0 200 200" data-bloom-line="-1"><use href="#line-bloom"/></svg>
-      </div>
-      <div class="favs__head">
-        <h2 class="display" id="favs-title" data-split>
-          <span>Bloom</span> <span class="display__it">te acompaña</span> <span>en la mesa</span>
+    <!-- ============ 2. MESA: "Bloom te acompaña en la mesa" — colour band + photo mosaic ============ -->
+    <section class="mesa" id="favoritos" aria-labelledby="mesa-title">
+      <div class="mesa__band">
+        <h2 class="mesa__title" id="mesa-title">
+          <span class="mesa__caps mesa__caps--a" data-mesa-slide="-1">Bloom</span>
+          <span class="mesa__script" data-mesa-script>te acompaña</span>
+          <span class="mesa__caps mesa__caps--b" data-mesa-slide="1">en la mesa</span>
         </h2>
-        <p class="lede" data-reveal>Brunch, açaí, zumos naturales y sabores de Brasil, preparados cada día.</p>
+        <p class="mesa__lede" data-reveal>Brunch, açaí, zumos y sabores de Brasil, hechos cada día.</p>
+        <a class="pill-cta" href="#carta" data-reveal>Ver el menú</a>
       </div>
 
-      <div class="favs__grid">
-        <span class="shape shape--blob favs__blob" aria-hidden="true" data-float="1"></span>
-        <span class="shape shape--sun favs__sun" aria-hidden="true" data-float="-1"></span>
-
-        <figure class="ph ph--batidos" data-photo data-depth="0.5">
+      <!-- Mosaic: hard-edged tiles that slide in from alternating sides -->
+      <div class="mesa__mosaic">
+        <figure class="tile tile--1" data-tile data-from="left">
           <img src="assets/img/g-batidos-1000.webp" srcset="assets/img/g-batidos-600.webp 600w, assets/img/g-batidos-1000.webp 1000w"
-               sizes="(max-width: 767px) 92vw, 52vw" width="1000" height="749" loading="lazy" decoding="async"
+               sizes="(max-width: 767px) 66vw, 42vw" width="1000" height="749" loading="lazy" decoding="async"
                alt="Batidos de fruta de colores en tarros de cristal con pajitas, sobre un fondo de palmeras.">
         </figure>
-
-        <div class="peek ph-wrap ph-wrap--zumo">
-          <span class="bear-slot peek__bear" data-bear="peek" data-peek></span>
-          <figure class="ph ph--zumo" data-photo data-depth="-0.6">
+        <div class="tile-wrap tile-wrap--2">
+          <span class="bear-slot tile__bear" data-bear="peek" data-peek></span>
+          <figure class="tile tile--2" data-tile data-from="right">
             <img src="assets/img/g-zumo-rojo-600.webp" srcset="assets/img/g-zumo-rojo-600.webp 600w, assets/img/g-zumo-rojo-1000.webp 1000w"
-                 sizes="(max-width: 767px) 48vw, 26vw" width="600" height="900" loading="lazy" decoding="async"
+                 sizes="(max-width: 767px) 42vw, 25vw" width="600" height="900" loading="lazy" decoding="async"
                  alt="Zumo natural de frutos rojos con pajita y hojas de menta.">
           </figure>
         </div>
-
-        <figure class="ph ph--acai" data-photo data-depth="0.9">
+        <figure class="tile tile--3" data-tile data-from="left">
           <img src="assets/img/g-acai-coco-600.webp" width="600" height="600" loading="lazy" decoding="async"
                alt="Bol de açaí servido en coco con granola, arándanos, frambuesas y flores.">
+        </figure>
+        <figure class="tile tile--4" data-tile data-from="right">
+          <img src="assets/img/g-tortitas-600.webp" srcset="assets/img/g-tortitas-600.webp 600w, assets/img/g-tortitas-1000.webp 1000w"
+               sizes="(max-width: 767px) 42vw, 25vw" width="600" height="800" loading="lazy" decoding="async"
+               alt="Tortitas con melocotón asado, arándanos y azúcar glas.">
+        </figure>
+        <figure class="tile tile--5" data-tile data-from="left">
+          <img src="assets/img/g-croissant-benedict-600.webp" srcset="assets/img/g-croissant-benedict-600.webp 600w, assets/img/g-croissant-benedict-1000.webp 1000w"
+               sizes="(max-width: 767px) 50vw, 25vw" width="600" height="901" loading="lazy" decoding="async"
+               alt="Croissant relleno de huevos benedict con salsa holandesa y cebollino.">
         </figure>
       </div>
     </section>
@@ -464,6 +465,6 @@
   <script defer src="lib/Flip.min.js"></script>
   <script defer src="lib/CustomEase.min.js"></script>
   <script defer src="lib/lenis.min.js"></script>
-  <script defer src="main.js?v=20261106o"></script>
+  <script defer src="main.js?v=20261106t"></script>
 </body>
 </html>
