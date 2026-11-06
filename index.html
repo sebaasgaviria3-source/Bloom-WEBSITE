@@ -131,8 +131,8 @@
     <!-- photo that changes with the link under the pointer / focus -->
     <div class="menu__previews" aria-hidden="true">
       <img class="menu__preview is-active" data-preview="inicio" src="assets/img/hero-brunch-portrait-640.webp" width="640" height="800" alt="" loading="lazy" decoding="async">
-      <img class="menu__preview" data-preview="carta" src="assets/img/menu-desayuno-800.webp" width="800" height="800" alt="" loading="lazy" decoding="async">
-      <img class="menu__preview" data-preview="concepto" src="assets/img/g-osito-cafe-738.webp" width="738" height="732" alt="" loading="lazy" decoding="async">
+      <img class="menu__preview" data-preview="carta" src="assets/img/menu-tostada-900.webp" width="900" height="1125" alt="" loading="lazy" decoding="async">
+      <img class="menu__preview" data-preview="concepto" src="assets/img/story-barra-800.webp" width="800" height="600" alt="" loading="lazy" decoding="async">
       <img class="menu__preview" data-preview="galeria" src="assets/img/g-batidos-1000.webp" width="1000" height="749" alt="" loading="lazy" decoding="async">
       <img class="menu__preview" data-preview="visitanos" src="assets/img/local-terraza-700.webp" width="700" height="1051" alt="" loading="lazy" decoding="async">
     </div>
@@ -239,60 +239,67 @@
       </div></div>
     </div>
 
-    <!-- ============ 2. DECK: photos land one on top of another as you scroll ============ -->
-    <section class="deck" id="favoritos" aria-label="Nuestros favoritos">
-      <div class="deck__stage" data-deck>
-        <figure class="deck__card" data-card>
-          <img src="assets/img/g-batidos-1000.webp" srcset="assets/img/g-batidos-600.webp 600w, assets/img/g-batidos-1000.webp 1000w"
-               sizes="(max-width: 767px) 84vw, 460px" width="1000" height="749" loading="lazy" decoding="async"
-               alt="Batidos de fruta de colores en tarros de cristal con pajitas, sobre un fondo de palmeras.">
-        </figure>
-        <figure class="deck__card" data-card>
-          <img src="assets/img/g-acai-coco-600.webp" width="600" height="600" loading="lazy" decoding="async"
-               alt="Bol de açaí servido en coco con granola, arándanos, frambuesas y flores.">
-        </figure>
-        <figure class="deck__card" data-card>
-          <img src="assets/img/g-zumo-rojo-600.webp" srcset="assets/img/g-zumo-rojo-600.webp 600w, assets/img/g-zumo-rojo-1000.webp 1000w"
-               sizes="(max-width: 767px) 84vw, 460px" width="600" height="900" loading="lazy" decoding="async"
-               alt="Zumo natural de frutos rojos con pajita y hojas de menta.">
-        </figure>
-        <figure class="deck__card" data-card>
-          <img src="assets/img/g-tortitas-600.webp" srcset="assets/img/g-tortitas-600.webp 600w, assets/img/g-tortitas-1000.webp 1000w"
-               sizes="(max-width: 767px) 84vw, 460px" width="600" height="800" loading="lazy" decoding="async"
-               alt="Tortitas con melocotón asado, arándanos y azúcar glas.">
-        </figure>
-        <figure class="deck__card" data-card>
-          <img src="assets/img/g-croissant-benedict-600.webp" srcset="assets/img/g-croissant-benedict-600.webp 600w, assets/img/g-croissant-benedict-1000.webp 1000w"
-               sizes="(max-width: 767px) 84vw, 460px" width="600" height="901" loading="lazy" decoding="async"
-               alt="Croissant relleno de huevos benedict con salsa holandesa y cebollino.">
-        </figure>
-      </div>
-    </section>
+    <!-- ============ 2. SLIDES: favourites + our story in one horizontal slideshow, driven by scroll ============ -->
+    <section class="slides" id="favoritos" aria-label="Nuestros favoritos y nuestra historia" data-slides>
+      <div class="slides__stage" data-slides-stage>
+        <div class="slides__track" data-slides-track>
 
-    <!-- ============ 3. STORY: arch photo + stamp, a quote that lights up word by word ============ -->
-    <section class="story story--v2" id="concepto" aria-labelledby="story-title">
-      <div class="story__grid">
-        <div class="story__visual">
-          <figure class="story__arch" data-story-arch>
-            <img src="assets/img/g-osito-cafe-738.webp" width="738" height="732" loading="lazy" decoding="async"
-                 alt="El osito de Bloom sentado a la mesa con una taza de café con el logo y un dulce.">
+          <figure class="slide slide--photo" data-slide>
+            <div class="slide__frame">
+              <img src="assets/img/g-batidos-1000.webp" srcset="assets/img/g-batidos-600.webp 600w, assets/img/g-batidos-1000.webp 1000w"
+                   sizes="(max-width: 899px) 78vw, 440px" width="1000" height="749" loading="lazy" decoding="async"
+                   alt="Batidos de fruta de colores en tarros de cristal con pajitas, sobre un fondo de palmeras.">
+            </div>
+            <figcaption class="slide__caption"><span>01</span>Batidos</figcaption>
           </figure>
-          <figure class="story__stamp" data-story-stamp>
-            <img src="assets/img/g-local-sala-600.webp" width="600" height="889" loading="lazy" decoding="async"
-                 alt="Interior luminoso de Bloom en Vigo, con mesas y plantas.">
+
+          <figure class="slide slide--photo" data-slide>
+            <div class="slide__frame">
+              <img src="assets/img/g-acai-coco-600.webp" width="600" height="600" loading="lazy" decoding="async"
+                   alt="Bol de açaí servido en coco con granola, arándanos, frambuesas y flores.">
+            </div>
+            <figcaption class="slide__caption"><span>02</span>Açaí</figcaption>
           </figure>
-          <svg class="story__ring" viewBox="0 0 200 200" aria-hidden="true" data-spin>
-            <defs><path id="story-ring" d="M100 100 m-82 0 a82 82 0 1 1 164 0 a82 82 0 1 1 -164 0"/></defs>
-            <text><textPath href="#story-ring">Coffee · Brunch · Vigo · Coffee · Brunch · Vigo ·</textPath></text>
-          </svg>
+
+          <!-- Our story (TEMP COPY until the final text arrives) -->
+          <article class="slide slide--story" id="concepto" aria-labelledby="story-title" data-slide>
+            <figure class="slide-story__photo">
+              <img src="assets/img/story-barra-1365.webp" srcset="assets/img/story-barra-800.webp 800w, assets/img/story-barra-1365.webp 1365w"
+                   sizes="(max-width: 899px) 88vw, 46vw" width="1365" height="1024" loading="lazy" decoding="async"
+                   alt="La barra de Bloom en Vigo, con listones rosas, el cartel «Coffee Bloom Brunch» y un jardín vertical encima.">
+            </figure>
+            <div class="slide-story__words">
+              <h2 class="story__title" id="story-title"><span class="story__caps">Nuestra</span> <span class="story__script">historia</span></h2>
+              <blockquote class="story__quote" data-story-quote>Un lugar donde cada taza cuenta una historia.</blockquote>
+              <p class="slide-story__body">Bloom Coffee nació de la pasión por el café, del cuidado por los detalles y de esos pequeños momentos que merecen disfrutarse sin prisa.</p>
+              <p class="slide-story__place">Calle Ángel Llanos 10, Vigo</p>
+            </div>
+          </article>
+
+          <figure class="slide slide--photo" data-slide>
+            <div class="slide__frame">
+              <img src="assets/img/g-zumo-rojo-600.webp" srcset="assets/img/g-zumo-rojo-600.webp 600w, assets/img/g-zumo-rojo-1000.webp 1000w"
+                   sizes="(max-width: 899px) 78vw, 440px" width="600" height="900" loading="lazy" decoding="async"
+                   alt="Zumo natural de frutos rojos con pajita y hojas de menta.">
+            </div>
+            <figcaption class="slide__caption"><span>04</span>Zumos naturales</figcaption>
+          </figure>
+
+          <figure class="slide slide--photo" data-slide>
+            <div class="slide__frame">
+              <img src="assets/img/g-tortitas-600.webp" srcset="assets/img/g-tortitas-600.webp 600w, assets/img/g-tortitas-1000.webp 1000w"
+                   sizes="(max-width: 899px) 78vw, 440px" width="600" height="800" loading="lazy" decoding="async"
+                   alt="Tortitas con melocotón asado, arándanos y azúcar glas.">
+            </div>
+            <figcaption class="slide__caption"><span>05</span>Tortitas</figcaption>
+          </figure>
+
         </div>
 
-        <div class="story__words">
-          <h2 class="story__title" id="story-title"><span class="story__caps">Nuestra</span> <span class="story__script">historia</span></h2>
-          <!-- TEMP COPY: the existing story text until the final version arrives -->
-          <blockquote class="story__quote" data-story-quote>Un lugar donde cada taza cuenta una historia.</blockquote>
-          <p class="story__body" data-reveal>Bloom Coffee nació de la pasión por el café, del cuidado por los detalles y de esos pequeños momentos que merecen disfrutarse sin prisa.</p>
-          <p class="story__place" data-reveal>Calle Ángel Llanos 10, Vigo</p>
+        <div class="slides__progress" aria-hidden="true">
+          <span class="slides__count" data-slides-count>01</span>
+          <span class="slides__bar"><i data-slides-bar></i></span>
+          <span class="slides__count">05</span>
         </div>
       </div>
     </section>
@@ -301,9 +308,9 @@
     <section class="menu-cover" id="carta" aria-labelledby="menu-title">
       <div class="menu-cover__frame" data-menu-frame>
         <picture>
-          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/menu-desayuno-800.webp">
-          <img class="menu-cover__img" src="assets/img/menu-desayuno-1200.webp" width="1200" height="1200" loading="lazy" decoding="async"
-               alt="Desayuno de Bloom: tostada con tomate y jamón, café con arte latte y zumo de naranja natural.">
+          <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/menu-tostada-900.webp">
+          <img class="menu-cover__img" src="assets/img/menu-tostada-1334.webp" width="1334" height="834" loading="lazy" decoding="async"
+               alt="Tostada de aguacate con manzana, rábano y brotes, y otra con huevo poché, servidas sobre mármol.">
         </picture>
       </div>
 

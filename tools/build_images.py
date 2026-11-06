@@ -117,3 +117,18 @@ save(ter, "local-terraza-700.webp", 700, q=76)
 # ffmpeg -i SRC -filter_complex "[0:v]fps=30,split[a][b];[a]trim=start=0.8,setpts=PTS-STARTPTS[main];
 #   [b]trim=end=0.8,setpts=PTS-STARTPTS[head];[main][head]xfade=transition=fade:duration=0.8:offset=4.86,format=yuv420p[v]"
 #   -map "[v]" -an -c:v libx264 -preset slow -crf 28 -movflags +faststart assets/video/local-terraza.mp4
+
+# Story slide: the pink counter with the Bloom sign (higher-res source)
+barra_hd = grade(Image.open(GAL / "local-barra-hd.jpg").convert("RGB"))  # 1365x1024
+save(barra_hd, "story-barra-1365.webp", 1365, q=78)
+save(barra_hd, "story-barra-800.webp", 800, q=76)
+
+# Menu cover: avocado toast with poached egg (portrait source, 1334x2000)
+tost = grade(Image.open(GAL / "tostada-aguacate.jpg").convert("RGB"))
+tw, th = tost.size
+wide_h = round(tw * 10 / 16)                  # 16:10, a little taller than the 16:9 frame for parallax
+wt = max(0, min(th - wide_h, 1000 - wide_h // 2))
+save(tost.crop((0, wt, tw, wt + wide_h)), "menu-tostada-1334.webp", 1334, q=76)
+tall_h = round(tw * 5 / 4)                    # 4:5 for phones
+tt = max(0, min(th - tall_h, 940 - tall_h // 2))
+save(tost.crop((0, tt, tw, tt + tall_h)), "menu-tostada-900.webp", 900, q=74)

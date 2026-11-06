@@ -270,86 +270,89 @@
   }
 
   /* =========================================================
-     Deck: the section holds while each photo rises from below and lands,
-     turning, on top of the pile; the ones underneath settle back a little.
+     Slides: favourites and our story share one pinned stage. Scrolling down
+     slides the track sideways: two photos, the story, two more photos.
      ========================================================= */
-  // final resting place of each card: [x %, y %, rotation]
-  var DECK_REST = [[-50, -46, -4], [-46, -48, 3], [-54, -47, -2], [-47, -45, 4], [-51, -48, -1]];
+  var anchorY = {}; // in-page targets that live inside a pinned track: id -> function returning scrollY
 
-  function initDeck() {
-    var section = $(".deck");
+  function initSlides() {
+    var section = $("[data-slides]");
     if (!section) return;
-    var stage = $("[data-deck]", section);
-    var cards = $$("[data-card]", section);
+    var stage = $("[data-slides-stage]", section);
+    var track = $("[data-slides-track]", section);
+    var slides = $$("[data-slide]", section);
+    var bar = $("[data-slides-bar]", section);
+    var count = $("[data-slides-count]", section);
+    var story = $(".slide--story", section);
+    var quote = $("[data-story-quote]", section);
+    var words = null;
+    if (quote && window.SplitText) words = SplitText.create(quote, { type: "words", wordsClass: "word" }).words;
+
     var mm = gsap.matchMedia();
-    mm.add({ isMobile: "(max-width: 899px)", motion: "(prefers-reduced-motion: no-preference)" }, function (ctx) {
-      var c = ctx.conditions;
-      if (!c.motion) return;
+    mm.add("(prefers-reduced-motion: no-preference)", function () {
       section.classList.add("is-live");
+      var distance = function () { return Math.max(0, track.scrollWidth - window.innerWidth); };
 
-      cards.forEach(function (card, i) {
-        var r = DECK_REST[i] || DECK_REST[0];
-        gsap.set(card, { xPercent: r[0], yPercent: r[1] + (i ? 240 : 0), rotation: i ? (i % 2 ? 14 : -14) : r[2], zIndex: i + 1 });
-      });
-
-      var tl = gsap.timeline({
-        defaults: { ease: "none" },
+      var move = gsap.to(track, {
+        x: function () { return -distance(); },
+        ease: "none",
         scrollTrigger: {
           trigger: stage,
           start: "top top",
-          end: function () { return "+=" + (cards.length - 1) * (c.isMobile ? 70 : 80) + "%"; },
+          end: function () { return "+=" + distance(); },
           pin: true,
-          scrub: 0.8,
+          scrub: 0.6,
           anticipatePin: 1,
-          invalidateOnRefresh: true
+          invalidateOnRefresh: true,
+          onUpdate: function (self) {
+            if (bar) bar.style.transform = "scaleX(" + self.progress.toFixed(4) + ")";
+            if (!count) return;
+            // the slide whose centre is nearest the middle of the screen
+            var mid = self.progress * distance() + window.innerWidth / 2, best = 0, gap = Infinity;
+            slides.forEach(function (sl, i) {
+              var d = Math.abs(sl.offsetLeft + sl.offsetWidth / 2 - mid);
+              if (d < gap) { gap = d; best = i; }
+            });
+            count.textContent = "0" + (best + 1);
+          }
         }
       });
 
-      // first card: a soft zoom-in so the pile does not start static
-      tl.fromTo($("img", cards[0]), { scale: 1.25 }, { scale: 1, duration: 1 }, 0);
-
-      cards.forEach(function (card, i) {
-        if (!i) return;
-        var r = DECK_REST[i] || DECK_REST[0];
-        var at = i - 1;
-        // the new card rises and lands with a turn
-        tl.to(card, { yPercent: r[1], rotation: r[2], duration: 1, ease: "bloom" }, at)
-          .fromTo($("img", card), { scale: 1.3 }, { scale: 1, duration: 1 }, at);
-        // the cards underneath settle back
-        cards.slice(0, i).forEach(function (under, k) {
-          var depth = i - k;
-          tl.to(under, { scale: 1 - depth * 0.05, yPercent: (DECK_REST[k] || DECK_REST[0])[1] - depth * 4, duration: 1 }, at);
+      // each photo drifts gently inside its frame as it passes
+      $$(".slide__frame img, .slide-story__photo img", section).forEach(function (img) {
+        gsap.fromTo(img, { xPercent: -6, scale: 1.14 }, {
+          xPercent: 6, scale: 1.14, ease: "none",
+          scrollTrigger: { trigger: img.parentNode, containerAnimation: move, start: "left right", end: "right left", scrub: true }
         });
       });
 
-      return function () { section.classList.remove("is-live"); };
-    });
-  }
-
-  /* ---------- Story: the arch opens, the stamp turns in, the quote lights up word by word ---------- */
-  function initStory() {
-    var section = $(".story--v2");
-    if (!section) return;
-    var quote = $("[data-story-quote]", section);
-    var mm = gsap.matchMedia();
-    mm.add("(prefers-reduced-motion: no-preference)", function () {
-      var arch = $("[data-story-arch]", section);
-      var stamp = $("[data-story-stamp]", section);
-      gsap.fromTo(arch, { clipPath: "inset(100% 0% 0% 0% round 999px 999px 24px 24px)" },
-        { clipPath: "inset(0% 0% 0% 0% round 999px 999px 24px 24px)", ease: "power2.out",
-          scrollTrigger: { trigger: arch, start: "top 85%", end: "top 35%", scrub: 0.7 } });
-      gsap.fromTo($("img", arch), { scale: 1.3 }, { scale: 1, ease: "none",
-        scrollTrigger: { trigger: arch, start: "top bottom", end: "bottom top", scrub: true } });
-      gsap.fromTo(stamp, { scale: 0.4, rotation: -40, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, ease: "back.out(1.6)",
-        scrollTrigger: { trigger: stamp, start: "top 95%", end: "top 60%", scrub: 0.7 } });
-      gsap.fromTo(stamp, { y: 40 }, { y: -40, ease: "none",
-        scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: true } });
-
-      if (quote && window.SplitText) {
-        var split = SplitText.create(quote, { type: "words", wordsClass: "word" });
-        gsap.fromTo(split.words, { opacity: 0.14 }, { opacity: 1, stagger: 0.1, ease: "none",
-          scrollTrigger: { trigger: quote, start: "top 80%", end: "bottom 45%", scrub: true } });
+      // the story: its photo opens from the left, then the quote lights up word by word
+      var photo = story && $(".slide-story__photo", story);
+      if (photo) {
+        gsap.fromTo(photo, { clipPath: "inset(0% 100% 0% 0% round 18px)" }, {
+          clipPath: "inset(0% 0% 0% 0% round 18px)", ease: "power2.out",
+          scrollTrigger: { trigger: story, containerAnimation: move, start: "left 85%", end: "left 25%", scrub: true }
+        });
       }
+      if (words) {
+        gsap.fromTo(words, { opacity: 0.14 }, {
+          opacity: 1, stagger: 0.1, ease: "none",
+          scrollTrigger: { trigger: story, containerAnimation: move, start: "left 45%", end: "left -5%", scrub: true }
+        });
+      }
+
+      // "Concepto" in the menu lands on the story slide, centred
+      if (story) {
+        anchorY[story.id] = function () {
+          var x = Math.min(distance(), Math.max(0, story.offsetLeft + story.offsetWidth / 2 - window.innerWidth / 2));
+          return move.scrollTrigger.start + x;
+        };
+      }
+
+      return function () {
+        section.classList.remove("is-live");
+        if (story) delete anchorY[story.id];
+      };
     });
   }
 
@@ -358,7 +361,7 @@
     var mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", function () {
       var dims = [];
-      $$(".hero, .story, .menu-cover, .reel, .visit").forEach(function (sec) {
+      $$(".hero, .menu-cover, .reel, .visit").forEach(function (sec) {
         var dim = document.createElement("span");
         dim.className = "stack-dim";
         dim.setAttribute("aria-hidden", "true");
@@ -757,7 +760,8 @@
       var target = document.querySelector(id);
       if (!target) return;
       e.preventDefault();
-      lenis.scrollTo(target, { offset: id === "#inicio" ? 0 : -80 });
+      var y = anchorY[id.slice(1)];
+      lenis.scrollTo(y ? y() : target, y ? {} : { offset: id === "#inicio" ? 0 : -80 });
       history.replaceState(null, "", id);
     });
   }
@@ -801,7 +805,7 @@
     safe(initBear, "bear"); // hero bear sits on the first screen
     revealAll();
 
-    var queue = [[initSmoothScroll, "lenis"], [initGlow, "glow"], [initBears, "bears"], [initSections, "sections"], [initDeck, "deck"], [initStory, "story"], [initStack, "stack"], [initHours, "hours"]];
+    var queue = [[initSmoothScroll, "lenis"], [initGlow, "glow"], [initBears, "bears"], [initSections, "sections"], [initSlides, "slides"], [initStack, "stack"], [initHours, "hours"]];
     var next = function () {
       var job = queue.shift();
       if (!job) { ScrollTrigger.refresh(); return; }
