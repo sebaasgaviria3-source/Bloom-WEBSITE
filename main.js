@@ -129,6 +129,22 @@
   })();
 
   /* ------------------------------------------------------------------
+     4b. 3D cup in the Carta (Three.js, loaded only when the section nears)
+     Static with reduced motion; the box simply stays empty without WebGL.
+     ------------------------------------------------------------------ */
+  var cupBox = document.querySelector('[data-cup]');
+  if (cupBox && 'IntersectionObserver' in window) {
+    var cupIO = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      cupIO.disconnect();
+      import('./cup.js?v=20261107g')
+        .then(function (m) { m.initCup(cupBox, { still: reduceMotion }); })
+        .catch(function () { cupBox.remove(); });
+    }, { rootMargin: '600px 0px' });
+    cupIO.observe(cupBox);
+  }
+
+  /* ------------------------------------------------------------------
      5. Motion (skipped entirely with reduced motion)
      ------------------------------------------------------------------ */
   var hero = document.querySelector('[data-hero]');
@@ -286,11 +302,43 @@
       scrollTrigger: { trigger: el, start: 'top 88%' }
     });
   });
+  /* Titles: split into words (keeping <em>), each word rises out of its own mask */
+  function splitWords(node) {
+    Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+      if (child.nodeType === 1) { splitWords(child); return; }
+      if (child.nodeType !== 3 || !child.nodeValue.trim()) return;
+      var frag = document.createDocumentFragment();
+      child.nodeValue.split(/(\s+)/).forEach(function (part) {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+        var w = document.createElement('span'), inner = document.createElement('span');
+        w.className = 'w'; inner.className = 'w__in'; inner.textContent = part;
+        w.appendChild(inner); frag.appendChild(w);
+      });
+      node.replaceChild(frag, child);
+    });
+  }
+  gsap.utils.toArray('[data-split]').forEach(function (el) {
+    el.setAttribute('aria-label', el.textContent.replace(/\s+/g, ' ').trim());
+    splitWords(el);
+    var words = el.querySelectorAll('.w__in');
+    Array.prototype.forEach.call(el.querySelectorAll('.w'), function (w) { w.setAttribute('aria-hidden', 'true'); });
+    gsap.from(words, {
+      yPercent: 110, duration: 1.15, ease: 'power3.out', stagger: 0.07,
+      scrollTrigger: { trigger: el, start: 'top 88%' }
+    });
+  });
+
+  /* Story photos: a mask opens from the bottom while the photo settles */
   gsap.utils.toArray('[data-reveal]').forEach(function (el, i) {
-    gsap.from(el, {
-      y: 50, autoAlpha: 0, duration: 1.3, delay: i * 0.12, ease: 'power3.out',
+    var img = el.querySelector('img');
+    var tl = gsap.timeline({
+      delay: i * 0.15,
+      defaults: { duration: 1.6, ease: 'power3.inOut' },
       scrollTrigger: { trigger: el, start: 'top 85%' }
     });
+    tl.fromTo(el, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', clearProps: 'clipPath' }, 0);
+    if (img) tl.fromTo(img, { scale: 1.25 }, { scale: 1, duration: 1.9, ease: 'power3.out', clearProps: 'transform' }, 0);
     gsap.fromTo(el, { yPercent: 4 }, {
       yPercent: -4, ease: 'none',
       scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true }

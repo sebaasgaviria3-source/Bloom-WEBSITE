@@ -349,19 +349,38 @@ em { font-style: italic; }
   .card__img { height: clamp(260px, 46svh, 400px); }
 }
 
-/* Gallery entrance: cards rise one after another (only when JS + motion are on) */
+/* Gallery entrance: cards rise one after another and each photo opens behind a mask
+   (only when JS + motion are on) */
 .gallery.is-waiting .card { opacity: 0 !important; transform: translateY(60px) !important; }
+.gallery.is-waiting .card__img { clip-path: inset(100% 0 0 0); }
+.gallery.is-waiting .card__img img { scale: 1.18; }
 .gallery.is-in .card { transition-duration: 1.2s; }
-.gallery.is-in .card:nth-child(2) { transition-delay: .08s; }
-.gallery.is-in .card:nth-child(3) { transition-delay: .16s; }
-.gallery.is-in .card:nth-child(4) { transition-delay: .24s; }
-.gallery.is-in .card:nth-child(5) { transition-delay: .32s; }
+.gallery.is-in .card__img { clip-path: inset(0 0 0 0); transition: clip-path 1.5s var(--ease); }
+.gallery.is-in .card__img img { transition-duration: 1.8s; }
+.gallery.is-in .card:nth-child(2), .gallery.is-in .card:nth-child(2) .card__img, .gallery.is-in .card:nth-child(2) .card__img img { transition-delay: .08s; }
+.gallery.is-in .card:nth-child(3), .gallery.is-in .card:nth-child(3) .card__img, .gallery.is-in .card:nth-child(3) .card__img img { transition-delay: .16s; }
+.gallery.is-in .card:nth-child(4), .gallery.is-in .card:nth-child(4) .card__img, .gallery.is-in .card:nth-child(4) .card__img img { transition-delay: .24s; }
+.gallery.is-in .card:nth-child(5), .gallery.is-in .card:nth-child(5) .card__img, .gallery.is-in .card:nth-child(5) .card__img img { transition-delay: .32s; }
 
 /* ---------- Gentle floating (CSS `translate`, independent of GSAP transforms) ---------- */
 @keyframes float { 50% { translate: 0 -10px; } }
 @keyframes float-soft { 50% { translate: 0 -4px; } }
 .frame--small { animation: float 6.4s ease-in-out infinite; }
 .hero__logo { animation: float-soft 7s ease-in-out 1.6s infinite; }
+
+/* ---------- Split titles: each word rises out of its own mask ---------- */
+.w { display: inline-block; overflow: hidden; vertical-align: top;
+     padding: 0 .06em .12em; margin: 0 -.06em -.12em; }   /* room for italics and descenders */
+.w__in { display: inline-block; will-change: transform; }
+
+/* ---------- 3D cup (Carta) ---------- */
+.cup3d {
+  width: clamp(150px, 16vw, 210px); aspect-ratio: 1 / 1;
+  margin: 0 auto clamp(14px, 2vw, 22px);
+  opacity: 0; transition: opacity 1.2s var(--ease);
+}
+.cup3d.is-live { opacity: 1; }
+.cup3d canvas { display: block; width: 100% !important; height: 100% !important; }
 
 /* ---------- Intro (JS + motion allowed only; auto-released after 3s) ---------- */
 .intro [data-intro] { visibility: hidden; }
