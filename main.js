@@ -109,7 +109,19 @@
     var el = document.querySelector('[data-gallery]');
     if (!el || !window.Swiper) return;
     var count = document.querySelector('[data-count]');
-    var total = el.querySelectorAll('.swiper-slide').length;
+    var wrapper = el.querySelector('.swiper-wrapper');
+    var originals = el.querySelectorAll('.swiper-slide');
+    var total = originals.length;                       // exactly 4 photos
+    // Swiper needs more slides than fit on screen to loop seamlessly: repeat the same
+    // four photos (hidden from screen readers) so the carousel never shows a gap
+    for (var r = 0; r < 2; r++) {
+      Array.prototype.forEach.call(originals, function (slide) {
+        var c = slide.cloneNode(true);
+        c.setAttribute('aria-hidden', 'true');
+        c.classList.add('is-copy');
+        wrapper.appendChild(c);
+      });
+    }
     var pad = function (n) { return String(n).padStart(2, '0'); };
     new Swiper(el, {
       slidesPerView: 'auto',
@@ -123,7 +135,7 @@
       autoplay: reduceMotion ? false : { delay: 4200, pauseOnMouseEnter: true, disableOnInteraction: false },
       breakpoints: { 900: { spaceBetween: 44 } },
       on: {
-        slideChange: function (s) { if (count) count.textContent = pad(s.realIndex + 1) + ' / ' + pad(total); }
+        slideChange: function (s) { if (count) count.textContent = pad((s.realIndex % total) + 1) + ' / ' + pad(total); }
       }
     });
   })();
@@ -325,7 +337,8 @@
     Array.prototype.forEach.call(el.querySelectorAll('.w'), function (w) { w.setAttribute('aria-hidden', 'true'); });
     gsap.from(words, {
       yPercent: 110, duration: 1.15, ease: 'power3.out', stagger: 0.07,
-      scrollTrigger: { trigger: el, start: 'top 88%' }
+      scrollTrigger: { trigger: el, start: 'top 88%' },
+      onComplete: function () { el.classList.add('is-split-done'); }
     });
   });
 
