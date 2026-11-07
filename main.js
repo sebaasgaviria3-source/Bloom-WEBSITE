@@ -82,12 +82,12 @@
     }
     function update() {
       var now = madridNow(), today = HOURS[now.day], text, open = false;
-      if (today && now.min >= today[0] && now.min < today[1]) { open = true; text = 'Abierto ahora · hasta las ' + fmt(today[1]); }
-      else if (today && now.min < today[0]) { text = 'Cerrado · abrimos a las ' + fmt(today[0]); }
+      if (today && now.min >= today[0] && now.min < today[1]) { open = true; text = 'Abierto, hasta las ' + fmt(today[1]); }
+      else if (today && now.min < today[0]) { text = 'Cerrado, abrimos hoy a las ' + fmt(today[0]); }
       else {
         for (var i = 1; i <= 7; i++) {
           var d = (now.day + i) % 7;
-          if (HOURS[d]) { text = 'Cerrado · abrimos ' + (i === 1 ? 'mañana' : 'el ' + DAYS[d]) + ' a las ' + fmt(HOURS[d][0]); break; }
+          if (HOURS[d]) { text = 'Cerrado, abrimos ' + (i === 1 ? 'mañana' : 'el ' + DAYS[d]) + ' a las ' + fmt(HOURS[d][0]); break; }
         }
       }
       if (el) {
@@ -95,49 +95,13 @@
         el.querySelector('[data-status-text]').textContent = text;
         el.hidden = false;
       }
+      var state = document.querySelector('[data-state]');
+      if (state) state.textContent = open ? 'Abierto' : 'Cerrado';
       document.querySelectorAll('[data-hours] li').forEach(function (li) {
         li.classList.toggle('is-today', li.dataset.days.split(',').indexOf(String(now.day)) > -1);
       });
     }
     try { update(); setInterval(update, 60000); } catch (e) { /* static table stays */ }
-  })();
-
-  /* ------------------------------------------------------------------
-     4. Gallery (Swiper): original proportions, centred, swipe + arrows
-     ------------------------------------------------------------------ */
-  (function gallery() {
-    var el = document.querySelector('[data-gallery]');
-    if (!el || !window.Swiper) return;
-    var count = document.querySelector('[data-count]');
-    var wrapper = el.querySelector('.swiper-wrapper');
-    var originals = el.querySelectorAll('.swiper-slide');
-    var total = originals.length;                       // exactly 4 photos
-    // Swiper needs more slides than fit on screen to loop seamlessly: repeat the same
-    // four photos (hidden from screen readers) so the carousel never shows a gap
-    for (var r = 0; r < 2; r++) {
-      Array.prototype.forEach.call(originals, function (slide) {
-        var c = slide.cloneNode(true);
-        c.setAttribute('aria-hidden', 'true');
-        c.classList.add('is-copy');
-        wrapper.appendChild(c);
-      });
-    }
-    var pad = function (n) { return String(n).padStart(2, '0'); };
-    new Swiper(el, {
-      slidesPerView: 'auto',
-      centeredSlides: true,
-      spaceBetween: 28,
-      loop: true,
-      speed: reduceMotion ? 0 : 1100,
-      grabCursor: true,
-      keyboard: { enabled: true },
-      navigation: { prevEl: '[data-prev]', nextEl: '[data-next]' },
-      autoplay: reduceMotion ? false : { delay: 4200, pauseOnMouseEnter: true, disableOnInteraction: false },
-      breakpoints: { 900: { spaceBetween: 44 } },
-      on: {
-        slideChange: function (s) { if (count) count.textContent = pad((s.realIndex % total) + 1) + ' / ' + pad(total); }
-      }
-    });
   })();
 
   /* ------------------------------------------------------------------
@@ -178,13 +142,18 @@
 
   /* ---------- 5a. Frame sequence ---------- */
   var FRAME_COUNT = 80;              // 000 … 079: closed → fully open
-  var SRC_W = 1600, SRC_H = 992;     // frame aspect (lg 1600 px, sm 960 px)
+  // Three sets of the same 80 frames: lg (1600×992) for wide screens, sm (960×595) for
+  // small landscape screens, m (640×992, the centre of lg at full sharpness) for phones
+  // held upright — a portrait screen only ever shows that centre band anyway.
 
   var media = hero.querySelector('[data-media]');
   var canvas = hero.querySelector('[data-canvas]');
   var ctx = canvas.getContext('2d', { alpha: false });
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var set = (media.clientWidth * dpr > 900) ? 'lg' : 'sm';
+  var portrait = media.clientWidth / media.clientHeight < 0.8;
+  var set = portrait ? 'm' : (media.clientWidth * dpr > 900 ? 'lg' : 'sm');
+  var SRC_W = set === 'm' ? 640 : 1600, SRC_H = 992;   // drawing space (sm is drawn scaled up to lg)
+  var isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
   var frames = new Array(FRAME_COUNT);
   var loaded = new Array(FRAME_COUNT).fill(false);
   var current = -1;
@@ -284,7 +253,9 @@
       start: 'top top',
       end: function () { return '+=' + Math.round(window.innerHeight * 2); },
       pin: true,
-      scrub: true,             // stops when scrolling stops, reverses on scroll up
+      // stops when scrolling stops, reverses on scroll up; on touch screens a short
+      // catch-up smooths the finger's uneven steps so the pancakes open fluidly
+      scrub: isTouch ? 0.45 : true,
       anticipatePin: 1,
       invalidateOnRefresh: true,
       onRefresh: function () { measure(); draw(Math.round(playhead.frame), true); }
@@ -297,15 +268,35 @@
     .to(hero.querySelector('[data-hint]'), { autoAlpha: 0, duration: 0.1 }, 0)
     .to({}, { duration: 1 - OPEN_END }, OPEN_END);
 
-  /* ---------- 5d. Gallery: cards rise in one after another (CSS, so Swiper keeps control) ---------- */
-  var galSection = document.querySelector('.gallery');
-  if (galSection && 'IntersectionObserver' in window) {
-    galSection.classList.add('is-waiting');
-    var io = new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting) { galSection.classList.remove('is-waiting'); galSection.classList.add('is-in'); io.disconnect(); }
-    }, { rootMargin: '0px 0px -15% 0px' });
-    io.observe(galSection.querySelector('[data-gallery]'));
-  }
+  /* ---------- 5d. Vertical gallery: each photo opens, drifts and settles ---------- */
+  gsap.utils.toArray('[data-vg]').forEach(function (fig, i) {
+    var frame = fig.querySelector('[data-vg-frame]');
+    var img = fig.querySelector('[data-vg-img]');
+    var cap = fig.querySelector('[data-vg-cap]');
+    var dir = fig.classList.contains('vg--right') ? 1 : -1;
+
+    // entrance: a mask opens from the bottom while the photo settles and fades in
+    gsap.timeline({ scrollTrigger: { trigger: fig, start: 'top 82%' } })
+      .fromTo(frame, { clipPath: 'inset(100% 0% 0% 0%)', autoAlpha: 0 },
+        { clipPath: 'inset(0% 0% 0% 0%)', autoAlpha: 1, duration: 1.5, ease: 'power3.inOut', clearProps: 'clipPath' }, 0)
+      .fromTo(img, { scale: 1.16 }, { scale: 1.06, duration: 1.9, ease: 'power3.out' }, 0)
+      .from(cap.children, { y: 26, autoAlpha: 0, duration: 1.1, ease: 'power3.out', stagger: 0.1 }, 0.5);
+
+    // parallax: the frame drifts slower than the page, the photo moves inside it
+    gsap.fromTo(frame, { y: 60 }, {
+      y: -60, ease: 'none',
+      scrollTrigger: { trigger: fig, start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+    gsap.fromTo(img, { yPercent: -3 }, {
+      yPercent: 3, ease: 'none', immediateRender: false,
+      scrollTrigger: { trigger: fig, start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+    // caption slides gently the other way
+    gsap.fromTo(cap, { x: 24 * dir }, {
+      x: -24 * dir, ease: 'none',
+      scrollTrigger: { trigger: fig, start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+  });
 
   /* ---------- 5e. Quiet reveals ---------- */
   gsap.utils.toArray('[data-fade]').forEach(function (el) {

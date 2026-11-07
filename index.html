@@ -6,7 +6,7 @@
   <title>Bloom Coffee &amp; Brunch · Café de especialidad y brunch en Vigo</title>
   <meta name="description" content="Café de especialidad, brunch, açaí, tostadas y sabores de Brasil en Calle Ángel Llanos 10, Vigo. Abierto de lunes a sábado. Ven a disfrutar sin prisa.">
   <link rel="canonical" href="https://bloomcoffeebrunch.com/">
-  <meta name="theme-color" content="#FFFCF7">
+  <meta name="theme-color" content="#F6EFE6">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
@@ -31,11 +31,10 @@
 
   <link rel="preload" href="assets/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" as="image" href="assets/frames/pancake/sm/000.webp" media="(max-width: 767px)">
-  <link rel="preload" as="image" href="assets/frames/pancake/lg/000.webp" media="(min-width: 768px)">
+  <link rel="preload" as="image" href="assets/frames/pancake/m/000.webp" media="(max-aspect-ratio: 4/5)">
+  <link rel="preload" as="image" href="assets/frames/pancake/lg/000.webp" media="(min-aspect-ratio: 4/5)">
 
-  <link rel="stylesheet" href="lib/swiper-bundle.min.css">
-  <link rel="stylesheet" href="styles.css?v=20261107h">
+  <link rel="stylesheet" href="styles.css?v=20261107i">
 
   <script type="application/ld+json">
   {
@@ -106,12 +105,15 @@
       </div>
 
       <div class="hero__frame" data-media data-intro="reveal">
-        <img class="hero__poster" data-poster
-             src="assets/frames/pancake/lg/000.webp"
-             srcset="assets/frames/pancake/sm/000.webp 960w, assets/frames/pancake/lg/000.webp 1600w"
-             sizes="100vw" width="1600" height="992"
-             alt="Tortitas con melocotón caramelizado, arándanos y azúcar glas"
-             fetchpriority="high">
+        <picture>
+          <source media="(max-aspect-ratio: 4/5)" srcset="assets/frames/pancake/m/000.webp" width="640" height="992">
+          <img class="hero__poster" data-poster
+               src="assets/frames/pancake/lg/000.webp"
+               srcset="assets/frames/pancake/sm/000.webp 960w, assets/frames/pancake/lg/000.webp 1600w"
+               sizes="100vw" width="1600" height="992"
+               alt="Tortitas con melocotón caramelizado, arándanos y azúcar glas"
+               fetchpriority="high">
+        </picture>
         <canvas class="hero__canvas" data-canvas aria-hidden="true"></canvas>
       </div>
 
@@ -119,26 +121,43 @@
     </section>
 
 
-    <!-- 2 · GALERÍA (right after the cover) -->
+    <!-- 2 · GALERÍA: three photographs, stacked, each with its own composition -->
     <section class="gallery section" id="galeria" aria-labelledby="gallery-title">
       <header class="section__head">
         <p class="kicker" data-fade>Galería</p>
         <h2 class="title" id="gallery-title" data-split>Nuestros <em>favoritos</em></h2>
       </header>
 
-      <div class="swiper gallery__swiper" data-gallery>
-        <div class="swiper-wrapper">
-          <figure class="swiper-slide card card--arch"><div class="card__img"><img src="assets/img/gal-cafes-latte.webp" width="640" height="960" loading="lazy" decoding="async" alt="Dos cafés con arte latte"></div><figcaption>Café de especialidad</figcaption></figure>
-          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-acai-coco.webp" width="960" height="960" loading="lazy" decoding="async" alt="Açaí servido en media cáscara de coco con granola y fruta"></div><figcaption>Açaí en coco</figcaption></figure>
-          <figure class="swiper-slide card card--arch"><div class="card__img"><img src="assets/img/gal-croissant-benedict.webp" width="640" height="960" loading="lazy" decoding="async" alt="Croissant benedict con huevo poché y salsa holandesa"></div><figcaption>Croissant benedict</figcaption></figure>
-          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-coxinhas.webp" width="1444" height="960" loading="lazy" decoding="async" alt="Coxinhas de pollo con salsa"></div><figcaption>Coxinhas</figcaption></figure>
-        </div>
-      </div>
+      <div class="vgallery">
+        <figure class="vg vg--left" data-vg>
+          <div class="vg__frame" data-vg-frame>
+            <div class="vg__img"><img src="assets/img/gal-cafes-latte.webp" width="640" height="960" loading="lazy" decoding="async" alt="Dos cafés con arte latte" data-vg-img></div>
+          </div>
+          <figcaption class="vg__cap" data-vg-cap>
+            <span class="vg__num">01</span>
+            <span class="vg__name">Café de <em>especialidad</em></span>
+          </figcaption>
+        </figure>
 
-      <div class="gallery__controls" data-fade>
-        <button class="arrow" type="button" aria-label="Foto anterior" data-prev>←</button>
-        <span class="gallery__count" aria-live="polite" data-count>01 / 04</span>
-        <button class="arrow" type="button" aria-label="Foto siguiente" data-next>→</button>
+        <figure class="vg vg--right" data-vg>
+          <div class="vg__frame" data-vg-frame>
+            <div class="vg__img"><img src="assets/img/gal-acai-coco.webp" width="960" height="960" loading="lazy" decoding="async" alt="Açaí servido en media cáscara de coco con granola y fruta" data-vg-img></div>
+          </div>
+          <figcaption class="vg__cap" data-vg-cap>
+            <span class="vg__num">02</span>
+            <span class="vg__name">Açaí en <em>coco</em></span>
+          </figcaption>
+        </figure>
+
+        <figure class="vg vg--wide" data-vg>
+          <div class="vg__frame" data-vg-frame>
+            <div class="vg__img"><img src="assets/img/gal-coxinhas.webp" width="1444" height="960" loading="lazy" decoding="async" alt="Coxinhas de pollo con salsa" data-vg-img></div>
+          </div>
+          <figcaption class="vg__cap" data-vg-cap>
+            <span class="vg__num">03</span>
+            <span class="vg__name">Sabores de <em>Brasil</em></span>
+          </figcaption>
+        </figure>
       </div>
     </section>
 
@@ -220,38 +239,79 @@
     </section>
 
 
-    <!-- 5 · CONTACTO -->
-    <section class="contact section" id="contacto" aria-labelledby="contact-title">
-      <header class="section__head">
-        <p class="kicker" data-fade>Contacto</p>
-        <h2 class="title" id="contact-title" data-split>Te esperamos en <em>Vigo</em></h2>
-      </header>
+    <!-- 5 · REDES (adapted from the owner's reference) -->
+    <section class="social section" id="redes" aria-labelledby="social-title">
+      <h2 class="social__title neon-script" id="social-title" data-fade>Ayúdanos a crecer en redes</h2>
+      <p class="social__lead" data-fade>Síguenos y etiquétanos: cada foto nos ayuda a florecer.</p>
+      <ul class="social__links" data-fade>
+        <li><a class="social__btn" href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener" aria-label="Instagram · @bloom.coffee.vigo"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".9" class="fill"/></svg></a></li>
+        <li><a class="social__btn" href="https://wa.me/34640240176" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5l1.2-3.8A8 8 0 1 1 8.6 18.6z"/><path d="M9.3 8.6c.2-.5.5-.5.8-.5h.5c.2 0 .4.1.5.4l.6 1.5c.1.2 0 .4-.1.6l-.5.6c.6 1.1 1.5 2 2.6 2.6l.6-.5c.2-.1.4-.2.6-.1l1.5.6c.3.1.4.3.4.5v.5c0 .3 0 .6-.5.8-1.6.8-6.4-2.3-7-6z"/></svg></a></li>
+        <li><a class="social__btn" href="mailto:bloomcoffeeb@gmail.com" aria-label="Email · bloomcoffeeb@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="M4.5 7l7.5 6 7.5-6"/></svg></a></li>
+      </ul>
+      <p class="social__handle" data-fade><a href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener">@bloom.coffee.vigo</a></p>
+    </section>
 
-      <div class="contact-grid">
-        <div class="contact-col" data-fade>
-          <h3>Dónde estamos</h3>
-          <p>Calle Ángel Llanos 10<br>36203 Vigo, Pontevedra</p>
-          <a class="link" href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Angel+Llanos+10+Vigo" target="_blank" rel="noopener">Cómo llegar</a>
-        </div>
+    <!-- 6 · VISÍTANOS: open/closed, details, the bear poster and a little map -->
+    <section class="visit section" id="contacto" aria-labelledby="contact-title">
+      <div class="visit__info">
+        <h2 class="visit__state neon-script" id="contact-title" data-state data-fade>Te esperamos</h2>
+        <p class="pill" data-status hidden data-fade><span class="pill__dot" aria-hidden="true"></span><span data-status-text></span></p>
 
-        <div class="contact-col" data-fade>
-          <h3>Horario</h3>
-          <p class="status" data-status hidden><span class="status__dot" aria-hidden="true"></span><span data-status-text></span></p>
-          <ul class="hours" data-hours>
-            <li data-days="1,2,3,4,5"><span>Lunes a viernes</span><b>9:00 – 22:00</b></li>
-            <li data-days="6"><span>Sábado</span><b>10:00 – 23:00</b></li>
-            <li data-days="0"><span>Domingo</span><b>Cerrado</b></li>
-          </ul>
-        </div>
+        <ul class="visit__list" data-fade>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg><span>Calle Ángel Llanos 10<br>36203 Vigo, Pontevedra</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+            <ul class="hours" data-hours>
+              <li data-days="1,2,3,4,5">Lunes a viernes, 9:00 a 22:00</li>
+              <li data-days="6">Sábado, 10:00 a 23:00</li>
+              <li data-days="0">Domingo, cerrado</li>
+            </ul>
+          </li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.8l2.3-.3 1.6 4-1.9 1.4a11 11 0 0 0 6.5 6.5l1.4-1.9 4 1.6-.3 2.3a2 2 0 0 1-2.1 1.7C10.5 18.6 5.4 13.5 4.9 5.9a2 2 0 0 1 1.7-2.1z"/></svg><a class="ulink" href="tel:+34640240176">+34 640 24 01 76</a></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5l1.2-3.8A8 8 0 1 1 8.6 18.6z"/><path d="M9.3 8.6c.2-.5.5-.5.8-.5h.5c.2 0 .4.1.5.4l.6 1.5c.1.2 0 .4-.1.6l-.5.6c.6 1.1 1.5 2 2.6 2.6l.6-.5c.2-.1.4-.2.6-.1l1.5.6c.3.1.4.3.4.5v.5c0 .3 0 .6-.5.8-1.6.8-6.4-2.3-7-6z"/></svg><a class="ulink" href="https://wa.me/34640240176" target="_blank" rel="noopener">Escríbenos por WhatsApp</a></li>
+        </ul>
+      </div>
 
-        <div class="contact-col" data-fade>
-          <h3>Escríbenos</h3>
-          <ul class="links">
-            <li><a href="tel:+34640240176">+34 640 24 01 76</a></li>
-            <li><a href="https://wa.me/34640240176" target="_blank" rel="noopener">WhatsApp</a></li>
-            <li><a href="mailto:bloomcoffeeb@gmail.com">bloomcoffeeb@gmail.com</a></li>
-            <li><a href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener">Instagram · @bloom.coffee.vigo</a></li>
-          </ul>
+      <div class="visit__media">
+        <figure class="visit__poster" data-reveal>
+          <img src="assets/img/contact-osito-cartel.webp" width="720" height="1128" loading="lazy" decoding="async" alt="Cartel de Bloom con el osito rosa: «Te esperamos con mucho amor, buen café y los mejores desayunos»">
+        </figure>
+
+        <div class="visit__map" data-fade>
+          <svg class="map" viewBox="0 0 400 400" aria-hidden="true">
+            <circle class="map__ring" cx="200" cy="200" r="188"/>
+            <circle class="map__base" cx="200" cy="200" r="176"/>
+            <clipPath id="mapclip"><circle cx="200" cy="200" r="176"/></clipPath>
+            <g clip-path="url(#mapclip)">
+              <path class="map__block map__block--a" d="M20 40 L190 120 L150 260 L10 230Z"/>
+              <path class="map__block map__block--b" d="M230 30 L390 60 L380 200 L250 170Z"/>
+              <path class="map__block map__block--a" d="M260 230 L390 260 L370 400 L220 390Z"/>
+              <path class="map__block map__block--b" d="M30 290 L160 300 L180 400 L20 400Z"/>
+              <path class="map__road" d="M-10 100 L410 250"/>
+              <path class="map__road" d="M210 -10 L180 410"/>
+              <path class="map__road map__road--thin" d="M60 -10 L130 410"/>
+              <path class="map__road map__road--thin" d="M-10 330 L410 300"/>
+              <path class="map__road map__road--thin" d="M300 -10 L340 410"/>
+            </g>
+            <g class="map__pin" transform="translate(268 214)">
+              <path d="M0 22 C-14 6 -20 -2 -20 -12 A20 20 0 0 1 20 -12 C20 -2 14 6 0 22Z"/>
+              <circle cx="0" cy="-12" r="7"/>
+            </g>
+          </svg>
+          <svg class="bear" viewBox="0 0 120 110" aria-hidden="true">
+            <circle cx="34" cy="26" r="13"/><circle cx="34" cy="26" r="6" class="bear__in"/>
+            <circle cx="76" cy="26" r="13"/><circle cx="76" cy="26" r="6" class="bear__in"/>
+            <ellipse cx="55" cy="50" rx="31" ry="27" class="bear__face"/>
+            <circle cx="44" cy="46" r="2.6" class="fill"/><circle cx="66" cy="46" r="2.6" class="fill"/>
+            <ellipse cx="55" cy="58" rx="9" ry="7" class="bear__face"/><ellipse cx="55" cy="55.5" rx="3.2" ry="2.3" class="fill"/>
+            <path d="M51.5 61 Q55 64 58.5 61"/>
+            <circle cx="37" cy="58" r="4" class="bear__blush"/><circle cx="73" cy="58" r="4" class="bear__blush"/>
+            <path d="M28 70 Q22 96 34 100 L76 100 Q88 96 82 70" class="bear__face"/>
+            <path d="M40 100 Q40 90 47 90 Q53 90 52 100 M58 100 Q57 90 63 90 Q70 90 70 100"/>
+            <path d="M84 74 L100 30"/>
+            <circle cx="102" cy="22" r="9" class="bear__rose"/><path d="M98 22 Q102 16 106 22 Q102 27 98 22"/>
+            <path d="M92 50 Q84 44 88 38 Q95 42 92 50" class="bear__leaf"/>
+          </svg>
+          <a class="btn-dark" href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Angel+Llanos+10+Vigo" target="_blank" rel="noopener">Cómo llegar</a>
         </div>
       </div>
     </section>
@@ -265,7 +325,6 @@
   <script src="lib/gsap.min.js" defer></script>
   <script src="lib/ScrollTrigger.min.js" defer></script>
   <script src="lib/lenis.min.js" defer></script>
-  <script src="lib/swiper-bundle.min.js" defer></script>
-  <script src="main.js?v=20261107h" defer></script>
+  <script src="main.js?v=20261107i" defer></script>
 </body>
 </html>
