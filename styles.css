@@ -2,7 +2,7 @@
    Bloom Coffee & Brunch — styles.css
    Photography first. One soft pink family + white + natural tones.
    Type: Jost (geometric), Allison (neon script), Inter (text).
-   1. Tokens  2. Base  3. Header  4. Menu  5. Hero  6. Bear
+   1. Tokens  2. Base  3. Header  4. Menu  5. Hero (pancake scroll)
    7. Intro states
    ========================================================= */
 
@@ -287,174 +287,289 @@ body.is-locked { overflow: hidden; }
   .menu__inner { padding-top: 170px; max-width: 720px; }
 }
 
-/* ---------- 5. Hero ---------- */
-.hero { position: relative; }
-
-.hero__media {
+/* ---------- 5. Hero: pancakes that open with the scroll ----------
+   Art direction: pastel turquoise stage, League Spartan caps, Sacramento neon,
+   Montserrat for small type. Layers back to front: colour + palms → giant outline
+   word → framed pancakes → headline/neon → actions. */
+.hero {
+  --turq: #83E8E7;
+  --turq-deep: #5FD6D4;
+  --neon: #F49BEA;
+  --neon-deep: #C2338F;   /* white text on it = 5.0:1 (AA) */
+  --sun: #FFF0A0;
+  --warm: #FFFDF7;
+  --blush-p: #F6C3D5;
+  --ink: #17343B;         /* on turquoise = 9.6:1 */
+  --f-head: "League Spartan", "Futura", system-ui, sans-serif;
+  --f-sub: "Montserrat", system-ui, sans-serif;
+  --f-neon: "Sacramento", "Brush Script MT", cursive;
+  --ar: 1;                /* frame aspect: square on phones (centre crop), wider above */
   position: relative;
-  height: var(--hero-h);
+  background: var(--turq);
+  color: var(--ink);
+}
+
+.hero__stage {
+  position: relative;
+  height: 100svh;
+  min-height: 600px;
+  max-height: 1100px;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  justify-items: center;
+  padding: calc(104px + env(safe-area-inset-top, 0px)) var(--gutter) 26px;
   overflow: hidden;
-  background: #cfa686; /* wood tone while the photo loads */
+  isolation: isolate;
+  text-align: center;
+  background:
+    radial-gradient(55% 45% at 50% 62%, rgba(255, 253, 247, .6), rgba(255, 253, 247, 0) 72%),
+    radial-gradient(38% 30% at 88% 8%, rgba(246, 195, 213, .55), rgba(246, 195, 213, 0) 70%),
+    radial-gradient(30% 26% at 6% 92%, rgba(255, 240, 160, .55), rgba(255, 240, 160, 0) 70%),
+    var(--turq);
 }
-/* Soft, long hand-off from the photo into the cream page */
-.hero__media::after {
-  content: "";
+
+/* Layer 1: decoration */
+.hero__deco { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.palm { position: absolute; height: auto; color: var(--turq-deep); }
+.palm--tl { left: -70px; top: 64px; width: 210px; transform: rotate(-28deg); }
+.palm--br { right: -80px; bottom: -40px; width: 260px; transform: rotate(160deg); }
+.palm--tr { right: -46px; top: 30%; width: 140px; transform: rotate(38deg); color: var(--blush-p); opacity: .8; }
+.doodle { position: absolute; display: block; }
+.doodle--berry1 { left: 9%; top: 46%; width: 22px; height: 22px; border-radius: 50%; background: var(--sun); box-shadow: 0 6px 14px -6px rgba(23, 52, 59, .35); }
+.doodle--berry2 { right: 12%; top: 22%; width: 13px; height: 13px; border-radius: 50%; background: var(--neon); box-shadow: 0 0 12px var(--neon); }
+.doodle--bean { left: 6%; bottom: 18%; width: 20px; color: var(--blush-p); transform: rotate(-24deg); }
+.doodle--spark { right: 8%; bottom: 30%; width: 22px; color: var(--warm); }
+.hero__bigword {
   position: absolute;
-  inset: auto 0 0 0;
-  height: 30%;
-  z-index: 1;
-  background: linear-gradient(180deg,
-    rgba(255, 249, 246, 0) 0%,
-    rgba(255, 249, 246, .55) 30%,
-    rgba(255, 249, 246, .9) 55%,
-    var(--cream) 78%);
-  pointer-events: none;
+  left: -50vw; right: -50vw; top: 58%;
+  margin-top: -.5em;
+  text-align: center;
+  font-family: var(--f-head);
+  font-weight: 800;
+  font-size: 34vw;
+  line-height: 1;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 253, 247, .75);
 }
-.hero__media picture {
-  position: absolute;
-  inset: -6% 0 0 0; /* a little extra room for the parallax drift */
+
+/* Layer 2: editorial text */
+.hero__eyebrow {
+  position: relative;
+  z-index: 3;
+  margin: 0;
+  font-family: var(--f-sub);
+  font-weight: 600;
+  font-size: .6875rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+}
+.hero__num {
+  display: inline-block;
+  margin-right: .6em;
+  padding-right: .8em;
+  border-right: 1px solid currentColor;
+  color: var(--neon-deep);
+  font-weight: 700;
+}
+.hero__title {
+  position: relative;
+  z-index: 3;
+  margin: .55rem 0 0;
+  font-family: var(--f-head);
+  font-weight: 800;
+  font-size: clamp(2.05rem, min(9.4vw, 6.4svh), 4.6rem);
+  line-height: .95;
+  letter-spacing: -.005em;
+  text-transform: uppercase;
+}
+.hero__title .line { display: block; overflow: hidden; padding: .12em .05em 0; margin: -.12em 0 0; }
+.hero__title .line__inner { display: inline-block; }
+
+/* Neon script: white-hot core, layered pink bloom. It crosses the top edge of the
+   frame (over the dark wood) where the glow reads best. */
+.hero__script {
+  position: relative;
+  z-index: 3;
   display: block;
+  margin: .02em 0 -.5em;
+  font-family: var(--f-neon);
+  font-weight: 400;
+  font-size: clamp(2.6rem, min(12vw, 8.6svh), 6rem);
+  line-height: 1.15;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #FFF4FC;
+  transform: rotate(-4deg);
+  text-shadow:
+    0 0 1px #fff,
+    0 0 3px var(--neon),
+    0 0 7px var(--neon),
+    0 0 14px var(--neon),
+    0 0 28px rgba(244, 155, 234, .85),
+    0 0 52px rgba(194, 51, 143, .55),
+    0 2px 2px rgba(194, 51, 143, .55);
 }
-.hero__img {
+
+/* Layer 3: the framed pancakes */
+.hero__frame-wrap {
+  position: relative;
+  z-index: 2;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 50%;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+.hero__frame {
+  position: relative;
+  margin: 0;
+  width: min(calc(100cqw - 20px), calc((100cqh - 20px) * var(--ar)), 1000px);
+  aspect-ratio: var(--ar);
+  border-radius: 26px;
+  overflow: hidden;
+  background: #8a6447; /* wood tone while frame 0 loads */
+  box-shadow:
+    0 0 0 7px var(--warm),
+    0 0 0 8px rgba(244, 155, 234, .7),
+    0 0 34px 10px rgba(244, 155, 234, .5),
+    0 34px 60px -28px rgba(23, 52, 59, .55);
   will-change: transform;
 }
-
-/* Neon sign: small, above the bowl, soft glow */
-.neon {
+.hero__frame picture { display: contents; }
+.hero__poster,
+.hero__canvas {
   position: absolute;
-  left: 0; right: 0;
-  top: 11.5%;
-  z-index: 2;
-  margin: 0;
-  display: grid;
-  justify-items: center;
-  color: #fff;
-  font-weight: 400;
-  text-align: center;
-  pointer-events: none;
-  user-select: none;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
-.neon__script {
-  display: block;
-  font-family: var(--font-script);
-  font-size: 5.25rem;
-  line-height: .7;
-  transform: rotate(-5deg);
-  /* thin pink halo hugging the white tube, then a soft falloff */
-  text-shadow:
-    0 0 1px var(--rose),
-    0 0 3px rgba(224, 53, 107, .95),
-    0 0 7px rgba(224, 53, 107, .7),
-    0 0 16px rgba(224, 53, 107, .4),
-    0 2px 10px rgba(74, 36, 51, .25);
-}
-.neon__caps {
-  display: block;
-  margin-top: .35rem;
-  padding-left: .42em; /* optically balances the tracking */
-  font-family: "Jost", "Futura", system-ui, sans-serif; /* part of the neon logo: unchanged */
-  font-size: .75rem;
-  font-weight: 600;
-  letter-spacing: .42em;
-  text-transform: uppercase;
-  text-shadow:
-    0 0 1px var(--rose),
-    0 0 4px rgba(224, 53, 107, .9),
-    0 0 10px rgba(224, 53, 107, .45),
-    0 1px 6px rgba(74, 36, 51, .35);
-}
-
-/* Headline + menu link, integrated on the photo's fade (no boxes, no banners) */
-.hero__intro {
-  position: relative;
-  z-index: 2;
-  margin-top: -118px;
-  padding: 0 var(--gutter) 30px;
-  display: grid;
-  justify-items: center;
-  gap: 18px;
-  text-align: center;
-}
-.hero__headline {
-  margin: 0;
-  font-family: var(--font-serif);
-  /* fixed optical size: keeps Bodoni's contrast without hairlines vanishing */
-  font-optical-sizing: none;
-  font-variation-settings: "opsz" 28;
-  font-weight: 500;
-  font-size: clamp(1.9rem, 8.6vw, 2.25rem);
-  line-height: 1.08;
-  letter-spacing: .02em;
-  text-transform: uppercase;
-  color: var(--cocoa);
-}
-.hero__headline .line { display: block; overflow: hidden; padding: .16em 0 .04em; margin: -.16em 0 -.04em; }
-.hero__headline .line__inner { display: inline-block; }
-
-.hero__cta {
-  position: relative;
-  display: inline-block;
-  padding: 8px 2px;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: .875rem;
-  letter-spacing: .24em;
-  text-transform: uppercase;
-  color: var(--rose-ink);
-}
-.hero__cta::after {
+.hero__poster { object-fit: cover; }
+.hero__canvas { opacity: 0; }
+.hero__frame.is-live .hero__canvas { opacity: 1; }
+.hero__frame.is-live .hero__poster { visibility: hidden; }
+/* light grain hides the softness of the 960px source on large screens */
+.hero__frame::after {
   content: "";
   position: absolute;
-  left: 2px; right: .24em; bottom: 2px;
-  height: 1px;
-  background: currentColor;
-  transform-origin: left;
-  transition: transform .5s var(--ease-out);
-}
-.hero__cta:hover::after { transform: scaleX(.35); }
-
-@media (min-width: 768px) {
-  .neon { top: 12%; }
-  .neon__script { font-size: 7rem; }
-  .neon__caps { font-size: .875rem; }
-  .hero__intro { margin-top: -150px; padding-bottom: 36px; gap: 22px; }
-  .hero__headline { font-size: 3rem; }
-  .hero__cta { font-size: .9375rem; }
-}
-
-@media (min-width: 1100px) {
-  .hero__img { object-position: 50% 18%; }
-  .neon { top: 9%; }
-  .neon__script { font-size: 7.5rem; }
-  .neon__caps { font-size: .9375rem; }
-  .hero__intro { margin-top: -150px; padding-bottom: 40px; }
-  .hero__headline { font-size: 3.5rem; }
-}
-
-/* ---------- 6. Bear (provisional line illustration) ---------- */
-.bear {
-  position: absolute;
-  z-index: 3;
-  right: 12px;
-  bottom: -26px;
-  width: 84px;
-  height: auto;
-  color: var(--rose);
+  inset: 0;
   pointer-events: none;
-  overflow: visible;
+  box-shadow: inset 0 0 60px rgba(23, 52, 59, .18);
+  border-radius: inherit;
 }
-.bear__eye, .bear__nose { fill: var(--rose-ink); transform-box: fill-box; transform-origin: center; }
-.bear__cheek { fill: var(--blush-2); }
+
+/* Layer 4: actions — glowing pill buttons */
+.hero__actions {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 0 26px;
+  border-radius: 999px;
+  font-family: var(--f-sub);
+  font-weight: 700;
+  font-size: .8125rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  transition: box-shadow .35s var(--ease-out), background-color .35s, transform .35s var(--ease-out);
+}
+.btn--neon {
+  background: var(--neon-deep);
+  color: #fff;
+  box-shadow:
+    0 0 0 3px rgba(244, 155, 234, .6),
+    0 0 20px 4px rgba(244, 155, 234, .7),
+    0 10px 22px -10px rgba(194, 51, 143, .9);
+}
+.btn--neon:hover,
+.btn--neon:focus-visible {
+  background: #CF3E9C;
+  box-shadow:
+    0 0 0 4px rgba(244, 155, 234, .8),
+    0 0 32px 8px rgba(244, 155, 234, .85),
+    0 12px 26px -10px rgba(194, 51, 143, .9);
+  transform: translateY(-2px);
+}
+.btn--ghost {
+  background: var(--warm);
+  color: var(--ink);
+  box-shadow: 0 0 0 1px rgba(244, 155, 234, .55), 0 0 18px 2px rgba(255, 253, 247, .8);
+}
+.btn--ghost:hover,
+.btn--ghost:focus-visible {
+  box-shadow: 0 0 0 2px var(--neon), 0 0 26px 6px rgba(244, 155, 234, .55);
+  transform: translateY(-2px);
+}
+.hero .btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+
+/* Phones: the square frame follows the text instead of filling the leftover
+   height, and the whole group is centred on the screen. */
+@media (max-width: 767px) {
+  .hero__stage { grid-template-rows: none; align-content: center; padding-bottom: 20px; }
+  .hero__frame-wrap { container-type: inline-size; }
+  .hero__frame { width: min(calc(100cqw - 20px), 46svh, 440px); }
+  .hero__bigword { display: none; }
+}
+
+/* Scroll cue (desktop only) */
+.hero__hint { display: none; }
 
 @media (min-width: 768px) {
-  .bear { width: 130px; right: 6%; bottom: -40px; }
+  .hero { --ar: 4 / 3; }
+  .hero__stage { padding-top: calc(112px + env(safe-area-inset-top, 0px)); padding-bottom: 32px; }
+  .hero__eyebrow { font-size: .75rem; }
+  .palm--tl { left: -40px; top: 90px; width: 300px; }
+  .palm--br { right: -60px; bottom: -60px; width: 400px; }
+  .palm--tr { right: -30px; width: 200px; }
+  .doodle--berry1 { left: 14%; width: 30px; height: 30px; }
+  .doodle--bean { left: 10%; width: 28px; }
+  .doodle--spark { width: 30px; }
+  .hero__bigword { font-size: 30vw; -webkit-text-stroke-width: 2px; }
+  .btn { min-height: 54px; padding: 0 32px; font-size: .875rem; }
 }
+
 @media (min-width: 1100px) {
-  .bear { width: 150px; right: 10%; bottom: -46px; }
+  .hero { --ar: 960 / 605; }
+  html:not(.js) .hero__hint { display: none !important; }
+  .hero__stage { padding-top: calc(96px + env(safe-area-inset-top, 0px)); }
+  .hero__bigword { font-size: 25vw; top: 60%; }
+  .hero__hint {
+    position: absolute;
+    right: var(--gutter);
+    bottom: 34px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    font-family: var(--f-sub);
+    font-weight: 600;
+    font-size: .6875rem;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+  }
+  .hero__hint span { position: relative; width: 1px; height: 46px; background: rgba(23, 52, 59, .25); overflow: hidden; }
+  .hero__hint span::after {
+    content: ""; position: absolute; left: 0; top: 0; width: 1px; height: 40%;
+    background: var(--ink); animation: hint 1.8s var(--ease-out) infinite;
+  }
+}
+@keyframes hint { from { transform: translateY(-100%); } to { transform: translateY(260%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__hint { display: none !important; } /* nothing to scroll through */
+  .btn { transition: none; }
 }
 
 
@@ -853,7 +968,7 @@ body.is-locked { overflow: hidden; }
 
 /* ---------- 7. Intro states (only while .js-intro is on <html>) ---------- */
 .js-intro [data-intro],
-.js-intro .hero__img,
+.js-intro [data-hero-frame],
 .js-intro [data-neon],
 .js-intro [data-cta] { opacity: 0; }
 

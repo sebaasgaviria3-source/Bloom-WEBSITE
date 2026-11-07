@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Bloom Coffee &amp; Brunch, Vigo</title>
   <meta name="description" content="Bloom Coffee &amp; Brunch, en Calle Ángel Llanos 10, Vigo. Café de especialidad, tostadas, açaí, bollería, batidos y sabores de Brasil.">
-  <meta name="theme-color" content="#E0356B">
+  <meta name="theme-color" content="#83E8E7">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Bloom Coffee &amp; Brunch, Vigo">
   <meta property="og:description" content="Café de especialidad y brunch en Vigo.">
@@ -20,18 +20,13 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allison&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Jost:wght@600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allison&family=League+Spartan:wght@600;700;800&family=Montserrat:wght@500;600;700&family=Sacramento&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Jost:wght@600&display=swap">
 
-  <link rel="preload" as="image" type="image/webp"
-        href="assets/img/hero-brunch-portrait-900.webp"
-        imagesrcset="assets/img/hero-brunch-portrait-640.webp 640w, assets/img/hero-brunch-portrait-900.webp 900w"
-        imagesizes="100vw" media="(max-width: 767px)">
-  <link rel="preload" as="image" type="image/webp"
-        href="assets/img/hero-brunch-1600.webp"
-        imagesrcset="assets/img/hero-brunch-1200.webp 1200w, assets/img/hero-brunch-1600.webp 1600w"
-        imagesizes="100vw" media="(min-width: 768px)">
+  <!-- Frame 0 of the pancake sequence is the LCP image -->
+  <link rel="preload" as="image" type="image/webp" href="assets/pancake/m/f_000.webp" media="(max-width: 767px)" fetchpriority="high">
+  <link rel="preload" as="image" type="image/webp" href="assets/pancake/d/f_000.webp" media="(min-width: 768px)" fetchpriority="high">
 
-  <link rel="stylesheet" href="styles.css?v=20261105g">
+  <link rel="stylesheet" href="styles.css?v=20261107a">
 
   <script type="application/ld+json">
   {
@@ -74,6 +69,19 @@
       <symbol id="i-chat" viewBox="0 0 24 24"><path d="M12 3.5a8.5 8.5 0 0 0-7.4 12.7L3.5 20.5l4.4-1.1A8.5 8.5 0 1 0 12 3.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 9.2c.2 2.6 2.2 4.7 5 5.4l1-1.3-1.6-.8-.8.8a4 4 0 0 1-2.1-2.1l.8-.8-.8-1.6Z" fill="currentColor"/></symbol>
       <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
       <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></symbol>
+      <symbol id="i-palm" viewBox="0 0 200 200">
+        <g fill="currentColor">
+          <path d="M100 196 C102 150 104 110 112 70 l4 1 C109 110 107 150 105 196Z"/>
+          <path d="M113 68 C90 40 52 30 18 42 C52 44 82 54 106 76Z"/>
+          <path d="M113 68 C96 30 70 8 40 4 C66 18 88 38 104 74Z"/>
+          <path d="M113 68 C116 32 134 10 160 2 C142 24 128 46 120 74Z"/>
+          <path d="M113 68 C140 46 172 44 198 58 C170 56 144 62 122 78Z"/>
+          <path d="M113 68 C138 74 160 94 170 124 C154 102 136 90 116 82Z"/>
+          <path d="M113 68 C88 74 64 94 52 124 C70 102 90 90 110 82Z"/>
+        </g>
+      </symbol>
+      <symbol id="i-bean" viewBox="0 0 40 52"><ellipse cx="20" cy="26" rx="16" ry="23" fill="currentColor"/><path d="M20 4 C10 18 30 34 20 48" fill="none" stroke="#FFFDF7" stroke-width="3" stroke-linecap="round"/></symbol>
+      <symbol id="i-spark" viewBox="0 0 40 40"><path d="M20 0 C22 14 26 18 40 20 C26 22 22 26 20 40 C18 26 14 22 0 20 C14 18 18 14 20 0Z" fill="currentColor"/></symbol>
     </defs>
   </svg>
 
@@ -136,64 +144,56 @@
   </div>
 
   <main id="main">
-    <!-- ============ HERO ============ -->
-    <section class="hero" id="inicio" aria-labelledby="hero-title">
-      <div class="hero__media" data-hero-media>
-        <picture>
-          <source media="(max-width: 767px)" type="image/webp"
-                  srcset="assets/img/hero-brunch-portrait-640.webp 640w, assets/img/hero-brunch-portrait-900.webp 900w"
-                  sizes="100vw">
-          <img class="hero__img" data-hero-img
-               src="assets/img/hero-brunch-1600.webp"
-               srcset="assets/img/hero-brunch-1200.webp 1200w, assets/img/hero-brunch-1600.webp 1600w"
-               sizes="100vw" width="1600" height="1280"
-               alt="Mesa de brunch Bloom vista desde arriba: bol de açaí con fresas, arándanos, plátano, granola y menta, rodeado de zumos naturales, un croissant, focaccia y sándwiches."
-               fetchpriority="high" loading="eager" decoding="async">
-        </picture>
+    <!-- ============ HERO: pancakes open frame by frame with the scroll ============ -->
+    <!-- The stage is pinned by ScrollTrigger; scroll progress maps 1:1 to the 97 video frames.
+         Without JS or with reduced motion, the poster (frame 0) stays and nothing is pinned. -->
+    <section class="hero" id="inicio" aria-labelledby="hero-title" data-hero>
+      <div class="hero__stage" data-hero-stage>
 
-        <!-- Brand name as a small neon sign, placed above the bowl -->
-        <h1 class="neon" id="hero-title" data-neon>
-          <span class="neon__script">Bloom</span>
-          <span class="neon__caps">Coffee</span>
-        </h1>
-      </div>
+        <!-- Layer 1: decoration (tone-on-tone palms and a few food doodles) -->
+        <div class="hero__deco" aria-hidden="true">
+          <svg class="palm palm--tl" viewBox="0 0 200 200" data-depth="-60"><use href="#i-palm"/></svg>
+          <svg class="palm palm--br" viewBox="0 0 200 200" data-depth="-110"><use href="#i-palm"/></svg>
+          <svg class="palm palm--tr" viewBox="0 0 200 200" data-depth="-40"><use href="#i-palm"/></svg>
+          <span class="doodle doodle--berry1" data-depth="-160"></span>
+          <span class="doodle doodle--berry2" data-depth="-90"></span>
+          <svg class="doodle doodle--bean" viewBox="0 0 40 52" data-depth="-130"><use href="#i-bean"/></svg>
+          <svg class="doodle doodle--spark" viewBox="0 0 40 40" data-depth="-70"><use href="#i-spark"/></svg>
+          <span class="hero__bigword">Brunch</span>
+        </div>
 
-      <!-- Headline sits right under the bowl, on the photo's soft fade (no boxes) -->
-      <div class="hero__intro" data-hero-intro>
-        <p class="hero__headline">
-          <span class="line"><span class="line__inner" data-intro="line">Brunch coffee</span></span>
-          <span class="line"><span class="line__inner" data-intro="line">y experiencias</span></span>
+        <!-- Layer 2: editorial text -->
+        <p class="hero__eyebrow" data-hero-text>
+          <span data-intro="fade"><span class="hero__num">01</span> Bloom Coffee &amp; Brunch · Vigo</span>
         </p>
-        <a class="hero__cta" href="#carta" data-cta>Descubre nuestra carta</a>
+        <h1 class="hero__title" id="hero-title" data-hero-text>
+          <span class="line"><span class="line__inner" data-intro="line">Brunch y café</span></span>
+          <span class="line"><span class="line__inner" data-intro="line">de especialidad</span></span>
+          <span class="hero__script" data-neon>para que tu día florezca</span>
+        </h1>
 
-        <!-- Provisional line illustration: Bloom bear holding a rose -->
-        <svg class="bear" viewBox="0 0 220 200" aria-hidden="true" data-bear>
-          <g class="bear__body" data-bear-body fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <g stroke="currentColor" stroke-width="4">
-              <path data-draw d="M54.5 79.1 A18 18 0 1 1 77.8 59.7"/>
-              <path data-draw d="M122.2 59.7 A18 18 0 1 1 145.5 79.1"/>
-              <path data-draw d="M60.5 74 A8 8 0 0 1 66 62"/>
-              <path data-draw d="M134 62 A8 8 0 0 1 139.5 74"/>
-              <path data-draw d="M45 112 A55 55 0 0 1 155 112 C155 140 140 160 118 165 M82 165 C60 160 45 140 45 112"/>
-              <path data-draw d="M100 120 C86 120 79 127 79 135 C79 145 89 150 100 150 C111 150 121 145 121 135 C121 127 114 120 100 120Z"/>
-              <path data-draw d="M100 134 Q100 142 93 143 M100 134 Q100 142 107 143"/>
-              <path data-draw d="M40 182 C40 166 50 160 62 160 C74 160 84 166 84 182"/>
-              <path data-draw d="M116 182 C116 166 126 160 138 160 C150 160 160 166 160 182"/>
-              <path data-draw stroke-width="4" d="M146 166 C156 140 168 112 177 86"/>
-              <path data-draw stroke-width="3.5" d="M164 122 C177 119 187 109 189 99 C177 99 167 107 164 122Z"/>
-              <path data-draw stroke-width="4" d="M163 60 C160 76 169 86 177 86 C187 86 196 76 192 60 M163 60 C166 51 173 52 177 58 C181 50 189 50 192 60 M171 68 C172 61 182 60 184 67 C185 73 176 75 175 69"/>
-            </g>
-            <g class="bear__face" stroke="none" data-bear-face>
-              <ellipse class="bear__eye" cx="80" cy="104" rx="4.5" ry="5" data-eye/>
-              <ellipse class="bear__eye" cx="120" cy="104" rx="4.5" ry="5" data-eye/>
-              <ellipse class="bear__nose" cx="100" cy="129" rx="7" ry="5"/>
-              <circle class="bear__cheek" cx="66" cy="124" r="7"/>
-              <circle class="bear__cheek" cx="134" cy="124" r="7"/>
-            </g>
-          </g>
-        </svg>
+        <!-- Layer 3: the pancakes -->
+        <div class="hero__frame-wrap">
+          <figure class="hero__frame" data-hero-frame>
+            <picture>
+              <source media="(max-width: 767px)" srcset="assets/pancake/m/f_000.webp" type="image/webp">
+              <img class="hero__poster" data-hero-poster
+                   src="assets/pancake/d/f_000.webp" width="960" height="605"
+                   alt="Pila de tortitas con azúcar glas, melocotón caramelizado y arándanos sobre un plato blanco."
+                   fetchpriority="high" loading="eager" decoding="async">
+            </picture>
+            <canvas class="hero__canvas" data-hero-canvas aria-hidden="true"></canvas>
+          </figure>
+        </div>
+
+        <!-- Layer 4: actions -->
+        <div class="hero__actions" data-hero-text>
+          <a class="btn btn--neon" href="#carta" data-cta>Ver carta</a>
+          <a class="btn btn--ghost" href="#visitanos" data-cta>Visítanos</a>
+        </div>
+
+        <p class="hero__hint" aria-hidden="true" data-hero-hint><span></span>Desliza</p>
       </div>
-
     </section>
 
     <!-- ============ 1. COLLAGE: photos slide in from alternating sides ============ -->
@@ -392,6 +392,6 @@
 
   <script defer src="lib/gsap.min.js"></script>
   <script defer src="lib/ScrollTrigger.min.js"></script>
-  <script defer src="main.js?v=20261105g"></script>
+  <script defer src="main.js?v=20261107a"></script>
 </body>
 </html>

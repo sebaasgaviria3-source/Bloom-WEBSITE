@@ -1,8 +1,8 @@
 /* =========================================================
    Bloom Coffee & Brunch — main.js
    Classic script + IIFE (no modules). GSAP + ScrollTrigger from /lib.
-   Motion budget: one orchestrated intro (photo → boxes → neon → headline → menu link),
-   plus quiet scroll parallax and the bear drawing itself.
+   Motion budget: one orchestrated intro (pancakes → header → headline → neon → buttons),
+   the scroll-scrubbed pancake hero, and scroll motion in the sections below.
    ========================================================= */
 (function () {
   "use strict";
@@ -24,37 +24,35 @@
   function initIntro() {
     var tl = gsap.timeline({ defaults: { ease: "expo.out" } });
     var neon = $("[data-neon]");
-    var cta = $("[data-cta]");
 
-
-    tl.fromTo("[data-hero-media]",
-        { clipPath: "inset(4% 4% 4% 4%)" },
-        { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, clearProps: "clipPath" }, 0)
-      .fromTo("[data-hero-img]",
-        { opacity: 0, scale: 1.25 },
-        { opacity: 1, scale: 1.04, duration: 1.8 }, 0)
+    tl.fromTo("[data-hero-frame]",
+        { opacity: 0, y: 60 },
+        { opacity: 1, y: 0, duration: 1.4 }, 0.1)
       .fromTo("[data-intro='from-top']",
         { opacity: 0, yPercent: -100 },
-        { opacity: 1, yPercent: 0, duration: 0.9, stagger: 0.08 }, 0.35)
+        { opacity: 1, yPercent: 0, duration: 0.9, stagger: 0.08 }, 0.3)
       .fromTo("[data-intro='from-right']",
         { opacity: 0, xPercent: 100 },
-        { opacity: 1, xPercent: 0, duration: 0.9 }, 0.45);
+        { opacity: 1, xPercent: 0, duration: 0.9 }, 0.4)
+      .fromTo("[data-intro='fade']",
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.9 }, 0.35)
+      .fromTo("[data-intro='line']",
+        { opacity: 1, yPercent: 110 },
+        { yPercent: 0, duration: 1.1, stagger: 0.12 }, 0.5);
 
-    // Neon sign switching on: a few irregular flickers, then steady
+    // Neon script switching on: a few irregular flickers, then steady
     if (reduceMotion) {
-      tl.fromTo(neon, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.out" }, 0.8);
+      tl.fromTo(neon, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.out" }, 0.9);
     } else {
       tl.fromTo(neon,
         { opacity: 0 },
-        { keyframes: { opacity: [0, 0.9, 0.1, 0.8, 0, 1, 0.35, 1] }, duration: 1.1, ease: "none" }, 0.85);
+        { keyframes: { opacity: [0, 0.9, 0.1, 0.8, 0, 1, 0.35, 1] }, duration: 1.1, ease: "none" }, 1.0);
     }
 
-    tl.fromTo("[data-intro='line']",
-        { opacity: 1, yPercent: 110 },
-        { yPercent: 0, duration: 1.1, stagger: 0.12 }, 1.3)
-      .fromTo(cta,
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.9 }, 1.75);
+    tl.fromTo("[data-cta]",
+      { opacity: 0, y: 12 },
+      { opacity: 1, y: 0, duration: 0.9, stagger: 0.08 }, 1.35);
 
     revealAll();
   }
@@ -67,18 +65,152 @@
     window.addEventListener("scroll", update, { passive: true });
   }
 
-  /* ---------- Quiet scroll parallax ---------- */
-  function initScrollMotion() {
-    if (reduceMotion) return;
-    var st = { trigger: ".hero", start: "top top", end: "bottom top", scrub: true };
-    gsap.to("[data-hero-media] picture", { yPercent: 12, ease: "none", scrollTrigger: st });
-    gsap.to("[data-neon]", { y: -40, ease: "none", scrollTrigger: st });
-    // Headline block lifts away slightly faster than the page as the collage arrives
-    gsap.to("[data-hero-intro]", {
-      y: -50,
-      ease: "none",
-      scrollTrigger: { trigger: "[data-hero-intro]", start: "top 70%", end: "bottom top", scrub: true }
+  /* =========================================================
+     Hero: pancakes open frame by frame with the scroll.
+     - 97 frames cropped from the reference video (tools/build_pancake.sh).
+     - Pinned stage; ScrollTrigger progress → frame index, linear, scrub: true,
+       so the stack opens/closes exactly with the scroll and stops when it stops.
+     - Frames load coarse-to-fine (every 32nd, 16th … 1st) so fast scrolling
+       always has a near frame to show; frame 0 doubles as the LCP poster.
+     - Reduced motion / no JS: the poster stays, nothing is pinned.
+     ========================================================= */
+  var FRAMES = 97;
+
+  function initPancake() {
+    var stage = $("[data-hero-stage]");
+    var frame = $("[data-hero-frame]");
+    var canvas = $("[data-hero-canvas]");
+    if (!stage || !frame || !canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext("2d", { alpha: false });
+
+    var set = null, gen = 0;
+    var images = [], ready = [];
+    var target = 0, shown = -1, rafId = 0, live = false;
+
+    function frameSrc(s, i) { return "assets/pancake/" + s + "/f_" + String(i).padStart(3, "0") + ".webp"; }
+
+    function loadOrder() {
+      var order = [], seen = {};
+      [32, 16, 8, 4, 2, 1].forEach(function (step) {
+        for (var i = 0; i < FRAMES; i += step) if (!seen[i]) { seen[i] = 1; order.push(i); }
+      });
+      return order; // 0, 32, 64, 96, 16, 48 …
+    }
+
+    function useSet(next) {
+      if (next === set) return;
+      set = next;
+      var token = ++gen;
+      var folder = next;
+      images = new Array(FRAMES);
+      ready = new Array(FRAMES);
+      shown = -1;
+      var order = loadOrder(), q = 0, active = 0, MAX = 6;
+
+      function pump() {
+        while (token === gen && active < MAX && q < order.length) start(order[q++]);
+      }
+      function start(i) {
+        active++;
+        var img = new Image();
+        img.decoding = "async";
+        img.src = frameSrc(folder, i);
+        images[i] = img;
+        var loading = img.decode ? img.decode() : new Promise(function (res, rej) { img.onload = res; img.onerror = rej; });
+        loading.then(function () {
+          if (token !== gen) return;
+          ready[i] = true;
+          requestDraw();
+        }).catch(function () { /* a missing frame is skipped; the nearest one is used */ })
+          .then(function () { active--; pump(); });
+      }
+      pump();
+    }
+
+    function nearest(t) {
+      if (ready[t]) return t;
+      for (var d = 1; d < FRAMES; d++) {
+        if (t - d >= 0 && ready[t - d]) return t - d;
+        if (t + d < FRAMES && ready[t + d]) return t + d;
+      }
+      return -1;
+    }
+
+    function draw() {
+      rafId = 0;
+      var i = nearest(target);
+      if (i < 0 || i === shown) return;
+      var img = images[i];
+      var cw = canvas.width, ch = canvas.height;
+      var iw = img.naturalWidth, ih = img.naturalHeight;
+      var s = Math.max(cw / iw, ch / ih); // manual "cover", centred
+      var w = iw * s, h = ih * s;
+      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+      shown = i;
+      if (!live) { live = true; frame.classList.add("is-live"); }
+    }
+
+    function requestDraw() { if (!rafId) rafId = requestAnimationFrame(draw); }
+
+    function size() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var w = Math.round(frame.clientWidth * dpr), h = Math.round(frame.clientHeight * dpr);
+      if (w && h && (canvas.width !== w || canvas.height !== h)) {
+        canvas.width = w;
+        canvas.height = h;
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        shown = -1;
+        requestDraw();
+      }
+    }
+
+    function sync(self) {
+      target = Math.round(self.progress * (FRAMES - 1)); // linear: 1:1 with the video
+      requestDraw();
+    }
+
+    var mm = gsap.matchMedia();
+    mm.add({
+      motion: "(prefers-reduced-motion: no-preference)",
+      mobile: "(max-width: 767px)"
+    }, function (mctx) {
+      var c = mctx.conditions;
+      if (!c.motion) return; // static poster, no pin
+
+      useSet(c.mobile ? "m" : "d");
+      size();
+
+      var tl = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          trigger: stage,
+          start: "top top",
+          // scroll distance of the animation: 2 screens on desktop, 1.4 on phones
+          end: function () { return "+=" + Math.round(window.innerHeight * (c.mobile ? 1.4 : 2)); },
+          pin: true,
+          scrub: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: sync,
+          onRefresh: function (self) { size(); sync(self); }
+        }
+      });
+
+      // Timeline length = 1, so positions read as scroll progress.
+      tl.fromTo(frame, { scale: 1 }, { scale: c.mobile ? 1.04 : 1.07, duration: 1 }, 0)
+        // Text lifts away in the first fifth so it never covers the opening stack
+        .fromTo("[data-hero-text]", { y: 0, opacity: 1 }, { y: -70, opacity: 0, duration: 0.2, stagger: 0.02, immediateRender: false }, 0)
+        .fromTo("[data-hero-hint]", { opacity: 1 }, { opacity: 0, duration: 0.08, immediateRender: false }, 0)
+        .fromTo(".hero__bigword", { scale: 1 }, { scale: 1.12, duration: 1 }, 0);
+
+      // Layered depth: each decoration drifts at its own speed
+      $$("[data-depth]", stage).forEach(function (el) {
+        tl.fromTo(el, { y: 0 }, { y: parseFloat(el.getAttribute("data-depth")) || 0, duration: 1 }, 0);
+      });
     });
+
+    window.addEventListener("resize", size);
   }
 
   /* ---------- Blurred glows drift slowly inside the pink block ---------- */
@@ -425,7 +557,7 @@
 
     gsap.registerPlugin(ScrollTrigger);
     safe(initIntro, "intro");
-    safe(initScrollMotion, "scroll");
+    safe(initPancake, "pancake");
     safe(initGlow, "glow");
     safe(initBear, "bear");
     safe(initSections, "sections");
