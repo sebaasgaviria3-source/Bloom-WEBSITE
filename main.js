@@ -116,10 +116,11 @@
       centeredSlides: true,
       spaceBetween: 28,
       loop: true,
-      speed: reduceMotion ? 0 : 900,
+      speed: reduceMotion ? 0 : 1100,
       grabCursor: true,
       keyboard: { enabled: true },
       navigation: { prevEl: '[data-prev]', nextEl: '[data-next]' },
+      autoplay: reduceMotion ? false : { delay: 4200, pauseOnMouseEnter: true, disableOnInteraction: false },
       breakpoints: { 900: { spaceBetween: 44 } },
       on: {
         slideChange: function (s) { if (count) count.textContent = pad(s.realIndex + 1) + ' / ' + pad(total); }
@@ -155,7 +156,7 @@
   var canvas = hero.querySelector('[data-canvas]');
   var ctx = canvas.getContext('2d', { alpha: false });
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var set = (media.clientWidth * dpr > 1000) ? 'lg' : 'sm';
+  var set = (media.clientWidth * dpr > 900) ? 'lg' : 'sm';
   var frames = new Array(FRAME_COUNT);
   var loaded = new Array(FRAME_COUNT).fill(false);
   var current = -1;
@@ -268,13 +269,15 @@
     .to(hero.querySelector('[data-hint]'), { autoAlpha: 0, duration: 0.1 }, 0)
     .to({}, { duration: 1 - OPEN_END }, OPEN_END);
 
-  /* ---------- 5d. Bands drift sideways with the scroll ---------- */
-  document.querySelectorAll('[data-band]').forEach(function (line, i) {
-    gsap.fromTo(line, { xPercent: i % 2 ? -6 : 6 }, {
-      xPercent: i % 2 ? 6 : -6, ease: 'none',
-      scrollTrigger: { trigger: line, start: 'top bottom', end: 'bottom top', scrub: true }
-    });
-  });
+  /* ---------- 5d. Gallery: cards rise in one after another (CSS, so Swiper keeps control) ---------- */
+  var galSection = document.querySelector('.gallery');
+  if (galSection && 'IntersectionObserver' in window) {
+    galSection.classList.add('is-waiting');
+    var io = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) { galSection.classList.remove('is-waiting'); galSection.classList.add('is-in'); io.disconnect(); }
+    }, { rootMargin: '0px 0px -15% 0px' });
+    io.observe(galSection.querySelector('[data-gallery]'));
+  }
 
   /* ---------- 5e. Quiet reveals ---------- */
   gsap.utils.toArray('[data-fade]').forEach(function (el) {

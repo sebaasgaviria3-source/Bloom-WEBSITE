@@ -35,7 +35,7 @@
   <link rel="preload" as="image" href="assets/frames/pancake/lg/000.webp" media="(min-width: 768px)">
 
   <link rel="stylesheet" href="lib/swiper-bundle.min.css">
-  <link rel="stylesheet" href="styles.css?v=20261107e">
+  <link rel="stylesheet" href="styles.css?v=20261107f">
 
   <script type="application/ld+json">
   {
@@ -71,14 +71,14 @@
   <!-- Navigation: links either side, logo in the exact centre -->
   <header class="nav" data-nav>
     <nav class="nav__side nav__side--left" aria-label="Secciones">
+      <a href="#galeria">Galería</a>
       <a href="#historia">Historia</a>
-      <a href="#carta">Carta</a>
     </nav>
     <a class="nav__logo" href="#inicio" aria-label="Bloom Coffee &amp; Brunch, inicio">
       <img src="assets/img/logo-bloom-640.webp" width="639" height="429" alt="Bloom Coffee &amp; Brunch">
     </a>
     <nav class="nav__side nav__side--right" aria-label="Más secciones">
-      <a href="#galeria">Galería</a>
+      <a href="#carta">Carta</a>
       <a href="#contacto">Contacto</a>
     </nav>
     <button class="nav__burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú" data-menu-toggle>
@@ -89,9 +89,9 @@
   <nav class="menu" id="menu" aria-label="Menú" hidden data-menu>
     <ul>
       <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#galeria">Galería</a></li>
       <li><a href="#historia">Historia</a></li>
       <li><a href="#carta">Carta</a></li>
-      <li><a href="#galeria">Galería</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
   </nav>
@@ -118,12 +118,37 @@
       <p class="hero__hint" aria-hidden="true" data-hint>Desliza</p>
     </section>
 
-    <!-- band (structure from the reference: capital word + handwritten word) -->
-    <div class="band" aria-hidden="true">
-      <p class="band__line" data-band><span>Everyday</span> <em>brunch</em> <span>·</span> <span>Specialty</span> <em>coffee</em> <span>·</span> <span>Everyday</span> <em>brunch</em> <span>·</span> <span>Specialty</span> <em>coffee</em></p>
-    </div>
 
-    <!-- 2 · NUESTRA HISTORIA -->
+    <!-- 2 · GALERÍA (right after the cover) -->
+    <section class="gallery section" id="galeria" aria-labelledby="gallery-title">
+      <header class="section__head">
+        <p class="kicker" data-fade>Galería</p>
+        <h2 class="title" id="gallery-title" data-fade>Nuestros <em>favoritos</em></h2>
+      </header>
+
+      <div class="swiper gallery__swiper" data-gallery>
+        <div class="swiper-wrapper">
+          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-tortitas.webp" width="720" height="960" loading="lazy" decoding="async" alt="Tortitas con melocotón caramelizado, arándanos y azúcar glas"></div><figcaption>Tortitas</figcaption></figure>
+          <figure class="swiper-slide card card--arch"><div class="card__img"><img src="assets/img/gal-cafes-latte.webp" width="640" height="960" loading="lazy" decoding="async" alt="Dos cafés con arte latte"></div><figcaption>Café de especialidad</figcaption></figure>
+          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-coxinhas.webp" width="1444" height="960" loading="lazy" decoding="async" alt="Coxinhas de pollo con salsa"></div><figcaption>Coxinhas</figcaption></figure>
+          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-acai-coco.webp" width="960" height="960" loading="lazy" decoding="async" alt="Açaí servido en media cáscara de coco con granola y fruta"></div><figcaption>Açaí en coco</figcaption></figure>
+          <figure class="swiper-slide card card--arch"><div class="card__img"><img src="assets/img/gal-croissant-benedict.webp" width="640" height="960" loading="lazy" decoding="async" alt="Croissant benedict con huevo poché y salsa holandesa"></div><figcaption>Croissant benedict</figcaption></figure>
+          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-pasteis.webp" width="1441" height="960" loading="lazy" decoding="async" alt="Pastéis brasileños recién fritos"></div><figcaption>Pastéis</figcaption></figure>
+          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-helado-2.webp" width="540" height="960" loading="lazy" decoding="async" alt="Cucurucho de helado con galleta y caramelo"></div><figcaption>Helado</figcaption></figure>
+          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-desayuno.webp" width="960" height="960" loading="lazy" decoding="async" alt="Desayuno con café con leche, zumo de naranja y tostada"></div><figcaption>Desayuno</figcaption></figure>
+          <figure class="swiper-slide card card--arch"><div class="card__img"><img src="assets/img/gal-bollo-crema.webp" width="640" height="960" loading="lazy" decoding="async" alt="Bollo de leche relleno de crema"></div><figcaption>Bollo con crema</figcaption></figure>
+          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-batidos.webp" width="1281" height="960" loading="lazy" decoding="async" alt="Batidos de colores en tarros de cristal"></div><figcaption>Batidos</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="gallery__controls" data-fade>
+        <button class="arrow" type="button" aria-label="Foto anterior" data-prev>←</button>
+        <span class="gallery__count" aria-live="polite" data-count>01 / 10</span>
+        <button class="arrow" type="button" aria-label="Foto siguiente" data-next>→</button>
+      </div>
+    </section>
+
+    <!-- 3 · NUESTRA HISTORIA -->
     <section class="story section" id="historia" aria-labelledby="story-title">
       <div class="story__media">
         <figure class="frame frame--tall" data-reveal>
@@ -142,7 +167,7 @@
       </div>
     </section>
 
-    <!-- 3 · CARTA -->
+    <!-- 4 · CARTA -->
     <section class="menu-section section" id="carta" aria-labelledby="menu-title">
       <header class="section__head">
         <p class="kicker" data-fade>La carta</p>
@@ -199,38 +224,6 @@
       </p>
     </section>
 
-    <div class="band band--soft" aria-hidden="true">
-      <p class="band__line" data-band><span>Sin</span> <em>prisa</em> <span>·</span> <span>Vigo</span> <span>·</span> <span>Sin</span> <em>prisa</em> <span>·</span> <span>Vigo</span> <span>·</span> <span>Sin</span> <em>prisa</em></p>
-    </div>
-
-    <!-- 4 · GALERÍA -->
-    <section class="gallery section" id="galeria" aria-labelledby="gallery-title">
-      <header class="section__head">
-        <p class="kicker" data-fade>Galería</p>
-        <h2 class="title" id="gallery-title" data-fade>Nuestros <em>favoritos</em></h2>
-      </header>
-
-      <div class="swiper gallery__swiper" data-gallery>
-        <div class="swiper-wrapper">
-          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-tortitas.webp" width="720" height="960" loading="lazy" decoding="async" alt="Tortitas con melocotón caramelizado, arándanos y azúcar glas"></div><figcaption>Tortitas</figcaption></figure>
-          <figure class="swiper-slide card card--arch"><div class="card__img"><img src="assets/img/gal-cafes-latte.webp" width="640" height="960" loading="lazy" decoding="async" alt="Dos cafés con arte latte"></div><figcaption>Café de especialidad</figcaption></figure>
-          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-coxinhas.webp" width="1444" height="960" loading="lazy" decoding="async" alt="Coxinhas de pollo con salsa"></div><figcaption>Coxinhas</figcaption></figure>
-          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-acai-coco.webp" width="960" height="960" loading="lazy" decoding="async" alt="Açaí servido en media cáscara de coco con granola y fruta"></div><figcaption>Açaí en coco</figcaption></figure>
-          <figure class="swiper-slide card card--arch"><div class="card__img"><img src="assets/img/gal-croissant-benedict.webp" width="640" height="960" loading="lazy" decoding="async" alt="Croissant benedict con huevo poché y salsa holandesa"></div><figcaption>Croissant benedict</figcaption></figure>
-          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-pasteis.webp" width="1441" height="960" loading="lazy" decoding="async" alt="Pastéis brasileños recién fritos"></div><figcaption>Pastéis</figcaption></figure>
-          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-helado-2.webp" width="540" height="960" loading="lazy" decoding="async" alt="Cucurucho de helado con galleta y caramelo"></div><figcaption>Helado</figcaption></figure>
-          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-desayuno.webp" width="960" height="960" loading="lazy" decoding="async" alt="Desayuno con café con leche, zumo de naranja y tostada"></div><figcaption>Desayuno</figcaption></figure>
-          <figure class="swiper-slide card card--arch"><div class="card__img"><img src="assets/img/gal-bollo-crema.webp" width="640" height="960" loading="lazy" decoding="async" alt="Bollo de leche relleno de crema"></div><figcaption>Bollo con crema</figcaption></figure>
-          <figure class="swiper-slide card"><div class="card__img"><img src="assets/img/gal-batidos.webp" width="1281" height="960" loading="lazy" decoding="async" alt="Batidos de colores en tarros de cristal"></div><figcaption>Batidos</figcaption></figure>
-        </div>
-      </div>
-
-      <div class="gallery__controls" data-fade>
-        <button class="arrow" type="button" aria-label="Foto anterior" data-prev>←</button>
-        <span class="gallery__count" aria-live="polite" data-count>01 / 10</span>
-        <button class="arrow" type="button" aria-label="Foto siguiente" data-next>→</button>
-      </div>
-    </section>
 
     <!-- 5 · CONTACTO -->
     <section class="contact section" id="contacto" aria-labelledby="contact-title">
@@ -278,6 +271,6 @@
   <script src="lib/ScrollTrigger.min.js" defer></script>
   <script src="lib/lenis.min.js" defer></script>
   <script src="lib/swiper-bundle.min.js" defer></script>
-  <script src="main.js?v=20261107e" defer></script>
+  <script src="main.js?v=20261107f" defer></script>
 </body>
 </html>
