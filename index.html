@@ -1,51 +1,74 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Bloom Coffee &amp; Brunch, Vigo</title>
-  <meta name="description" content="Bloom Coffee &amp; Brunch, en Calle Ángel Llanos 10, Vigo. Café de especialidad, tostadas, açaí, bollería, batidos y sabores de Brasil.">
-  <meta name="theme-color" content="#E0356B">
+  <title>Bloom Coffee &amp; Brunch · Café de especialidad y brunch en Vigo</title>
+  <meta name="description" content="Café de especialidad, brunch, açaí, tostadas y sabores de Brasil en Calle Ángel Llanos 10, Vigo. Abierto de lunes a sábado. Ven a disfrutar sin prisa.">
+  <link rel="canonical" href="https://bloomcoffeebrunch.com/">
+  <meta name="theme-color" content="#FFF9F6">
+
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Bloom Coffee &amp; Brunch, Vigo">
-  <meta property="og:description" content="Café de especialidad y brunch en Vigo.">
-  <meta property="og:image" content="assets/img/hero-brunch-1200.webp">
+  <meta property="og:url" content="https://bloomcoffeebrunch.com/">
+  <meta property="og:site_name" content="Bloom Coffee &amp; Brunch">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:title" content="Bloom Coffee &amp; Brunch · Café de especialidad y brunch en Vigo">
+  <meta property="og:description" content="Café de especialidad, brunch, açaí, tostadas y sabores de Brasil en Calle Ángel Llanos 10, Vigo.">
+  <meta property="og:image" content="https://bloomcoffeebrunch.com/assets/img/hero-brunch-1200.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="960">
+  <meta property="og:image:alt" content="Mesa de brunch de Bloom vista desde arriba, con bol de açaí, zumos y croissant.">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 
-  <!-- Hides intro elements until GSAP takes over; removed by a 3.5s safety net if JS fails -->
+  <!-- js + motion flags; hero texts are hidden only under html.motion:not(.is-ready), with a 3 s safety net -->
   <script>
-    document.documentElement.classList.add('js', 'js-intro');
-    setTimeout(function () { document.documentElement.classList.remove('js-intro'); }, 3500);
+    (function (d) {
+      var r = d.documentElement;
+      r.classList.add("js");
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) r.classList.add("motion");
+      setTimeout(function () { r.classList.add("is-ready"); }, 3000);
+    })(document);
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allison&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Jost:wght@600&display=swap">
-
+  <link rel="preload" href="assets/fonts/poppins-latin-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-latin-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" type="image/webp"
         href="assets/img/hero-brunch-portrait-900.webp"
-        imagesrcset="assets/img/hero-brunch-portrait-640.webp 640w, assets/img/hero-brunch-portrait-900.webp 900w"
-        imagesizes="100vw" media="(max-width: 767px)">
+        imagesrcset="assets/img/hero-brunch-portrait-640.webp 640w, assets/img/hero-brunch-portrait-760.webp 760w, assets/img/hero-brunch-portrait-900.webp 900w"
+        imagesizes="100vw" media="(max-width: 767px)" fetchpriority="high">
   <link rel="preload" as="image" type="image/webp"
         href="assets/img/hero-brunch-1600.webp"
         imagesrcset="assets/img/hero-brunch-1200.webp 1200w, assets/img/hero-brunch-1600.webp 1600w"
-        imagesizes="100vw" media="(min-width: 768px)">
+        imagesizes="100vw" media="(min-width: 768px)" fetchpriority="high">
 
-  <link rel="stylesheet" href="styles.css?v=20261105g">
+  <link rel="stylesheet" href="styles.css?v=20261106p6">
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "CafeOrCoffeeShop",
+    "@id": "https://bloomcoffeebrunch.com/#cafe",
     "name": "Bloom Coffee & Brunch",
-    "url": "https://bloomcoffeebrunch.com",
+    "url": "https://bloomcoffeebrunch.com/",
+    "image": [
+      "https://bloomcoffeebrunch.com/assets/img/hero-brunch-1600.webp",
+      "https://bloomcoffeebrunch.com/assets/img/story-barra-1365.webp",
+      "https://bloomcoffeebrunch.com/assets/img/g-acai-coco-600.webp"
+    ],
+    "logo": "https://bloomcoffeebrunch.com/assets/img/logo-bloom.webp",
     "telephone": "+34 640 24 01 76",
     "email": "bloomcoffeeb@gmail.com",
-    "servesCuisine": ["Brunch", "Café de especialidad", "Açaí"],
+    "priceRange": "€",
+    "servesCuisine": ["Brunch", "Café de especialidad", "Açaí", "Cocina brasileña"],
+    "hasMap": "https://www.google.com/maps/search/?api=1&query=Calle+Angel+Llanos+10+Vigo",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Calle Ángel Llanos 10",
       "addressLocality": "Vigo",
+      "postalCode": "36203",
+      "addressRegion": "Pontevedra",
       "addressCountry": "ES"
     },
     "sameAs": ["https://www.instagram.com/bloom.coffee.vigo/"],
@@ -57,7 +80,6 @@
   </script>
 </head>
 <body>
-  <!-- Icon sprite -->
   <svg width="0" height="0" class="sr-only" aria-hidden="true" focusable="false">
     <defs>
       <symbol id="i-bloom" viewBox="0 0 100 100">
@@ -74,6 +96,23 @@
       <symbol id="i-chat" viewBox="0 0 24 24"><path d="M12 3.5a8.5 8.5 0 0 0-7.4 12.7L3.5 20.5l4.4-1.1A8.5 8.5 0 1 0 12 3.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 9.2c.2 2.6 2.2 4.7 5 5.4l1-1.3-1.6-.8-.8.8a4 4 0 0 1-2.1-2.1l.8-.8-.8-1.6Z" fill="currentColor"/></symbol>
       <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
       <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></symbol>
+      <symbol id="line-bloom" viewBox="0 0 200 200">
+        <g fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M100 100 C78 70 80 30 100 14 C120 30 122 70 100 100Z"/>
+          <path d="M100 100 C78 70 80 30 100 14 C120 30 122 70 100 100Z" transform="rotate(72 100 100)"/>
+          <path d="M100 100 C78 70 80 30 100 14 C120 30 122 70 100 100Z" transform="rotate(144 100 100)"/>
+          <path d="M100 100 C78 70 80 30 100 14 C120 30 122 70 100 100Z" transform="rotate(216 100 100)"/>
+          <path d="M100 100 C78 70 80 30 100 14 C120 30 122 70 100 100Z" transform="rotate(288 100 100)"/>
+          <circle cx="100" cy="100" r="9"/>
+          <path d="M100 100 C92 80 92 52 100 34 M100 100 C108 80 108 52 100 34" transform="rotate(36 100 100)"/>
+        </g>
+      </symbol>
+      <symbol id="i-tiktok" viewBox="0 0 24 24"><path d="M14 3.5v11.3a3.4 3.4 0 1 1-3.4-3.4M14 3.5c.5 2.7 2.3 4.5 5 4.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-pinterest" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.4 15.2c.6.5 1.4.7 2.3.5 2-.4 3.3-2.3 2.9-4.4-.4-2.2-2.6-3.4-4.8-2.9-2 .5-3 2.4-2.4 4.1M11.6 10.6 9.6 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M13.6 21v-7.6h2.6l.4-3.1h-3V8.5c0-.9.3-1.5 1.6-1.5h1.6V4.2a20 20 0 0 0-2.3-.1c-2.3 0-3.9 1.4-3.9 4v2.2H8v3.1h2.6V21" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+      <symbol id="i-youtube" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.2 9.4v5.2l4.6-2.6Z" fill="currentColor"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M6 3.5h9l3 3v14H6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 10h6M9 14h6M9 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     </defs>
   </svg>
 
@@ -82,48 +121,45 @@
   <!-- ============ HEADER ============ -->
   <header class="site-header" data-header>
     <a class="brand-box" href="#inicio" aria-label="Bloom Coffee &amp; Brunch, ir al inicio" data-intro="from-top">
-      <img src="assets/img/logo-bloom.webp" width="640" height="430" alt="Bloom Coffee &amp; Brunch">
+      <img src="assets/img/logo-bloom-320.webp" width="320" height="215" alt="Bloom Coffee &amp; Brunch">
     </a>
 
-    <nav class="nav-desktop" aria-label="Principal" data-intro="from-top">
+    <nav class="nav" aria-label="Principal">
       <ul>
-        <li><a href="#inicio" aria-current="page">Inicio</a></li>
-        <li><a href="#carta">Carta</a></li>
-        <li><a href="#concepto">Concepto</a></li>
-        <li><a href="#galeria">Galería</a></li>
-        <li><a href="#visitanos">Visítanos</a></li>
+        <li><a href="#favoritos" data-nav="favoritos">Favoritos</a></li>
+        <li><a href="#carta" data-nav="carta">Carta</a></li>
+        <li><a href="#concepto" data-nav="concepto">Concepto</a></li>
+        <li><a href="#galeria" data-nav="galeria">Galería</a></li>
+        <li><a href="#visitanos" data-nav="visitanos">Visítanos</a></li>
       </ul>
-      <a class="nav-desktop__ig" href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener" aria-label="Instagram de Bloom (se abre en una pestaña nueva)">
-        <svg aria-hidden="true"><use href="#i-instagram"/></svg>
-      </a>
     </nav>
 
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú" data-menu-toggle data-intro="from-right">
-      <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+    <a class="btn btn--sm btn--rosa header__cta" href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Angel+Llanos+10+Vigo" target="_blank" rel="noopener" data-status data-magnetic>
+      <span class="status-dot" aria-hidden="true"></span><span>Cómo llegar</span>
+      <span class="sr-only" data-status-text></span>
+    </a>
+
+    <button class="burger" type="button" aria-expanded="false" aria-controls="menu" data-burger data-intro="from-right">
+      <span class="sr-only">Abrir menú</span>
+      <span class="burger__bars" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
   </header>
 
-  <!-- ============ MENU (all links, hours and social live here) ============ -->
+  <!-- ============ MENÚ MÓVIL ============ -->
   <div class="menu" id="menu" data-menu hidden>
     <div class="menu__inner">
       <nav aria-label="Menú">
         <ul class="menu__links">
-          <li><a href="#inicio" aria-current="page"><span>Inicio</span></a></li>
-          <li><a href="#carta"><span>Carta</span></a></li>
-          <li><a href="#concepto"><span>Concepto</span></a></li>
-          <li><a href="#galeria"><span>Galería</span></a></li>
-          <li><a href="#visitanos"><span>Visítanos</span></a></li>
+          <li><a href="#favoritos">Favoritos</a></li>
+          <li><a href="#carta">Carta</a></li>
+          <li><a href="#concepto">Concepto</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#visitanos">Visítanos</a></li>
         </ul>
       </nav>
-
       <div class="menu__foot">
-        <p class="menu__status" data-hours><span class="menu__status-dot" aria-hidden="true"></span><span data-hours-text>Horario</span></p>
-        <dl class="hours-list">
-          <div><dt>Lunes a viernes</dt><dd>9:00 – 22:00</dd></div>
-          <div><dt>Sábado</dt><dd>10:00 – 23:00</dd></div>
-          <div><dt>Domingo</dt><dd>Cerrado</dd></div>
-        </dl>
-        <ul class="menu__social">
+        <p class="status-chip status-chip--dark" data-status><span class="status-dot" aria-hidden="true"></span><span data-status-text>Lunes a viernes 9:00–22:00 · Sábado 10:00–23:00</span></p>
+        <ul class="menu__actions">
           <li><a href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-instagram"/></svg>Instagram</a></li>
           <li><a href="https://wa.me/34640240176" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-chat"/></svg>WhatsApp</a></li>
           <li><a href="tel:+34640240176"><svg aria-hidden="true"><use href="#i-phone"/></svg>Llamar</a></li>
@@ -131,7 +167,6 @@
         </ul>
         <p class="menu__address">Calle Ángel Llanos 10, Vigo</p>
       </div>
-      <svg class="menu__bloom" aria-hidden="true"><use href="#i-bloom"/></svg>
     </div>
   </div>
 
@@ -141,7 +176,7 @@
       <div class="hero__media" data-hero-media>
         <picture>
           <source media="(max-width: 767px)" type="image/webp"
-                  srcset="assets/img/hero-brunch-portrait-640.webp 640w, assets/img/hero-brunch-portrait-900.webp 900w"
+                  srcset="assets/img/hero-brunch-portrait-640.webp 640w, assets/img/hero-brunch-portrait-760.webp 760w, assets/img/hero-brunch-portrait-900.webp 900w"
                   sizes="100vw">
           <img class="hero__img" data-hero-img
                src="assets/img/hero-brunch-1600.webp"
@@ -164,7 +199,7 @@
           <span class="line"><span class="line__inner" data-intro="line">Brunch coffee</span></span>
           <span class="line"><span class="line__inner" data-intro="line">y experiencias</span></span>
         </p>
-        <a class="hero__cta" href="#carta" data-cta>Descubre nuestra carta</a>
+        <a class="hero__cta" href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf data-cta>Descubre nuestro menú</a>
 
         <!-- Provisional line illustration: Bloom bear holding a rose -->
         <svg class="bear" viewBox="0 0 220 200" aria-hidden="true" data-bear>
@@ -196,202 +231,292 @@
 
     </section>
 
-    <!-- ============ 1. COLLAGE: photos slide in from alternating sides ============ -->
-    <!-- Per-item layout: --w/--x/--mt (mobile), --wd/--xd/--mtd (tablet+), --ar aspect ratio.
-         data-from = side it slides in from; data-speed = parallax depth (1 = page speed). -->
-    <section class="collage" id="favoritos" aria-label="Nuestros favoritos">
-      <figure class="collage__item" data-collage data-from="right" data-speed="1"
-              style="--w:64%;--x:36%;--mt:0%;--wd:36%;--xd:50%;--mtd:0%;--ar:4/5;--z:1">
-        <img src="assets/img/g-tortitas-600.webp" srcset="assets/img/g-tortitas-600.webp 600w, assets/img/g-tortitas-1000.webp 1000w"
-             sizes="(max-width: 767px) 66vw, 36vw" width="600" height="800" loading="lazy" decoding="async"
-             alt="Tortitas con melocotón asado, arándanos y azúcar glas.">
-      </figure>
-      <figure class="collage__item" data-collage data-from="left" data-speed="1.15"
-              style="--w:54%;--x:0%;--mt:-22%;--wd:27%;--xd:12%;--mtd:-22%;--ar:3/4;--z:2">
-        <img src="assets/img/g-zumo-rojo-600.webp" srcset="assets/img/g-zumo-rojo-600.webp 600w, assets/img/g-zumo-rojo-1000.webp 1000w"
-             sizes="(max-width: 767px) 56vw, 27vw" width="600" height="900" loading="lazy" decoding="async"
-             alt="Zumo natural de frutos rojos con pajita y hojas de menta.">
-      </figure>
-      <figure class="collage__item" data-collage data-from="right" data-speed="0.9"
-              style="--w:66%;--x:34%;--mt:-8%;--wd:34%;--xd:58%;--mtd:-12%;--ar:4/5;--z:1">
-        <img src="assets/img/g-croissant-benedict-600.webp" srcset="assets/img/g-croissant-benedict-600.webp 600w, assets/img/g-croissant-benedict-1000.webp 1000w"
-             sizes="(max-width: 767px) 68vw, 34vw" width="600" height="901" loading="lazy" decoding="async"
-             alt="Croissant relleno de huevos benedict con salsa holandesa y cebollino.">
-      </figure>
-      <figure class="collage__item" data-collage data-from="left" data-speed="1.2"
-              style="--w:56%;--x:0%;--mt:-18%;--wd:30%;--xd:24%;--mtd:-20%;--ar:1/1;--z:2">
-        <img src="assets/img/g-acai-coco-600.webp" srcset="assets/img/g-acai-coco-600.webp 600w, assets/img/g-acai-coco-1000.webp 608w"
-             sizes="(max-width: 767px) 58vw, 30vw" width="600" height="600" loading="lazy" decoding="async"
-             alt="Bol de açaí servido en coco con granola, arándanos, frambuesas y flores.">
-      </figure>
+    <!-- ============ CINTA ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track" data-marquee>
+        <div class="marquee__set">
+          <span>Café de especialidad</span><i>✿</i><span>Brunch</span><i>✿</i><span class="is-mango">Açaí</span><i>✿</i>
+          <span>Matcha</span><i>✿</i><span>Sabores de Brasil</span><i>✿</i><span class="is-mango">Café de especialidad</span><i>✿</i>
+          <span>Brunch</span><i>✿</i><span>Açaí</span><i>✿</i><span class="is-mango">Matcha</span><i>✿</i><span>Sabores de Brasil</span><i>✿</i>
+        </div>
+        <div class="marquee__set">
+          <span>Café de especialidad</span><i>✿</i><span>Brunch</span><i>✿</i><span class="is-mango">Açaí</span><i>✿</i>
+          <span>Matcha</span><i>✿</i><span>Sabores de Brasil</span><i>✿</i><span class="is-mango">Café de especialidad</span><i>✿</i>
+          <span>Brunch</span><i>✿</i><span>Açaí</span><i>✿</i><span class="is-mango">Matcha</span><i>✿</i><span>Sabores de Brasil</span><i>✿</i>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ FAVORITOS: collage, each photo at its own depth ============ -->
+    <section class="favs" id="favoritos" aria-labelledby="favs-title">
+      <div class="wrap">
+        <h2 class="h2" id="favs-title" data-split>Nuestros <span class="script">favoritos</span></h2>
+      </div>
+      <div class="collage">
+        <figure class="collage__item c1" data-speed="-0.12" data-cursor="Açaí">
+          <div class="collage__frame" data-reveal-photo>
+            <img src="assets/img/g-acai-coco-600.webp" srcset="assets/img/g-acai-coco-400.webp 400w, assets/img/g-acai-coco-600.webp 600w"
+                 sizes="(max-width: 899px) 62vw, 360px" width="600" height="600" loading="lazy" decoding="async"
+                 alt="Bol de açaí servido en coco con granola, arándanos, frambuesas y flores.">
+          </div>
+          <figcaption><span>01</span>Açaí</figcaption>
+        </figure>
+        <figure class="collage__item c2" data-speed="0.1" data-cursor="Brunch">
+          <div class="collage__frame" data-reveal-photo>
+            <img src="assets/img/g-croissant-benedict-600.webp" srcset="assets/img/g-croissant-benedict-400.webp 400w, assets/img/g-croissant-benedict-600.webp 600w, assets/img/g-croissant-benedict-1000.webp 1000w"
+                 sizes="(max-width: 899px) 54vw, 300px" width="600" height="901" loading="lazy" decoding="async"
+                 alt="Croissant relleno de huevos benedict con salsa holandesa y cebollino.">
+          </div>
+          <figcaption><span>02</span>Croissant benedict</figcaption>
+        </figure>
+        <figure class="collage__item c3" data-speed="-0.06" data-cursor="Tortitas">
+          <div class="collage__frame" data-reveal-photo>
+            <img src="assets/img/g-tortitas-600.webp" srcset="assets/img/g-tortitas-400.webp 400w, assets/img/g-tortitas-600.webp 600w"
+                 sizes="(max-width: 899px) 40vw, 264px" width="600" height="800" loading="lazy" decoding="async"
+                 alt="Tortitas con melocotón asado, arándanos y azúcar glas.">
+          </div>
+          <figcaption><span>03</span>Tortitas</figcaption>
+        </figure>
+        <figure class="collage__item c4" data-speed="0.16" data-cursor="Brasil">
+          <div class="collage__frame" data-reveal-photo>
+            <img src="assets/img/g-coxinhas-600.webp" srcset="assets/img/g-coxinhas-400.webp 400w, assets/img/g-coxinhas-600.webp 600w, assets/img/g-coxinhas-1000.webp 1000w"
+                 sizes="(max-width: 899px) 72vw, 400px" width="600" height="399" loading="lazy" decoding="async"
+                 alt="Coxinhas brasileñas doradas, recién fritas.">
+          </div>
+          <figcaption><span>04</span>Coxinhas</figcaption>
+        </figure>
+        <figure class="collage__item c5" data-speed="-0.1" data-cursor="Café">
+          <div class="collage__frame" data-reveal-photo>
+            <img src="assets/img/g-cafes-latte-600.webp" srcset="assets/img/g-cafes-latte-400.webp 400w, assets/img/g-cafes-latte-600.webp 600w"
+                 sizes="(max-width: 899px) 42vw, 252px" width="600" height="901" loading="lazy" decoding="async"
+                 alt="Dos cafés latte con arte latte en forma de corazón.">
+          </div>
+          <figcaption><span>05</span>Cafés latte</figcaption>
+        </figure>
+        <figure class="collage__item c6" data-speed="0.06" data-cursor="Zumos">
+          <div class="collage__frame" data-reveal-photo>
+            <img src="assets/img/g-zumo-rojo-600.webp" srcset="assets/img/g-zumo-rojo-400.webp 400w, assets/img/g-zumo-rojo-600.webp 600w"
+                 sizes="(max-width: 899px) 42vw, 216px" width="600" height="900" loading="lazy" decoding="async"
+                 alt="Zumo natural de frutos rojos con pajita y hojas de menta.">
+          </div>
+          <figcaption><span>06</span>Zumo rojo</figcaption>
+        </figure>
+        <span class="bear-slot collage__bear" data-bear="sit" data-float aria-hidden="true"></span>
+      </div>
+      <div class="cursor-label" aria-hidden="true" data-cursor-label><span></span></div>
     </section>
 
-    <!-- ============ 2. VENUE + STORY: pinned, the photo opens from an arch ============ -->
-    <section class="venue" id="concepto" aria-labelledby="venue-title" data-venue>
-      <div class="venue__stage" data-venue-stage>
-        <figure class="venue__photo" data-venue-photo>
-          <picture>
-            <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/venue-barra-portrait-717.webp">
-            <img src="assets/img/venue-barra-1195.webp" width="1195" height="896" loading="lazy" decoding="async"
-                 alt="Barra de Bloom en Vigo: mostrador rosa, letrero Coffee Bloom Brunch y el osito barista detrás de la cafetera.">
-          </picture>
-        </figure>
-        <div class="venue__copy">
-          <h2 class="venue__title" id="venue-title">
-            <span class="w"><span>Nuestra</span></span> <span class="w"><span>historia</span></span>
-          </h2>
-          <!-- TEMP COPY: replace with the final story -->
-          <p class="venue__text" data-venue-text>
-            Bloom Coffee nació de la pasión por el café, del cuidado por los detalles y de esos pequeños
-            momentos que merecen disfrutarse sin prisa. Un lugar donde cada taza cuenta una historia.
-          </p>
-          <p class="venue__place" data-venue-text>Calle Ángel Llanos 10, Vigo</p>
+    <!-- ============ VENTANA: the photo stays fixed while the page slides over it ============ -->
+    <div class="window" aria-hidden="true" data-window>
+      <picture>
+        <source media="(max-width: 767px)" type="image/webp" srcset="assets/img/menu-tostada-tall-900.webp">
+        <img class="window__img" src="assets/img/menu-tostada-1334.webp" width="1334" height="834" loading="lazy" decoding="async" alt="">
+      </picture>
+    </div>
+
+    <!-- ============ CARTA ============ -->
+    <section class="carta" id="carta" aria-labelledby="carta-title">
+      <span class="carta__glow" aria-hidden="true"></span>
+      <div class="wrap">
+        <h2 class="h2 h2--light" id="carta-title" data-split>Todo lo que <span class="script script--mango">enamora</span></h2>
+        <ol class="carta-list" data-carta-list>
+          <li><a class="carta-row" href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf data-preview-src="assets/img/g-cafes-latte-600.webp">
+            <span class="carta-row__num">01</span>
+            <img class="carta-row__thumb" src="assets/img/thumb-cafes-latte-112.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
+            <span class="carta-row__name">Cafés y matcha</span>
+            <svg class="carta-row__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a></li>
+          <li><a class="carta-row" href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf data-preview-src="assets/img/g-tostada-bacon-600.webp">
+            <span class="carta-row__num">02</span>
+            <img class="carta-row__thumb" src="assets/img/thumb-tostada-bacon-112.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
+            <span class="carta-row__name">Brunch y tostadas</span>
+            <svg class="carta-row__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a></li>
+          <li><a class="carta-row" href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf data-preview-src="assets/img/g-acai-coco-600.webp">
+            <span class="carta-row__num">03</span>
+            <img class="carta-row__thumb" src="assets/img/thumb-acai-coco-112.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
+            <span class="carta-row__name">Açaí y bowls</span>
+            <svg class="carta-row__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a></li>
+          <li><a class="carta-row" href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf data-preview-src="assets/img/g-coxinhas-600.webp">
+            <span class="carta-row__num">04</span>
+            <img class="carta-row__thumb" src="assets/img/thumb-coxinhas-112.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
+            <span class="carta-row__name">Sabores de Brasil</span>
+            <svg class="carta-row__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a></li>
+          <li><a class="carta-row" href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf data-preview-src="assets/img/g-bollo-crema-600.webp">
+            <span class="carta-row__num">05</span>
+            <img class="carta-row__thumb" src="assets/img/thumb-bollo-crema-112.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
+            <span class="carta-row__name">Bollería y dulces</span>
+            <svg class="carta-row__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a></li>
+          <li><a class="carta-row" href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf data-preview-src="assets/img/g-batidos-600.webp">
+            <span class="carta-row__num">06</span>
+            <img class="carta-row__thumb" src="assets/img/thumb-batidos-112.webp" width="56" height="56" loading="lazy" decoding="async" alt="">
+            <span class="carta-row__name">Batidos y zumos</span>
+            <svg class="carta-row__arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a></li>
+        </ol>
+        <!-- TODO: assets/carta-bloom.pdf (la carta llegará más adelante; mientras tanto el JS lleva a WhatsApp) -->
+        <a class="btn btn--crema btn--lg" href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf data-carta-main data-magnetic>Ver carta completa (PDF)</a>
+      </div>
+      <div class="carta-preview" aria-hidden="true" data-carta-preview><img src="assets/img/g-cafes-latte-600.webp" width="600" height="901" alt="" loading="lazy" decoding="async"></div>
+    </section>
+
+    <!-- ============ CONCEPTO ============ -->
+    <section class="concept" id="concepto" aria-labelledby="concept-title">
+      <div class="concept__band" aria-hidden="true">
+        <p class="concept__everyday" data-everyday>Everyday <span class="script">brunch</span></p>
+      </div>
+      <div class="concept__body">
+        <div class="wrap concept__grid">
+          <div class="concept__text">
+            <h2 class="h2" id="concept-title" data-split>Brunch, café y <span class="script">momentos bonitos</span></h2>
+            <blockquote class="concept__quote" data-words aria-label="Un lugar donde cada taza cuenta una historia y cada plato se sirve para disfrutarlo sin prisa.">Un lugar donde cada taza cuenta una historia y cada plato se sirve para disfrutarlo sin prisa.</blockquote>
+            <!-- TODO: texto definitivo -->
+            <p>Bloom Coffee nació de la pasión por el café, del cuidado por los detalles y de esos pequeños momentos que merecen disfrutarse sin prisa.</p>
+            <ul class="pills">
+              <li>Café de especialidad</li><li>Producto fresco</li><li>Sabores de Brasil</li><li>Sin prisa</li>
+            </ul>
+          </div>
+          <div class="concept__photos">
+            <figure class="concept__big" data-speed="-0.06">
+              <div class="concept__frame" data-reveal-photo>
+                <img src="assets/img/story-barra-800.webp" srcset="assets/img/story-barra-800.webp 800w, assets/img/story-barra-1365.webp 1365w"
+                     sizes="(max-width: 899px) 90vw, 560px" width="1365" height="1024" loading="lazy" decoding="async"
+                     alt="La barra de Bloom en Vigo, con listones rosas, el cartel «Coffee Bloom Brunch» y un jardín vertical encima.">
+              </div>
+            </figure>
+            <figure class="concept__small" data-speed="0.14">
+              <div class="concept__frame" data-reveal-photo>
+                <img src="assets/img/g-osito-cafe-738.webp" width="738" height="732" loading="lazy" decoding="async"
+                     alt="El osito de Bloom sentado a la mesa con una taza de café con el logo y un dulce.">
+              </div>
+            </figure>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ 3. COLOUR: two vivid photos, each with its own motion ============ -->
-    <section class="colour" aria-label="Color y sabor">
-      <figure class="colour__item colour__item--a" data-wipe>
-        <img src="assets/img/g-batidos-1000.webp" srcset="assets/img/g-batidos-600.webp 600w, assets/img/g-batidos-1000.webp 1000w"
-             sizes="(max-width: 767px) 92vw, 60vw" width="1000" height="749" loading="lazy" decoding="async"
-             alt="Batidos de fruta de colores en tarros de cristal con pajitas.">
-      </figure>
-      <figure class="colour__item colour__item--b" data-tilt>
-        <img src="assets/img/g-osito-cafe-738.webp" width="738" height="732" loading="lazy" decoding="async"
-             alt="El osito de Bloom sentado a la mesa con una taza de café con el logo y un dulce.">
-      </figure>
-    </section>
-
-    <!-- ============ 4. BAND: bridge into the menu ============ -->
-    <div class="band" data-band aria-hidden="true">
-      <p class="band__inner"><span class="band__caps">Cada día</span><span class="band__script">brunch</span></p>
-    </div>
-
-    <!-- ============ 5. CARTA: rises over the gallery like a new page ============ -->
-    <!-- TEMP CONTENT: dishes, descriptions and prices are placeholders until the final menu arrives -->
-    <section class="menu-sheet" id="carta" aria-labelledby="carta-title" data-sheet>
-      <header class="menu-sheet__head">
-        <h2 class="menu-sheet__title" id="carta-title" data-reveal>Nuestra carta</h2>
-        <p class="menu-sheet__intro" data-reveal>Brunch, açaí y sabores de Brasil, preparados cada día.</p>
-      </header>
-
-      <div class="menu-tabs" role="tablist" aria-label="Categorías de la carta" data-tabs>
-        <button class="menu-tabs__tab" role="tab" id="tab-brunch" aria-controls="panel-brunch" aria-selected="true">Brunch</button>
-        <button class="menu-tabs__tab" role="tab" id="tab-acai" aria-controls="panel-acai" aria-selected="false" tabindex="-1">Açaí y bowls</button>
-        <button class="menu-tabs__tab" role="tab" id="tab-brasil" aria-controls="panel-brasil" aria-selected="false" tabindex="-1">Brasil</button>
-        <button class="menu-tabs__tab" role="tab" id="tab-dulces" aria-controls="panel-dulces" aria-selected="false" tabindex="-1">Dulces</button>
-        <button class="menu-tabs__tab" role="tab" id="tab-bebidas" aria-controls="panel-bebidas" aria-selected="false" tabindex="-1">Café y bebidas</button>
-        <span class="menu-tabs__bar" aria-hidden="true" data-tabs-bar></span>
+    <!-- ============ GALERÍA ============ -->
+    <section class="gallery" id="galeria" aria-labelledby="gallery-title">
+      <div class="wrap">
+        <h2 class="h2" id="gallery-title" data-split>Un día en <span class="script">Bloom</span></h2>
       </div>
-
-      <div class="menu-panels">
-        <article class="menu-panel" role="tabpanel" id="panel-brunch" aria-labelledby="tab-brunch">
-          <figure class="menu-panel__photo"><img src="assets/img/g-croissant-benedict-1000.webp" width="1000" height="1501" loading="lazy" decoding="async" alt="Croissant con huevos benedict y salsa holandesa."></figure>
-          <ul class="menu-panel__list">
-            <li class="dish"><p class="dish__row"><span class="dish__name">Croissant benedict</span><span class="dish__dots"></span><span class="dish__price">9,50 €</span></p><p class="dish__desc">Huevos poché, bacon y salsa holandesa sobre croissant de mantequilla.</p></li>
-            <li class="dish"><p class="dish__row"><span class="dish__name">Tortitas Bloom</span><span class="dish__dots"></span><span class="dish__price">8,50 €</span></p><p class="dish__desc">Melocotón asado, arándanos y azúcar glas.</p></li>
-            <li class="dish"><p class="dish__row"><span class="dish__name">Tostada con bacon</span><span class="dish__dots"></span><span class="dish__price">8,90 €</span></p><p class="dish__desc">Pan de masa madre, bacon crujiente, huevos revueltos y sirope.</p></li>
-            <li class="dish"><p class="dish__row"><span class="dish__name">Tortilla de patata</span><span class="dish__dots"></span><span class="dish__price">4,50 €</span></p><p class="dish__desc">Jugosa, con alioli y pimentón.</p></li>
-          </ul>
-        </article>
-        <article class="menu-panel" role="tabpanel" id="panel-acai" aria-labelledby="tab-acai">
-          <figure class="menu-panel__photo"><img src="assets/img/g-acai-coco-1000.webp" width="608" height="608" loading="lazy" decoding="async" alt="Bol de açaí en coco con granola y frutos rojos."></figure>
-          <ul class="menu-panel__list">
-            <li class="dish"><p class="dish__row"><span class="dish__name">Açaí en coco</span><span class="dish__dots"></span><span class="dish__price">10,50 €</span></p><p class="dish__desc">Açaí, granola, frutos rojos y flores comestibles.</p></li>
-            <li class="dish"><p class="dish__row"><span class="dish__name">Açaí bowl clásico</span><span class="dish__dots"></span><span class="dish__price">8,90 €</span></p><p class="dish__desc">Plátano, fresas, arándanos, granola y crema de cacahuete.</p></li>
-            <li class="dish"><p class="dish__row"><span class="dish__name">Bowl de yogur</span><span class="dish__dots"></span><span class="dish__price">6,90 €</span></p><p class="dish__desc">Yogur griego, miel, fruta de temporada y granola.</p></li>
-          </ul>
-        </article>
-        <article class="menu-panel" role="tabpanel" id="panel-brasil" aria-labelledby="tab-brasil">
-          <figure class="menu-panel__photo"><img src="assets/img/g-coxinhas-1000.webp" width="1000" height="665" loading="lazy" decoding="async" alt="Coxinhas recién fritas con salsa."></figure>
-          <ul class="menu-panel__list">
-            <li class="dish"><p class="dish__row"><span class="dish__name">Coxinhas</span><span class="dish__dots"></span><span class="dish__price">7,50 €</span></p><p class="dish__desc">Seis unidades de pollo desmenuzado, con salsa de la casa.</p></li>
-            <li class="dish"><p class="dish__row"><span class="dish__name">Pastéis</span><span class="dish__dots"></span><span class="dish__price">3,50 €</span></p><p class="dish__desc">Masa crujiente rellena de carne o de queso.</p></li>
-            <li class="dish"><p class="dish__row"><span class="dish__name">Pão de queijo</span><span class="dish__dots"></span><span class="dish__price">4,50 €</span></p><p class="dish__desc">Panecillos de queso, recién horneados.</p></li>
-          </ul>
-        </article>
-        <article class="menu-panel" role="tabpanel" id="panel-dulces" aria-labelledby="tab-dulces">
-          <figure class="menu-panel__photo"><img src="assets/img/g-bollo-crema-1000.webp" width="1000" height="1501" loading="lazy" decoding="async" alt="Brioche relleno de crema con azúcar glas."></figure>
-          <ul class="menu-panel__list">
-            <li class="dish"><p class="dish__row"><span class="dish__name">Brioche de crema</span><span class="dish__dots"></span><span class="dish__price">3,90 €</span></p><p class="dish__desc">Brioche esponjoso relleno de crema pastelera.</p></li>
-            <li class="dish"><p class="dish__row"><span class="dish__name">Bizcocho casero</span><span class="dish__dots"></span><span class="dish__price">3,20 €</span></p><p class="dish__desc">La receta de la casa, con azúcar glas.</p></li>
-            <li class="dish"><p class="dish__row"><span class="dish__name">Helado artesano</span><span class="dish__dots"></span><span class="dish__price">3,50 €</span></p><p class="dish__desc">En cucurucho, sabores del día.</p></li>
-          </ul>
-        </article>
-        <article class="menu-panel" role="tabpanel" id="panel-bebidas" aria-labelledby="tab-bebidas">
-          <figure class="menu-panel__photo"><img src="assets/img/g-cafes-latte-1000.webp" width="1000" height="1501" loading="lazy" decoding="async" alt="Dos cafés con arte latte."></figure>
-          <ul class="menu-panel__list">
-            <li class="dish"><p class="dish__row"><span class="dish__name">Café de especialidad</span><span class="dish__dots"></span><span class="dish__price">1,80 €</span></p><p class="dish__desc">Espresso, americano o cortado.</p></li>
-            <li class="dish"><p class="dish__row"><span class="dish__name">Latte o capuchino</span><span class="dish__dots"></span><span class="dish__price">2,60 €</span></p><p class="dish__desc">Con leche entera o bebida vegetal.</p></li>
-            <li class="dish"><p class="dish__row"><span class="dish__name">Zumo de frutos rojos</span><span class="dish__dots"></span><span class="dish__price">4,50 €</span></p><p class="dish__desc">Natural, recién hecho.</p></li>
-            <li class="dish"><p class="dish__row"><span class="dish__name">Batidos de fruta</span><span class="dish__dots"></span><span class="dish__price">4,90 €</span></p><p class="dish__desc">Mango, fresa, kiwi o frutos del bosque.</p></li>
-          </ul>
-        </article>
+      <div class="gallery__rows">
+        <div class="gallery__row" data-row="-1">
+          <img src="assets/img/g-desayuno-600.webp" width="600" height="600" loading="lazy" decoding="async" alt="Desayuno completo con tostada, café con arte latte y zumo de naranja.">
+          <img src="assets/img/g-bagel-600.webp" width="600" height="800" loading="lazy" decoding="async" alt="Bagel de semillas relleno de huevo, espinacas, jamón, tomate y queso fundido.">
+          <img src="assets/img/g-batidos-600.webp" srcset="assets/img/g-batidos-600.webp 600w, assets/img/g-batidos-1000.webp 1000w" sizes="(max-width: 899px) 60vw, 500px" width="600" height="450" loading="lazy" decoding="async" alt="Batidos de fruta de colores en tarros de cristal con pajitas.">
+          <img src="assets/img/g-bollo-crema-600.webp" width="600" height="901" loading="lazy" decoding="async" alt="Bollo relleno de crema espolvoreado con azúcar.">
+          <img src="assets/img/g-local-sala-600.webp" width="600" height="889" loading="lazy" decoding="async" alt="Interior luminoso de Bloom con mesas, sofá y suelo de baldosa.">
+          <img src="assets/img/g-tostada-bacon-600.webp" width="600" height="901" loading="lazy" decoding="async" alt="Tostada con bacon crujiente y huevo.">
+        </div>
+        <div class="gallery__row" data-row="1">
+          <img src="assets/img/g-hamburguesa-600.webp" width="600" height="400" loading="lazy" decoding="async" alt="Hamburguesa con queso fundido y patatas.">
+          <img src="assets/img/g-helado-600.webp" width="600" height="1067" loading="lazy" decoding="async" alt="Helado en cucurucho con toppings de colores.">
+          <img src="assets/img/g-pasteis-600.webp" width="600" height="400" loading="lazy" decoding="async" alt="Pastéis brasileños dorados y crujientes.">
+          <img src="assets/img/g-tortilla-600.webp" width="600" height="901" loading="lazy" decoding="async" alt="Pincho de tortilla de patata jugosa.">
+          <img src="assets/img/g-cartel-osito-600.webp" width="600" height="940" loading="lazy" decoding="async" alt="El gran osito rosa de Bloom junto a un desayuno y el cartel «Te esperamos con mucho amor».">
+          <img src="assets/img/g-bizcocho-600.webp" width="600" height="901" loading="lazy" decoding="async" alt="Porción de bizcocho casero.">
+        </div>
+      </div>
+      <div class="wrap gallery__tag">
+        <p>Etiquétanos y aparece aquí</p>
+        <a class="gallery__handle" href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener">@bloom.coffee.vigo</a>
       </div>
     </section>
 
-    <!-- ============ 6. VISÍTANOS ============ -->
-    <div class="visit-wrap">
+    <!-- ============ VISÍTANOS ============ -->
     <section class="visit" id="visitanos" aria-labelledby="visit-title">
-      <h2 class="visit__script" id="visit-title" data-reveal>Abierto</h2>
-      <ul class="visit__list">
-        <li data-reveal><svg aria-hidden="true"><use href="#i-pin"/></svg><span>Calle Ángel Llanos 10<br>36203 Vigo, Pontevedra</span></li>
-        <li data-reveal><svg aria-hidden="true"><use href="#i-clock"/></svg><span>Lunes a viernes, 9:00 a 22:00<br>Sábado, 10:00 a 23:00<br>Domingo, cerrado</span></li>
-        <li data-reveal><svg aria-hidden="true"><use href="#i-phone"/></svg><a href="tel:+34640240176">+34 640 24 01 76</a></li>
-        <li data-reveal><svg aria-hidden="true"><use href="#i-chat"/></svg><a href="https://wa.me/34640240176" target="_blank" rel="noopener">Escríbenos por WhatsApp</a></li>
-      </ul>
-      <a class="visit__map" href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Angel+Llanos+10+Vigo" target="_blank" rel="noopener"
-         aria-label="Abrir la ubicación de Bloom en Google Maps" data-map>
-        <iframe title="Mapa: Bloom Coffee &amp; Brunch, Calle Ángel Llanos 10, Vigo"
-                src="https://www.google.com/maps?q=Calle+%C3%81ngel+Llanos+10,+Vigo&amp;z=16&amp;output=embed"
-                loading="lazy" referrerpolicy="no-referrer-when-downgrade" tabindex="-1"></iframe>
-      </a>
-    </section>
-    </div>
-
-    <!-- ============ 7. INSTAGRAM ============ -->
-    <section class="insta" id="galeria" aria-labelledby="insta-title">
-      <a class="insta__head" href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener" data-reveal>
-        <svg aria-hidden="true"><use href="#i-instagram"/></svg>
-        <span class="insta__title" id="insta-title">Síguenos</span>
-        <span class="insta__handle">@bloom.coffee.vigo</span>
-      </a>
-      <div class="insta__grid">
-        <figure class="insta__item" data-from="left" style="--ar:3/4">
-          <img src="assets/img/g-cafes-latte-600.webp" width="600" height="901" loading="lazy" decoding="async" alt="Dos cafés con arte latte en forma de hoja.">
-        </figure>
-        <figure class="insta__item" data-from="right" style="--ar:3/4">
-          <img src="assets/img/g-bollo-crema-600.webp" width="600" height="901" loading="lazy" decoding="async" alt="Bollo brioche relleno de crema con azúcar glas.">
-        </figure>
-        <figure class="insta__item insta__item--wide" data-from="left" style="--ar:3/4">
-          <img src="assets/img/g-tortilla-600.webp" width="600" height="901" loading="lazy" decoding="async" alt="Porción de tortilla de patata con alioli y pimentón.">
-        </figure>
-        <figure class="insta__item insta__item--wide" data-from="right" style="--ar:3/4">
-          <img src="assets/img/g-pasteis-600.webp" width="600" height="400" loading="lazy" decoding="async" alt="Pastéis brasileños dorados servidos en una fuente.">
-        </figure>
+      <div class="wrap visit__grid">
+        <div class="visit__info">
+          <h2 class="h2" id="visit-title" data-split>Te esperamos en <span class="script">Vigo</span></h2>
+          <p class="status-chip" data-status><span class="status-dot" aria-hidden="true"></span><span data-status-text>Lunes a viernes 9:00–22:00 · Sábado 10:00–23:00</span></p>
+          <address class="visit__address">Calle Ángel Llanos 10<br>36203 Vigo, Pontevedra</address>
+          <table class="hours" data-hours-table>
+            <caption class="sr-only">Horario de apertura</caption>
+            <tbody>
+              <tr data-days="1"><th scope="row">Lunes</th><td>9:00 – 22:00</td></tr>
+              <tr data-days="2"><th scope="row">Martes</th><td>9:00 – 22:00</td></tr>
+              <tr data-days="3"><th scope="row">Miércoles</th><td>9:00 – 22:00</td></tr>
+              <tr data-days="4"><th scope="row">Jueves</th><td>9:00 – 22:00</td></tr>
+              <tr data-days="5"><th scope="row">Viernes</th><td>9:00 – 22:00</td></tr>
+              <tr data-days="6"><th scope="row">Sábado</th><td>10:00 – 23:00</td></tr>
+              <tr data-days="0"><th scope="row">Domingo</th><td>Cerrado</td></tr>
+            </tbody>
+          </table>
+          <div class="visit__actions">
+            <a class="btn btn--rosa" href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Angel+Llanos+10+Vigo" target="_blank" rel="noopener" data-magnetic><svg aria-hidden="true"><use href="#i-pin"/></svg>Cómo llegar</a>
+            <a class="btn btn--outline" href="https://wa.me/34640240176" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-chat"/></svg>WhatsApp</a>
+            <a class="btn btn--outline" href="tel:+34640240176"><svg aria-hidden="true"><use href="#i-phone"/></svg>Llamar</a>
+          </div>
+        </div>
+        <div class="visit__media">
+          <div class="visit__arch" data-reveal-photo>
+            <img class="visit__poster" src="assets/video/local-terraza-poster.webp" width="464" height="832" loading="lazy" decoding="async" alt="">
+            <video class="visit__video" muted loop playsinline preload="none" width="464" height="580" data-video
+                   aria-label="La terraza de Bloom en Vigo">
+              <source src="assets/video/local-terraza.mp4" type="video/mp4">
+            </video>
+          </div>
+          <p class="sticker" aria-hidden="true">¡Te esperamos!</p>
+        </div>
       </div>
     </section>
   </main>
 
-  <!-- ============ FOOTER (a more defined change is OK at the page end) ============ -->
+  <!-- ============ FOOTER ============ -->
   <footer class="site-footer">
-    <img class="site-footer__logo" src="assets/img/logo-bloom.webp" width="640" height="430" alt="Bloom Coffee &amp; Brunch" loading="lazy">
-    <ul class="site-footer__social">
-      <li><a href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#i-instagram"/></svg></a></li>
-      <li><a href="https://wa.me/34640240176" target="_blank" rel="noopener" aria-label="WhatsApp"><svg aria-hidden="true"><use href="#i-chat"/></svg></a></li>
-      <li><a href="tel:+34640240176" aria-label="Llamar"><svg aria-hidden="true"><use href="#i-phone"/></svg></a></li>
-    </ul>
-    <nav class="site-footer__nav" aria-label="Pie de página">
-      <a href="#inicio">Inicio</a><a href="#carta">Carta</a><a href="#concepto">Concepto</a><a href="#galeria">Galería</a><a href="#visitanos">Visítanos</a>
-    </nav>
-    <p class="site-footer__meta">Calle Ángel Llanos 10, Vigo<br><a href="mailto:bloomcoffeeb@gmail.com">bloomcoffeeb@gmail.com</a></p>
-    <!-- TODO: legal pages -->
-    <p class="site-footer__legal">© 2026 Bloom Coffee &amp; Brunch. <a href="#">Aviso legal</a> <a href="#">Privacidad</a> <a href="#">Cookies</a></p>
+    <p class="site-footer__big" aria-hidden="true" data-footer-word>Bloom</p>
+    <div class="wrap site-footer__cols">
+      <div>
+        <img class="site-footer__logo" src="assets/img/logo-bloom-320.webp" width="320" height="215" alt="Bloom Coffee &amp; Brunch" loading="lazy" decoding="async">
+        <p>Brunch, café y momentos bonitos.</p>
+      </div>
+      <nav aria-labelledby="f-explora">
+        <h3 class="site-footer__h" id="f-explora">Explora</h3>
+        <ul>
+          <li><a href="#favoritos">Favoritos</a></li>
+          <li><a href="#carta">Carta</a></li>
+          <li><a href="#concepto">Concepto</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#visitanos">Visítanos</a></li>
+        </ul>
+      </nav>
+      <div>
+        <h3 class="site-footer__h">Contacto</h3>
+        <ul>
+          <li><a href="tel:+34640240176">+34 640 24 01 76</a></li>
+          <li><a href="https://wa.me/34640240176" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="mailto:bloomcoffeeb@gmail.com">bloomcoffeeb@gmail.com</a></li>
+          <li><a href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="site-footer__h">Horario</h3>
+        <ul>
+          <li>Lunes a viernes: 9:00 – 22:00</li>
+          <li>Sábado: 10:00 – 23:00</li>
+          <li>Domingo: cerrado</li>
+        </ul>
+      </div>
+    </div>
+    <p class="wrap site-footer__meta">© 2026 Bloom Coffee &amp; Brunch · Calle Ángel Llanos 10, 36203 Vigo</p>
+    <!-- TODO: páginas Aviso legal, Privacidad y Cookies (obligatorio LSSI) -->
   </footer>
 
-  <script defer src="lib/gsap.min.js"></script>
-  <script defer src="lib/ScrollTrigger.min.js"></script>
-  <script defer src="main.js?v=20261105g"></script>
+  <!-- ============ BARRA DE ACCIONES (móvil) ============ -->
+  <nav class="actionbar" aria-label="Acciones rápidas" data-actionbar>
+    <a href="tel:+34640240176"><svg aria-hidden="true"><use href="#i-phone"/></svg><span>Llamar</span></a>
+    <a href="https://wa.me/34640240176" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-chat"/></svg><span>WhatsApp</span></a>
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Angel+Llanos+10+Vigo" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg><span>Llegar</span></a>
+    <a href="assets/carta-bloom.pdf" target="_blank" rel="noopener" data-carta-pdf><svg aria-hidden="true"><use href="#i-menu"/></svg><span>Carta</span></a>
+  </nav>
+
+  <!-- main.js paints the cover first, then loads GSAP, ScrollTrigger, SplitText and Lenis from /lib in order -->
+  <script defer src="main.js?v=20261106p6"></script>
 </body>
 </html>
+
+</body></html>
