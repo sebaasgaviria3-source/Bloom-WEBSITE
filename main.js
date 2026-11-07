@@ -1,7 +1,7 @@
 /* ==========================================================================
    Bloom Coffee & Brunch
-   Full-screen scroll-scrubbed pancake + overlapping photo stack
-   (Canvas + GSAP ScrollTrigger + Lenis)
+   Hero pancake scrubbed by scroll (Canvas + GSAP ScrollTrigger),
+   Lenis smooth scroll, Swiper gallery, quiet reveals
    ========================================================================== */
 (function () {
   'use strict';
@@ -18,34 +18,55 @@
   }
 
   /* ------------------------------------------------------------------
-     2. Menu overlay
+     2. Mobile menu
      ------------------------------------------------------------------ */
-  (function menu() {
-    var btn = document.querySelector('[data-menu-toggle]');
-    var panel = document.querySelector('[data-menu]');
-    if (!btn || !panel) return;
-    function set(open) {
-      btn.setAttribute('aria-expanded', String(open));
-      btn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
-      panel.hidden = !open;
-      root.classList.toggle('menu-open', open);
-      document.body.style.overflow = open ? 'hidden' : '';
-      if (window.__lenis) open ? window.__lenis.stop() : window.__lenis.start();
-      if (open) { var first = panel.querySelector('a'); if (first) first.focus(); }
-    }
-    btn.addEventListener('click', function () { set(btn.getAttribute('aria-expanded') !== 'true'); });
-    panel.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
+  var menuBtn = document.querySelector('[data-menu-toggle]');
+  var menuPanel = document.querySelector('[data-menu]');
+  function setMenu(open) {
+    if (!menuBtn || !menuPanel) return;
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    menuPanel.hidden = !open;
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (window.__lenis) open ? window.__lenis.stop() : window.__lenis.start();
+  }
+  if (menuBtn && menuPanel) {
+    menuBtn.addEventListener('click', function () { setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'); });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !panel.hidden) { set(false); btn.focus(); }
+      if (e.key === 'Escape' && !menuPanel.hidden) { setMenu(false); menuBtn.focus(); }
     });
-  })();
+  }
+
+  /* In-page links: close the menu, then glide (Lenis) or jump */
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href');
+      var target = id.length > 1 && document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      setMenu(false);
+      if (window.__lenis) window.__lenis.scrollTo(target, { offset: id === '#inicio' ? 0 : -60, duration: 1.4 });
+      else target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+      history.replaceState(null, '', id);
+    });
+  });
+
+  /* Navigation gets its cream background once you leave the top */
+  var nav = document.querySelector('[data-nav]');
+  // the small logo only appears once the big centred logo of the hero has gone
+  function navState() {
+    if (!nav) return;
+    var limit = reduceMotion ? window.innerHeight * 0.6 : window.innerHeight * 2.6;
+    nav.classList.toggle('is-scrolled', window.scrollY > limit);
+  }
+  window.addEventListener('scroll', navState, { passive: true });
+  navState();
 
   /* ------------------------------------------------------------------
-     3. Open / closed, computed in Madrid time (shown in the menu)
+     3. Opening hours: status + today highlighted (Madrid time)
      ------------------------------------------------------------------ */
-  (function status() {
+  (function hours() {
     var el = document.querySelector('[data-status]');
-    if (!el) return;
     var HOURS = { 0: null, 1: [540, 1320], 2: [540, 1320], 3: [540, 1320], 4: [540, 1320], 5: [540, 1320], 6: [600, 1380] };
     var DAYS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
     var fmt = function (m) { return Math.floor(m / 60) + ':' + String(m % 60).padStart(2, '0'); };
@@ -61,7 +82,7 @@
     }
     function update() {
       var now = madridNow(), today = HOURS[now.day], text, open = false;
-      if (today && now.min >= today[0] && now.min < today[1]) { open = true; text = 'Abierto · hasta las ' + fmt(today[1]); }
+      if (today && now.min >= today[0] && now.min < today[1]) { open = true; text = 'Abierto ahora · hasta las ' + fmt(today[1]); }
       else if (today && now.min < today[0]) { text = 'Cerrado · abrimos a las ' + fmt(today[0]); }
       else {
         for (var i = 1; i <= 7; i++) {
@@ -69,43 +90,72 @@
           if (HOURS[d]) { text = 'Cerrado · abrimos ' + (i === 1 ? 'mañana' : 'el ' + DAYS[d]) + ' a las ' + fmt(HOURS[d][0]); break; }
         }
       }
-      el.classList.toggle('is-open', open);
-      el.querySelector('[data-status-text]').textContent = text;
-      el.hidden = false;
+      if (el) {
+        el.classList.toggle('is-open', open);
+        el.querySelector('[data-status-text]').textContent = text;
+        el.hidden = false;
+      }
+      document.querySelectorAll('[data-hours] li').forEach(function (li) {
+        li.classList.toggle('is-today', li.dataset.days.split(',').indexOf(String(now.day)) > -1);
+      });
     }
-    try { update(); setInterval(update, 60000); } catch (e) { /* stays hidden */ }
+    try { update(); setInterval(update, 60000); } catch (e) { /* static table stays */ }
   })();
 
   /* ------------------------------------------------------------------
-     4. Motion
+     4. Gallery (Swiper): original proportions, centred, swipe + arrows
+     ------------------------------------------------------------------ */
+  (function gallery() {
+    var el = document.querySelector('[data-gallery]');
+    if (!el || !window.Swiper) return;
+    var count = document.querySelector('[data-count]');
+    var total = el.querySelectorAll('.swiper-slide').length;
+    var pad = function (n) { return String(n).padStart(2, '0'); };
+    new Swiper(el, {
+      slidesPerView: 'auto',
+      centeredSlides: true,
+      spaceBetween: 28,
+      loop: true,
+      speed: reduceMotion ? 0 : 900,
+      grabCursor: true,
+      keyboard: { enabled: true },
+      navigation: { prevEl: '[data-prev]', nextEl: '[data-next]' },
+      breakpoints: { 900: { spaceBetween: 44 } },
+      on: {
+        slideChange: function (s) { if (count) count.textContent = pad(s.realIndex + 1) + ' / ' + pad(total); }
+      }
+    });
+  })();
+
+  /* ------------------------------------------------------------------
+     5. Motion (skipped entirely with reduced motion)
      ------------------------------------------------------------------ */
   var hero = document.querySelector('[data-hero]');
   if (!hero || !window.gsap || !window.ScrollTrigger || reduceMotion) {
-    root.classList.remove('intro');   // static, complete page
+    root.classList.remove('intro');
     return;
   }
   gsap.registerPlugin(ScrollTrigger);
 
-  /* Smooth scroll (Lenis) driving ScrollTrigger */
   if (window.Lenis) {
     var lenis = new Lenis({ lerp: 0.12, smoothWheel: true });
     window.__lenis = lenis;
     lenis.on('scroll', ScrollTrigger.update);
+    lenis.on('scroll', navState);
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
     gsap.ticker.lagSmoothing(0);
   }
   ScrollTrigger.config({ ignoreMobileResize: true });
 
-  /* ---------- 4a. Frame sequence ---------- */
+  /* ---------- 5a. Frame sequence ---------- */
   var FRAME_COUNT = 80;              // 000 … 079: closed → fully open
-  var SRC_W = 1600, SRC_H = 992;     // frame aspect (lg files; sm files are 960 px wide)
-  var PORTRAIT_ZOOM = 1.6;           // on tall screens the pancake spans the width
+  var SRC_W = 1600, SRC_H = 992;     // frame aspect (lg 1600 px, sm 960 px)
 
   var media = hero.querySelector('[data-media]');
   var canvas = hero.querySelector('[data-canvas]');
-  var ctx = canvas.getContext('2d');
+  var ctx = canvas.getContext('2d', { alpha: false });
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var set = (window.innerWidth * dpr > 1100) ? 'lg' : 'sm';
+  var set = (media.clientWidth * dpr > 1000) ? 'lg' : 'sm';
   var frames = new Array(FRAME_COUNT);
   var loaded = new Array(FRAME_COUNT).fill(false);
   var current = -1;
@@ -162,14 +212,8 @@
     var w = media.clientWidth, h = media.clientHeight;
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
-    var s;
-    if (w / h <= 1) {                       // portrait: pancake spans the screen, blurred plate fills the rest
-      s = (w * PORTRAIT_ZOOM) / SRC_W;
-      fit = { s: s, ox: (w - SRC_W * s) / 2, oy: (h - SRC_H * s) * 0.46, portrait: true };
-    } else {                                 // landscape: full-bleed cover
-      s = Math.max(w / SRC_W, h / SRC_H);
-      fit = { s: s, ox: (w - SRC_W * s) / 2, oy: (h - SRC_H * s) / 2 };
-    }
+    var s = Math.max(w / SRC_W, h / SRC_H);           // cover the frame, centred
+    fit = { s: s, ox: (w - SRC_W * s) / 2, oy: (h - SRC_H * s) / 2 };
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
   }
@@ -179,19 +223,7 @@
     if (n < 0 || (n === current && !force)) return;
     current = n;
     var img = frames[n], s = fit.s * dpr;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, fit.ox * dpr, fit.oy * dpr, SRC_W * s, SRC_H * s);
-    if (fit.portrait) {
-      // feather the top and bottom of the photo into the blurred plate behind it
-      var top = fit.oy * dpr, hh = SRC_H * s;
-      var g = ctx.createLinearGradient(0, top, 0, top + hh);
-      g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(0.2, '#000');
-      g.addColorStop(0.8, '#000'); g.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.globalCompositeOperation = 'destination-in';
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.globalCompositeOperation = 'source-over';
-    }
   }
 
   measure();
@@ -203,40 +235,25 @@
     resizeT = setTimeout(function () { measure(); draw(Math.round(playhead.frame), true); }, 120);
   });
 
-  /* ---------- 4b. Intro on load (the pancake itself never autoplays) ---------- */
-  var lines = hero.querySelectorAll('[data-line]');
-  var neon = hero.querySelector('[data-neon]');
-  var fades = document.querySelectorAll('[data-intro="fade"]');
-  var rises = document.querySelectorAll('[data-intro="rise"]');
-  var hint = hero.querySelector('[data-hint]');
-  var copy = hero.querySelector('.hero__copy');
-
-  gsap.set(lines, { clipPath: 'inset(0% 0% 100% 0%)', yPercent: 80 });
-  gsap.set(fades, { autoAlpha: 0 });
-  gsap.set(rises, { autoAlpha: 0, y: 20 });
-  gsap.set(neon, { autoAlpha: 0 });
-  gsap.set(canvas, { scale: 1.08 });
+  /* ---------- 5b. Intro on load: quiet and short ---------- */
+  var rises = hero.querySelectorAll('[data-intro="rise"]');
+  var reveal = hero.querySelector('[data-intro="reveal"]');
+  gsap.set(rises, { autoAlpha: 0, y: 18 });
+  gsap.set(reveal, { autoAlpha: 0, clipPath: 'inset(6% 6% 6% 6%)' });
   root.classList.remove('intro');
+  gsap.timeline({ defaults: { ease: 'power3.out' } })
+    .to(rises, { autoAlpha: 1, y: 0, duration: 1.1, stagger: 0.12 }, 0.1)
+    .to(reveal, { autoAlpha: 1, clipPath: 'inset(0% 0% 0% 0%)', duration: 1.4, ease: 'power3.inOut' }, 0.25)
+    .set(reveal, { clearProps: 'clipPath' });
 
-  gsap.timeline({ defaults: { ease: 'expo.out' } })
-    .to(canvas, { scale: 1, duration: 2.2 }, 0)
-    .to(fades, { autoAlpha: 1, duration: 1, stagger: 0.1 }, 0.2)
-    .to(lines, { clipPath: 'inset(-25% -5% -30% -5%)', yPercent: 0, duration: 1.3, stagger: 0.12 }, 0.35)
-    .to(rises, { autoAlpha: 1, y: 0, duration: 1 }, 0.9)
-    .to(neon, { keyframes: [
-      { autoAlpha: 1, duration: 0.06 }, { autoAlpha: 0.2, duration: 0.08 },
-      { autoAlpha: 1, duration: 0.05 }, { autoAlpha: 0.35, duration: 0.1 },
-      { autoAlpha: 1, duration: 0.2 }
-    ], ease: 'none' }, 1.2);
-
-  /* ---------- 4c. Hero scroll: pin + scrub, 1:1 with the scroll ---------- */
-  var OPEN_END = 0.88;   // pancake fully open here; the last stretch holds the open frame
+  /* ---------- 5c. Hero: pin + scrub, 1:1 with the scroll ---------- */
+  var OPEN_END = 0.9;
   gsap.timeline({
     defaults: { ease: 'none' },
     scrollTrigger: {
       trigger: hero,
       start: 'top top',
-      end: function () { return '+=' + Math.round(window.innerHeight * 2.4); },
+      end: function () { return '+=' + Math.round(window.innerHeight * 2); },
       pin: true,
       scrub: true,             // stops when scrolling stops, reverses on scroll up
       anticipatePin: 1,
@@ -248,52 +265,34 @@
       frame: FRAME_COUNT - 1, duration: OPEN_END, snap: 'frame',
       onUpdate: function () { draw(Math.round(playhead.frame)); }
     }, 0)
-    // text steps aside so the pancake owns the screen
-    .to(copy, { autoAlpha: 0, y: -40, duration: 0.22 }, 0.02)
-    .to(hint, { autoAlpha: 0, duration: 0.1 }, 0)
-    .to(neon, { autoAlpha: 0, duration: 0.2 }, 0.1)
-    .to(media, { scale: 1.06, duration: 1 }, 0)
+    .to(hero.querySelector('[data-hint]'), { autoAlpha: 0, duration: 0.1 }, 0)
     .to({}, { duration: 1 - OPEN_END }, OPEN_END);
 
-  /* ---------- 4d. Photo stack: overlapping shots, each at its own speed ---------- */
-  var shots = document.querySelectorAll('[data-shot]');
-  shots.forEach(function (shot) {
-    var img = shot.querySelector('img');
-    var cap = shot.querySelector('figcaption');
-    var speed = parseFloat(shot.dataset.speed) || 0.2;
-
-    // the frame drifts up faster or slower than the scroll, so shots slide over each other
-    gsap.fromTo(shot, { y: function () { return window.innerHeight * speed; } }, {
-      y: function () { return -window.innerHeight * speed * 0.6; },
-      ease: 'none',
-      scrollTrigger: { trigger: shot, start: 'top bottom', end: 'bottom top', scrub: true, invalidateOnRefresh: true }
+  /* ---------- 5d. Bands drift sideways with the scroll ---------- */
+  document.querySelectorAll('[data-band]').forEach(function (line, i) {
+    gsap.fromTo(line, { xPercent: i % 2 ? -6 : 6 }, {
+      xPercent: i % 2 ? 6 : -6, ease: 'none',
+      scrollTrigger: { trigger: line, start: 'top bottom', end: 'bottom top', scrub: true }
     });
-
-    // curtain opens from below while the photo settles from a zoom
-    gsap.fromTo(shot, { clipPath: 'inset(22% 0% 0% 0%)' }, {
-      clipPath: 'inset(0% 0% 0% 0%)', ease: 'none',
-      scrollTrigger: { trigger: shot, start: 'top bottom', end: 'top 45%', scrub: true }
-    });
-    gsap.fromTo(img, { scale: 1.28, yPercent: -6 }, {
-      scale: 1, yPercent: 6, ease: 'none',
-      scrollTrigger: { trigger: shot, start: 'top bottom', end: 'bottom top', scrub: true }
-    });
-
-    if (cap) {
-      gsap.from(cap, {
-        yPercent: 60, autoAlpha: 0, duration: 1.2, ease: 'expo.out',
-        scrollTrigger: { trigger: shot, start: 'top 55%', toggleActions: 'play none none reverse' }
-      });
-    }
   });
 
-  var close = document.querySelector('.close');
-  if (close) {
-    gsap.from(close.children, {
-      y: 40, autoAlpha: 0, duration: 1.2, stagger: 0.12, ease: 'expo.out',
-      scrollTrigger: { trigger: close, start: 'top 80%' }
+  /* ---------- 5e. Quiet reveals ---------- */
+  gsap.utils.toArray('[data-fade]').forEach(function (el) {
+    gsap.from(el, {
+      y: 24, autoAlpha: 0, duration: 1.1, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%' }
     });
-  }
+  });
+  gsap.utils.toArray('[data-reveal]').forEach(function (el, i) {
+    gsap.from(el, {
+      y: 50, autoAlpha: 0, duration: 1.3, delay: i * 0.12, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 85%' }
+    });
+    gsap.fromTo(el, { yPercent: 4 }, {
+      yPercent: -4, ease: 'none',
+      scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+  });
 
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
