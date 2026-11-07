@@ -6,7 +6,7 @@
   <title>Bloom Coffee &amp; Brunch · Café de especialidad y brunch en Vigo</title>
   <meta name="description" content="Café de especialidad, brunch, açaí, tostadas y sabores de Brasil en Calle Ángel Llanos 10, Vigo. Abierto de lunes a sábado. Ven a disfrutar sin prisa.">
   <link rel="canonical" href="https://bloomcoffeebrunch.com/">
-  <meta name="theme-color" content="#F6EEE3">
+  <meta name="theme-color" content="#9FE2E5">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 
-  <!-- Content is never hidden waiting for JS: .js only enables the intro, and only if motion is allowed -->
+  <!-- Content is never hidden waiting for JS: .intro only applies if motion is allowed, and is released after 3s -->
   <script>
     (function (d) {
       var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -29,12 +29,12 @@
     })(document.documentElement);
   </script>
 
-  <link rel="preload" href="assets/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/allura-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/jost-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/sacramento-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" href="assets/frames/pancake/sm/000.webp" media="(max-width: 767px)">
   <link rel="preload" as="image" href="assets/frames/pancake/lg/000.webp" media="(min-width: 768px)">
 
-  <link rel="stylesheet" href="styles.css?v=20261107a">
+  <link rel="stylesheet" href="styles.css?v=20261107b">
 
   <script type="application/ld+json">
   {
@@ -67,95 +67,87 @@
 <body>
   <a class="skip-link" href="#main">Saltar al contenido</a>
 
-  <header class="site-header" data-intro="fade">
-    <a class="brand" href="./" aria-label="Bloom Coffee &amp; Brunch, inicio">
+  <!-- Square yellow tiles, like the reference: logo left, menu right -->
+  <header class="site-header">
+    <a class="tile tile--logo" href="./" aria-label="Bloom Coffee &amp; Brunch, inicio" data-intro="drop">
       <img src="assets/img/logo-bloom-t.webp" width="340" height="228" alt="Bloom Coffee &amp; Brunch">
     </a>
-    <p class="status" data-status hidden>
-      <span class="status__dot" aria-hidden="true"></span>
-      <span data-status-text></span>
-    </p>
-    <a class="btn btn--small btn--ink" data-carta href="https://wa.me/34640240176?text=%C2%A1Hola%20Bloom!%20%C2%BFMe%20pod%C3%A9is%20enviar%20la%20carta%3F" target="_blank" rel="noopener">Carta</a>
+    <button class="tile tile--menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú" data-menu-toggle data-intro="drop">
+      <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
   </header>
+
+  <nav class="menu" id="menu" aria-label="Menú principal" hidden data-menu>
+    <ul>
+      <li><a data-carta href="https://wa.me/34640240176?text=%C2%A1Hola%20Bloom!%20%C2%BFMe%20pod%C3%A9is%20enviar%20la%20carta%3F" target="_blank" rel="noopener">Carta</a></li>
+      <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Angel+Llanos+10+Vigo" target="_blank" rel="noopener">Visítanos</a></li>
+      <li><a href="https://wa.me/34640240176" target="_blank" rel="noopener">WhatsApp</a></li>
+      <li><a href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener">Instagram</a></li>
+    </ul>
+    <p class="menu__info">Calle Ángel Llanos 10, Vigo<br>L–V 9:00–22:00 · S 10:00–23:00 · D cerrado</p>
+  </nav>
 
   <main id="main">
     <section class="hero" aria-labelledby="hero-title" data-hero>
-      <!-- Layer 0: oversized background word -->
-      <p class="hero__ghost" aria-hidden="true" data-ghost>brunch</p>
 
-      <!-- Layer 1: editorial text column -->
-      <div class="hero__copy">
-        <p class="eyebrow" data-intro="fade"><span>Nº 01</span> Café de especialidad · Vigo</p>
+      <!-- The only visual: the pancake, scrubbed by scroll -->
+      <div class="hero__stage" data-media>
+        <img class="hero__poster" data-poster
+             src="assets/frames/pancake/lg/000.webp"
+             srcset="assets/frames/pancake/sm/000.webp 640w, assets/frames/pancake/lg/000.webp 954w"
+             sizes="(min-width: 768px) 66vw, 100vw"
+             width="954" height="592"
+             alt="Tortitas con melocotón caramelizado, arándanos y azúcar glas"
+             fetchpriority="high">
+        <canvas class="hero__canvas" data-canvas aria-hidden="true"></canvas>
 
-        <h1 class="hero__title" id="hero-title">
-          <span class="hero__line" data-line>Café de especialidad</span>
-          <span class="hero__line" data-line>y brunch en Vigo</span>
-          <span class="hero__line" data-line>para que cada día</span>
-          <span class="hero__script" data-script>florezca</span>
-        </h1>
-
-        <p class="hero__lede" data-intro="rise">Tostadas, açaí, bollería y sabores de Brasil. Bienvenidos a disfrutar sin prisa.</p>
-
-        <div class="hero__actions" data-intro="rise">
-          <a class="btn btn--rose" data-carta href="https://wa.me/34640240176?text=%C2%A1Hola%20Bloom!%20%C2%BFMe%20pod%C3%A9is%20enviar%20la%20carta%3F" target="_blank" rel="noopener">Ver carta</a>
-          <a class="btn btn--line" href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Angel+Llanos+10+Vigo" target="_blank" rel="noopener">Visítanos</a>
-        </div>
+        <!-- Neon sign -->
+        <p class="neon" aria-hidden="true" data-neon>
+          <span class="neon__caps">Coffee &amp; Brunch</span>
+          <span class="neon__script">Bloom</span>
+        </p>
       </div>
 
-      <!-- Layer 2: scroll-scrubbed frame sequence -->
-      <figure class="hero__figure" data-figure>
-        <div class="hero__media" data-media>
-          <img class="hero__poster" data-poster
-               src="assets/frames/pancake/lg/000.webp"
-               srcset="assets/frames/pancake/sm/000.webp 640w, assets/frames/pancake/lg/000.webp 954w"
-               sizes="(min-width: 768px) 52vw, 100vw"
-               width="954" height="592"
-               alt="Tortitas con melocotón caramelizado, arándanos y azúcar glas sobre un plato blanco"
-               fetchpriority="high">
-          <canvas class="hero__canvas" data-canvas aria-hidden="true"></canvas>
-
-          <!-- Layer 3: ingredient annotations, anchored to the final frame -->
-          <ul class="notes" data-notes aria-label="Capa por capa">
-            <li class="note" data-x="604" data-y="28" data-side="right"><span class="note__pill"><span class="note__n">01</span> Melocotón caramelizado</span></li>
-            <li class="note" data-x="742" data-y="148" data-side="right"><span class="note__pill"><span class="note__n">02</span> Azúcar glas</span></li>
-            <li class="note" data-x="200" data-y="300" data-side="left"><span class="note__pill"><span class="note__n">03</span> Tortita esponjosa</span></li>
-            <li class="note" data-x="738" data-y="478" data-side="right"><span class="note__pill"><span class="note__n">04</span> Capa a capa, sin prisa</span></li>
-          </ul>
-        </div>
-
-        <figcaption class="hero__caption">
-          <span>Fig. 01 — Tortitas, melocotón y arándanos</span>
-          <span class="meter" aria-hidden="true">
-            <span class="meter__label" data-meter-label>Desliza para abrir</span>
-            <span class="meter__track"><span class="meter__fill" data-meter></span></span>
-          </span>
-        </figcaption>
-        <!-- Layer 4: rotating seal overlapping the photo -->
-        <svg class="seal" viewBox="0 0 200 200" aria-hidden="true" data-seal>
-          <defs><path id="seal-path" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
-          <circle cx="100" cy="100" r="99" class="seal__bg"/>
-          <text class="seal__text"><textPath href="#seal-path" startOffset="0">Café de especialidad · Brunch · Vigo · </textPath></text>
-          <g class="seal__flower" transform="translate(100 100)">
-            <ellipse cx="0" cy="-14" rx="8" ry="14"/>
-            <ellipse cx="0" cy="-14" rx="8" ry="14" transform="rotate(72)"/>
-            <ellipse cx="0" cy="-14" rx="8" ry="14" transform="rotate(144)"/>
-            <ellipse cx="0" cy="-14" rx="8" ry="14" transform="rotate(216)"/>
-            <ellipse cx="0" cy="-14" rx="8" ry="14" transform="rotate(288)"/>
+      <!-- Pastel colour block with the headline -->
+      <div class="hero__block">
+        <!-- Decorative line illustration (own drawing: rose on a long stem) -->
+        <svg class="doodle" viewBox="0 0 200 520" aria-hidden="true" data-doodle>
+          <g class="doodle__shadow">
+            <path d="M104 516 C 100 430, 108 340, 102 250 C 98 205, 104 190, 104 182"/>
+            <path d="M103 420 C 74 410, 52 388, 44 360 C 72 362, 94 382, 103 408"/>
+            <path d="M104 330 C 132 322, 152 300, 158 274 C 132 276, 112 296, 104 320"/>
+            <path d="M104 182 C 82 178, 70 160, 76 142 C 82 124, 108 118, 122 132 C 132 144, 128 164, 112 168 C 98 172, 90 160, 95 151 C 100 143, 110 145, 111 153"/>
+            <path d="M76 142 C 62 124, 74 100, 98 104 C 122 98, 142 116, 128 138"/>
+            <path d="M72 152 C 66 176, 86 194, 104 188 C 122 194, 142 178, 132 150"/>
+          </g>
+          <g class="doodle__line">
+            <path d="M100 516 C 96 430, 104 340, 98 250 C 94 205, 100 190, 100 182"/>
+            <path d="M99 420 C 70 410, 48 388, 40 360 C 68 362, 90 382, 99 408"/>
+            <path d="M100 330 C 128 322, 148 300, 154 274 C 128 276, 108 296, 100 320"/>
+            <path d="M100 182 C 78 178, 66 160, 72 142 C 78 124, 104 118, 118 132 C 128 144, 124 164, 108 168 C 94 172, 86 160, 91 151 C 96 143, 106 145, 107 153"/>
+            <path d="M72 142 C 58 124, 70 100, 94 104 C 118 98, 138 116, 124 138"/>
+            <path d="M68 152 C 62 176, 82 194, 100 188 C 118 194, 138 178, 128 150"/>
           </g>
         </svg>
-      </figure>
 
+        <a class="pill" data-carta data-intro="pop" href="https://wa.me/34640240176?text=%C2%A1Hola%20Bloom!%20%C2%BFMe%20pod%C3%A9is%20enviar%20la%20carta%3F" target="_blank" rel="noopener">Descubre nuestra carta</a>
 
-      <!-- Editorial footer rule -->
-      <div class="hero__foot" data-intro="fade">
-        <span>Calle Ángel Llanos 10 · Vigo</span>
-        <span class="hero__foot-hours">L–V 9:00–22:00 · S 10:00–23:00</span>
-        <a href="https://www.instagram.com/bloom.coffee.vigo/" target="_blank" rel="noopener">@bloom.coffee.vigo</a>
+        <h1 class="hero__title" id="hero-title">
+          <span data-line>Brunch &amp;</span>
+          <span data-line>café de</span>
+          <span data-line>especialidad</span>
+          <span data-line class="hero__title-small">en Vigo</span>
+        </h1>
+
+        <p class="status" data-status hidden data-intro="fade">
+          <span class="status__dot" aria-hidden="true"></span>
+          <span data-status-text></span>
+        </p>
       </div>
     </section>
   </main>
 
-  <!-- Mobile action bar -->
+  <!-- Mobile action bar (shows once the pancake is fully open) -->
   <nav class="dock" aria-label="Acciones rápidas" data-dock>
     <a href="tel:+34640240176"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.4 4-2 1.4a12 12 0 0 0 5.9 5.9l1.4-2 4 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z"/></svg>Llamar</a>
     <a href="https://wa.me/34640240176" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 0 0-7.4 12.7L3.5 20.5l4.4-1.1A8.5 8.5 0 1 0 12 3.5Z"/></svg>WhatsApp</a>
@@ -166,6 +158,6 @@
   <script src="lib/gsap.min.js" defer></script>
   <script src="lib/ScrollTrigger.min.js" defer></script>
   <script src="lib/lenis.min.js" defer></script>
-  <script src="main.js?v=20261107a" defer></script>
+  <script src="main.js?v=20261107b" defer></script>
 </body>
 </html>
