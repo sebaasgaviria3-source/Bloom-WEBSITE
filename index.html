@@ -6,7 +6,7 @@
   <title>Bloom Coffee &amp; Brunch · Café de especialidad y brunch en Vigo</title>
   <meta name="description" content="Café de especialidad, brunch, açaí, tostadas y sabores de Brasil en Calle Ángel Llanos 10, Vigo. Abierto de lunes a sábado. Ven a disfrutar sin prisa.">
   <link rel="canonical" href="https://bloomcoffeebrunch.com/">
-  <meta name="theme-color" content="#9FE2E5">
+  <meta name="theme-color" content="#FDF9F4">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
@@ -29,12 +29,13 @@
     })(document.documentElement);
   </script>
 
-  <link rel="preload" href="assets/fonts/jost-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/sacramento-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" href="assets/frames/pancake/sm/000.webp" media="(max-width: 767px)">
   <link rel="preload" as="image" href="assets/frames/pancake/lg/000.webp" media="(min-width: 768px)">
 
-  <link rel="stylesheet" href="styles.css?v=20261107b">
+  <link rel="stylesheet" href="styles.css?v=20261107c">
 
   <script type="application/ld+json">
   {
@@ -130,20 +131,58 @@
           </g>
         </svg>
 
-        <a class="pill" data-carta data-intro="pop" href="https://wa.me/34640240176?text=%C2%A1Hola%20Bloom!%20%C2%BFMe%20pod%C3%A9is%20enviar%20la%20carta%3F" target="_blank" rel="noopener">Descubre nuestra carta</a>
+        <p class="eyebrow" data-intro="fade">Coffee &amp; Brunch <span aria-hidden="true">·</span> Vigo</p>
 
         <h1 class="hero__title" id="hero-title">
-          <span data-line>Brunch &amp;</span>
-          <span data-line>café de</span>
-          <span data-line>especialidad</span>
-          <span data-line class="hero__title-small">en Vigo</span>
+          <span data-line>Brunch &amp; café</span>
+          <span data-line>de <em>especialidad</em></span>
+          <span data-line class="hero__title-small">en el corazón de Vigo</span>
         </h1>
+
+        <a class="pill" data-carta data-intro="pop" href="https://wa.me/34640240176?text=%C2%A1Hola%20Bloom!%20%C2%BFMe%20pod%C3%A9is%20enviar%20la%20carta%3F" target="_blank" rel="noopener">Descubre nuestra carta</a>
 
         <p class="status" data-status hidden data-intro="fade">
           <span class="status__dot" aria-hidden="true"></span>
           <span data-status-text></span>
         </p>
       </div>
+    </section>
+
+    <!-- Favourites carousel: 4 photos, each with its own reveal -->
+    <section class="favs" aria-labelledby="favs-title" data-favs>
+      <header class="favs__head">
+        <p class="eyebrow">Para disfrutar sin prisa</p>
+        <h2 class="favs__title" id="favs-title">Nuestros <em>favoritos</em></h2>
+      </header>
+
+      <ol class="favs__track" data-track>
+        <li class="card" data-card>
+          <figure>
+            <div class="card__frame"><img src="assets/img/c-acai-560.webp" srcset="assets/img/c-acai-560.webp 560w, assets/img/c-acai-900.webp 900w" sizes="(min-width: 900px) 22vw, 74vw" width="900" height="1125" loading="lazy" decoding="async" alt="Açaí servido en media cáscara de coco con granola, arándanos, frambuesa y flores"></div>
+            <figcaption><span class="card__n">01</span> Açaí en coco</figcaption>
+          </figure>
+        </li>
+        <li class="card" data-card>
+          <figure>
+            <div class="card__frame"><img src="assets/img/c-desayuno-560.webp" srcset="assets/img/c-desayuno-560.webp 560w, assets/img/c-desayuno-900.webp 900w" sizes="(min-width: 900px) 22vw, 74vw" width="900" height="1125" loading="lazy" decoding="async" alt="Desayuno con café con leche, zumo de naranja y tostada con tomate y jamón"></div>
+            <figcaption><span class="card__n">02</span> Desayuno</figcaption>
+          </figure>
+        </li>
+        <li class="card" data-card>
+          <figure>
+            <div class="card__frame"><img src="assets/img/c-croissant-560.webp" srcset="assets/img/c-croissant-560.webp 560w, assets/img/c-croissant-900.webp 900w" sizes="(min-width: 900px) 22vw, 74vw" width="900" height="1125" loading="lazy" decoding="async" alt="Croissant benedict con huevo poché, salsa holandesa y cebollino"></div>
+            <figcaption><span class="card__n">03</span> Croissant benedict</figcaption>
+          </figure>
+        </li>
+        <li class="card" data-card>
+          <figure>
+            <div class="card__frame"><img src="assets/img/c-helado-560.webp" srcset="assets/img/c-helado-560.webp 560w, assets/img/c-helado-900.webp 900w" sizes="(min-width: 900px) 22vw, 74vw" width="900" height="1125" loading="lazy" decoding="async" alt="Cucurucho de helado con galleta crujiente, caramelo y barquillo"></div>
+            <figcaption><span class="card__n">04</span> Helado</figcaption>
+          </figure>
+        </li>
+      </ol>
+
+      <div class="favs__dots" aria-hidden="true" data-dots><span></span><span></span><span></span><span></span></div>
     </section>
   </main>
 
@@ -158,6 +197,6 @@
   <script src="lib/gsap.min.js" defer></script>
   <script src="lib/ScrollTrigger.min.js" defer></script>
   <script src="lib/lenis.min.js" defer></script>
-  <script src="main.js?v=20261107b" defer></script>
+  <script src="main.js?v=20261107c" defer></script>
 </body>
 </html>

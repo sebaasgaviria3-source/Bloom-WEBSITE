@@ -86,6 +86,38 @@
   })();
 
   /* ------------------------------------------------------------------
+     3b. Mobile swipe carousel: active photo comes forward, dots follow
+     ------------------------------------------------------------------ */
+  (function swipe() {
+    var track = document.querySelector('[data-track]');
+    var dots = document.querySelectorAll('[data-dots] span');
+    if (!track) return;
+    var cards = Array.prototype.slice.call(track.children);
+    var raf = 0;
+    function update() {
+      raf = 0;
+      if (window.innerWidth >= 900) return;
+      var mid = track.scrollLeft + track.clientWidth / 2, best = 0, bestD = Infinity;
+      cards.forEach(function (c, i) {
+        var center = c.offsetLeft + c.offsetWidth / 2;
+        var d = (center - mid) / c.offsetWidth;          // -1 … 1 around the active card
+        var a = Math.min(1, Math.abs(d));
+        if (Math.abs(d) < bestD) { bestD = Math.abs(d); best = i; }
+        if (reduceMotion) return;
+        var fig = c.firstElementChild;
+        fig.style.scale = String(1 - a * 0.08);
+        fig.style.opacity = String(1 - a * 0.35);
+        var img = c.querySelector('img');
+        if (img) img.style.translate = (d * -9).toFixed(2) + '% 0';
+      });
+      dots.forEach(function (dot, i) { dot.classList.toggle('is-on', i === best); });
+    }
+    track.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+
+  /* ------------------------------------------------------------------
      4. Hero
      ------------------------------------------------------------------ */
   var hero = document.querySelector('[data-hero]');
@@ -113,7 +145,7 @@
 
   /* ---------- 4b. Frame sequence ---------- */
   var FRAME_COUNT = 80;            // 000.webp … 079.webp (closed → fully open)
-  var SRC_W = 954, SRC_H = 592;    // source frame size
+  var SRC_W = 954, SRC_H = 592;    // frame aspect reference (files are 1400 / 760 px wide)
   var FOCAL_X = 0.5, FOCAL_Y = 0.5;
 
   var media = hero.querySelector('[data-media]');
@@ -121,7 +153,7 @@
   var ctx = canvas.getContext('2d', { alpha: false });
 
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var set = media.clientWidth * dpr > 720 ? 'lg' : 'sm';
+  var set = media.clientWidth * dpr > 760 ? 'lg' : 'sm';
   var frames = new Array(FRAME_COUNT);
   var loaded = new Array(FRAME_COUNT).fill(false);
   var current = -1;
@@ -194,7 +226,8 @@
     if (n < 0 || (n === current && !force)) return;
     current = n;
     var s = cover.s * dpr;
-    ctx.drawImage(frames[n], 0, 0, SRC_W, SRC_H, cover.ox * dpr, cover.oy * dpr, SRC_W * s, SRC_H * s);
+    var img = frames[n];
+    ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, cover.ox * dpr, cover.oy * dpr, SRC_W * s, SRC_H * s);
   }
 
   measure();
@@ -212,7 +245,7 @@
   var lines = hero.querySelectorAll('[data-line]');
   var neon = hero.querySelector('[data-neon]');
   var doodlePaths = hero.querySelectorAll('.doodle path');
-  var status = hero.querySelector('[data-intro="fade"]');
+  var status = hero.querySelectorAll('[data-intro="fade"]');
 
   doodlePaths.forEach(function (p) {
     var len = p.getTotalLength();
@@ -220,7 +253,7 @@
     p.style.strokeDashoffset = len;
   });
   gsap.set(tiles, { yPercent: -110 });
-  gsap.set(lines, { autoAlpha: 0, y: 30 });
+  gsap.set(lines, { clipPath: 'inset(0% 0% 100% 0%)', yPercent: 70 });
   gsap.set(pill, { autoAlpha: 0, scale: 0.85 });
   gsap.set(neon, { autoAlpha: 0 });
   gsap.set(status, { autoAlpha: 0 });
@@ -228,10 +261,10 @@
 
   gsap.timeline({ defaults: { ease: 'expo.out' } })
     .to(tiles, { yPercent: 0, duration: 1, stagger: 0.08 }, 0.1)
-    .to(lines, { autoAlpha: 1, y: 0, duration: 1, stagger: 0.08 }, 0.25)
+    .to(lines, { clipPath: 'inset(-25% -5% -30% -5%)', yPercent: 0, duration: 1.2, stagger: 0.1 }, 0.25)
     .to(doodlePaths, { strokeDashoffset: 0, duration: 1.8, stagger: 0.06, ease: 'power2.inOut' }, 0.3)
     .to(pill, { autoAlpha: 1, scale: 1, duration: 0.9, ease: 'back.out(1.8)' }, 0.65)
-    .to(status, { autoAlpha: 1, duration: 0.6 }, 0.9)
+    .to(status, { autoAlpha: 1, duration: 0.8, stagger: 0.1 }, 0.2)
     // neon sign switching on: a couple of flickers, then steady
     .to(neon, { keyframes: [
       { autoAlpha: 1, duration: 0.06 }, { autoAlpha: 0.2, duration: 0.08 },
@@ -259,6 +292,39 @@
     snap: 'frame',
     onUpdate: function () { draw(Math.round(playhead.frame)); }
   });
+
+  /* ---------- 5. Favourites: each photo has its own entrance ---------- */
+  var favs = document.querySelector('[data-favs]');
+  if (favs) {
+    var track = favs.querySelector('[data-track]');
+    var cards = favs.querySelectorAll('[data-card]');
+
+    gsap.from(favs.querySelectorAll('.favs__head > *'), {
+      y: 34, autoAlpha: 0, duration: 1.1, stagger: 0.12, ease: 'expo.out',
+      scrollTrigger: { trigger: favs, start: 'top 78%' }
+    });
+
+    // Curtain reveal from below + image settling from a slight zoom and tilt
+    cards.forEach(function (card, i) {
+      var frame = card.querySelector('.card__frame');
+      var img = card.querySelector('img');
+      var cap = card.querySelector('figcaption');
+      gsap.timeline({ scrollTrigger: { trigger: track, start: 'top 82%' }, delay: i * 0.14 })
+        .fromTo(frame, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'expo.inOut' })
+        .fromTo(img, { scale: 1.35, rotate: i % 2 ? 3 : -3 }, { scale: 1, rotate: 0, duration: 1.9, ease: 'expo.out' }, '<0.25')
+        .from(cap, { y: 18, autoAlpha: 0, duration: 0.9, ease: 'expo.out' }, '<0.45')
+        .set(frame, { clearProps: 'clipPath' });
+    });
+
+    // Desktop: the photos drift at different speeds (depth), images glide inside their frames
+    gsap.matchMedia().add('(min-width: 900px)', function () {
+      var speeds = [-30, -90, -50, -120];
+      cards.forEach(function (card, i) {
+        gsap.to(card, { y: speeds[i % 4], ease: 'none', scrollTrigger: { trigger: favs, start: 'top bottom', end: 'bottom top', scrub: true } });
+        gsap.fromTo(card.querySelector('img'), { yPercent: -5 }, { yPercent: 5, ease: 'none', scrollTrigger: { trigger: favs, start: 'top bottom', end: 'bottom top', scrub: true } });
+      });
+    });
+  }
 
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
